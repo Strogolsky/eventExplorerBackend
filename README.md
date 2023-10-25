@@ -41,5 +41,6 @@ When creating an event, you need to specify the name, date and time of the event
 Own events are displayed in a separate tab. You can see who bought tickets, how many seats are left and how much money was collected.
 
 ## 3. Conceptual model of the database
+![data model](images/DataModel.png)
 ## 4. Complex request on the server side
 For any organizer it is very important to understand the success of his event and marketing, for this purpose you can create a query that analyzes the audience that came to the event and gives the percentage of new visitors who have never been to the events of this user, in relation to the total number of visitors.
