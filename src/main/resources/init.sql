@@ -7,32 +7,32 @@ DROP TABLE IF EXISTS user_event CASCADE;
 
 CREATE TABLE event (
                        id SERIAL NOT NULL,
-                       nickname INTEGER NOT NULL,
+                       organizer_nickname INTEGER NOT NULL,
                        title VARCHAR(256) NOT NULL,
                        date_and_time VARCHAR(256) NOT NULL,
-                       ticket_price VARCHAR(256) NOT NULL,
+                       ticket_price VARCHAR(256) NOT NULL, -- todo int
                        location VARCHAR(256) NOT NULL,
-                       capacity VARCHAR(256),
+                       capacity VARCHAR(256), -- todo int
                        description VARCHAR(256),
                        topic VARCHAR(256),
-                       age_restriction VARCHAR(256)
+                       age_restriction VARCHAR(256)  -- todo bool
 );
-ALTER TABLE event ADD CONSTRAINT pk_event PRIMARY KEY (id, nickname);
+ALTER TABLE event ADD CONSTRAINT pk_event PRIMARY KEY (id, organizer_nickname);
 
 CREATE TABLE ticket (
                         id SERIAL NOT NULL,
                         event_id INTEGER NOT NULL,
-                        nickname INTEGER NOT NULL,
-                        user_nickname INTEGER NOT NULL,
-                        seat VARCHAR(256),
+                        organizer_nickname INTEGER NOT NULL,
+                        customer_nickname INTEGER NOT NULL,
+                        seat VARCHAR(256), -- todo int
                         details VARCHAR(256)
 );
-ALTER TABLE ticket ADD CONSTRAINT pk_ticket PRIMARY KEY (id, event_id, nickname);
+ALTER TABLE ticket ADD CONSTRAINT pk_ticket PRIMARY KEY (id, event_id, organizer_nickname);
 
 CREATE TABLE user (
                       nickname SERIAL NOT NULL,
                       email VARCHAR(256) NOT NULL,
-                      age VARCHAR(256) NOT NULL,
+                      age VARCHAR(256) NOT NULL, -- todo int
                       first_name VARCHAR(256),
                       last_name VARCHAR(256),
                       description VARCHAR(256)
@@ -46,10 +46,10 @@ CREATE TABLE user_event (
 );
 ALTER TABLE user_event ADD CONSTRAINT pk_user_event PRIMARY KEY (user_nickname, id, event_nickname);
 
-ALTER TABLE event ADD CONSTRAINT fk_event_user FOREIGN KEY (nickname) REFERENCES user (nickname) ON DELETE CASCADE;
+ALTER TABLE event ADD CONSTRAINT fk_event_user FOREIGN KEY (organizer_nickname) REFERENCES user (nickname) ON DELETE CASCADE;
 
-ALTER TABLE ticket ADD CONSTRAINT fk_ticket_event FOREIGN KEY (event_id, nickname) REFERENCES event (id, nickname) ON DELETE CASCADE;
-ALTER TABLE ticket ADD CONSTRAINT fk_ticket_user FOREIGN KEY (user_nickname) REFERENCES user (nickname) ON DELETE CASCADE;
+ALTER TABLE ticket ADD CONSTRAINT fk_ticket_event FOREIGN KEY (event_id, organizer_nickname) REFERENCES event (id, organizer_nickname) ON DELETE CASCADE;
+ALTER TABLE ticket ADD CONSTRAINT fk_ticket_user FOREIGN KEY (customer_nickname) REFERENCES user (nickname) ON DELETE CASCADE;
 
 ALTER TABLE user_event ADD CONSTRAINT fk_user_event_user FOREIGN KEY (user_nickname) REFERENCES user (nickname) ON DELETE CASCADE;
-ALTER TABLE user_event ADD CONSTRAINT fk_user_event_event FOREIGN KEY (id, event_nickname) REFERENCES event (id, nickname) ON DELETE CASCADE;
+ALTER TABLE user_event ADD CONSTRAINT fk_user_event_event FOREIGN KEY (id, event_nickname) REFERENCES event (id, organizer_nickname) ON DELETE CASCADE;
