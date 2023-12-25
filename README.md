@@ -47,9 +47,11 @@ For any organizer it is very important to understand the success of his event an
 ## 5. Client-side business operation: Ticket purchase with improved availability control.
 
 ### 5.1 Description
+---
 This optimized process is designed for convenient purchase of tickets for various events. When a customer clicks the "Buy Ticket" button, the system automatically checks the availability of seats. If seats are available, the ticket purchase process continues successfully; otherwise, the customer is informed that tickets are not available.
 
 ### 5.2 Steps
+---
 1. The customer selects an event, enters the required information and clicks the "Buy Ticket" button.
 2. After this action, the system instantly checks the current availability of the selected event.
 3. If tickets are available, the ticket purchase is successfully completed.
