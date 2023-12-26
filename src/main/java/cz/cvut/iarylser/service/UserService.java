@@ -3,21 +3,24 @@ package cz.cvut.iarylser.service;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
+@Slf4j
 public class UserService {
-    private final UserRepository repository;
+    private final UserRepository userRepository;
 
     public UserService(UserRepository repository) {
-        this.repository = repository;
+        this.userRepository = repository;
     }
-    public void createUser(String nickname, String email, int age){
-        // todo logic
-        User newUser = new User(nickname,age, email);
-        repository.save(newUser);
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
     }
-    public void createEvent(){
-        Event newEvent = new Event();
+    public User addNewUser(User newUser){
+        return userRepository.save(newUser);
     }
 }

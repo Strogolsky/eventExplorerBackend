@@ -1,30 +1,25 @@
 package cz.cvut.iarylser.dao.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
     // todo create password
     @Id
-    @Column(name = "nickname")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String nickname;
-    @OneToMany(mappedBy = "user")
-    private Set<Ticket> tickets = new HashSet<>();
-    @OneToMany(mappedBy = "user")
-    private Set<Event> createdEvents = new HashSet<>();
-    @ManyToMany(mappedBy = "likeBy")
-    private Set<Event> likeByMe;
+    @Column(name = "id_user")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(name = "nickname", unique = true)
+    private String nickname; // todo
     @Column(name = "age")
     private int age;
     @Column(name = "email")
@@ -35,10 +30,25 @@ public class User {
     private String lastName;
     @Column(name = "description", columnDefinition = "text") // TODO check
     private String description;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<Ticket> tickets = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<Event> createdEvents = new HashSet<>();
+    @ManyToMany(mappedBy = "likeBy")
+    @JsonIgnore
+    private Set<Event> likeByMe = new HashSet<>();
 
-    public User(String nickname, int age, String email) {
+    public User(String nickname, int age, String email, String firstName, String lastName, String description) {
         this.nickname = nickname;
         this.age = age;
         this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.description = description;
     }
+
+
+
 }
