@@ -1,11 +1,8 @@
 package cz.cvut.iarylser.controller;
-import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.service.TicketService;
 import cz.cvut.iarylser.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,11 +1,8 @@
 package cz.cvut.iarylser.service;
-
-import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,7 +29,7 @@ public class UserService {
         User existingUser = getUserById(userId);
         // todo check
         existingUser.setNickname(updatedUser.getNickname());
-//        existingUser.setPassword(updatedUser.getPassword()); todo Password
+        existingUser.setPassword(updatedUser.getPassword());
         existingUser.setAge(updatedUser.getAge());
         existingUser.setEmail(updatedUser.getEmail());
 
