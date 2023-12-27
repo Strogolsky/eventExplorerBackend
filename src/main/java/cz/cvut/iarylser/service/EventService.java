@@ -5,12 +5,18 @@ import cz.cvut.iarylser.dao.repository.EventRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class EventService {
-    private EventRepository repository;
-//
-//    public Object method() {
-//        var allByCapacity = repository.findAllByCapacity(100);
-//    }
+    private EventRepository eventRepository;
+
+    public EventService(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
+
+    public List<Event> getAllEvents(){
+        return eventRepository.findAll();
+    }
 }

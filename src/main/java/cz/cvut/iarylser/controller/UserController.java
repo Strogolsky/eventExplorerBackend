@@ -15,10 +15,8 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
-    private TicketService ticketService;
      public UserController(UserService userService, TicketService ticketService) {
          this.userService = userService;
-         this.ticketService = ticketService;
      }
      @GetMapping
     public ResponseEntity<List<User>>getAllUsers(){
