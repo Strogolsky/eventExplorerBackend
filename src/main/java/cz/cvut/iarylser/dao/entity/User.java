@@ -40,15 +40,4 @@ public class User {
     @JsonIgnore
     private Set<Event> likeByMe = new HashSet<>();
 
-//    public User(String nickname, int age, String email, String firstName, String lastName, String description) {
-//        this.nickname = nickname;
-//        this.age = age;
-//        this.email = email;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.description = description;
-//    }
-
-
-
 }

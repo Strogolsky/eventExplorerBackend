@@ -21,11 +21,27 @@ public class UserController {
          List<User> result = userService.getAllUsers();
          return ResponseEntity.ok(result);
      }
+     @GetMapping("/{userId}")
+     public ResponseEntity<User>getUserById(@PathVariable Long userId){
+         User user = userService.getUserById(userId);
+         // todo check on null
+         return ResponseEntity.ok(user);
+     }
      @PostMapping
-    public ResponseEntity<User>addNewUser(@RequestBody User newUser){
-         User user = userService.addNewUser(newUser);
+    public ResponseEntity<User>createUser(@RequestBody User newUser){
+         User user = userService.createUser(newUser);
          // todo check
          return ResponseEntity.ok(user);
      }
-
+     @PutMapping("/{userId}")
+    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User updatedUser){
+         User user = userService.updateUser(userId, updatedUser);
+         // todo check
+         return ResponseEntity.ok(user);
+     }
+     @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId){
+         userService.deleteUser(userId);
+         return ResponseEntity.noContent().build();
+     }
 }
