@@ -1,5 +1,7 @@
 package cz.cvut.iarylser.controller;
+import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.entity.User;
+import cz.cvut.iarylser.service.TicketService;
 import cz.cvut.iarylser.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +15,10 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
-     public UserController(UserService userService) {
+    private TicketService ticketService;
+     public UserController(UserService userService, TicketService ticketService) {
          this.userService = userService;
+         this.ticketService = ticketService;
      }
      @GetMapping
     public ResponseEntity<List<User>>getAllUsers(){
@@ -27,6 +31,10 @@ public class UserController {
          // todo check on null
          return ResponseEntity.ok(user);
      }
+//     @GetMapping("/{userId}/tickets")
+//     public ResponseEntity<List<Ticket>>getUserTickets(@PathVariable Long userId){
+//         List<Ticket> tickets = ticketService.getTicketsByUserId(userId);
+//     }
      @PostMapping
     public ResponseEntity<User>createUser(@RequestBody User newUser){
          User user = userService.createUser(newUser);
@@ -44,4 +52,5 @@ public class UserController {
          userService.deleteUser(userId);
          return ResponseEntity.noContent().build();
      }
+
 }

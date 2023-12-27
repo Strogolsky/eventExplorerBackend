@@ -19,10 +19,10 @@ public class Ticket {
     private int seat;
     @Column(name = "event_id")
     private Long eventId;
-    @Column(name = "customer_nickname")
-    private String customerNickname;
-    @Column(name = "organizer_nickname")
-    private String organizerNickname;
+    @Column(name = "id_customer")
+    private Long idCustomer;
+    @Column(name = "id_organizer")
+    private Long idOrganizer;
     @Column(name = "details", columnDefinition = "text") // TODO check
     private String details;
 

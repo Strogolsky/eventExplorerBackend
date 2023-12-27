@@ -19,8 +19,8 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_event")
     private Long id;
-    @Column(name = "organizer_nickname")
-    private String organizerNickname;
+    @Column(name = "id_organizer")
+    private Long idOrganizer;
     @Column(name = "title")
     private String title;
     @Column(name = "date_and_time")
