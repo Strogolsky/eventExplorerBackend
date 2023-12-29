@@ -1,22 +1,20 @@
 package cz.cvut.iarylser.dao.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(schema = "public",name = "ticket")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class Ticket {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_ticket")
     private Long id;
-    @Column(name = "seat")
-    private int seat;
     @Column(name = "event_id")
     private Long eventId;
     @Column(name = "id_customer")
@@ -25,6 +23,8 @@ public class Ticket {
     private Long idOrganizer;
     @Column(name = "details", columnDefinition = "text") // TODO check
     private String details;
+    @Column(name = "ticket_status")
+    private TicketStatus ticketStatus;
 
     @ManyToOne
 //    @JoinColumn(name = "customer_nickname", referencedColumnName = "nickname")

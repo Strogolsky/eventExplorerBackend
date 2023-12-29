@@ -45,4 +45,6 @@ public class EventController {
         eventService.deleteEvent(eventId);
         return ResponseEntity.noContent().build();
     }
+    // todo buy ticket
+
 }

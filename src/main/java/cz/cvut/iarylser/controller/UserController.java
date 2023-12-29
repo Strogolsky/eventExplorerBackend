@@ -26,10 +26,6 @@ public class UserController {
          // todo check on null
          return ResponseEntity.ok(user);
      }
-//     @GetMapping("/{userId}/tickets")
-//     public ResponseEntity<List<Ticket>>getUserTickets(@PathVariable Long userId){
-//         List<Ticket> tickets = ticketService.getTicketsByUserId(userId);
-//     }
      @PostMapping
     public ResponseEntity<User>createUser(@RequestBody User newUser){
          User user = userService.createUser(newUser);

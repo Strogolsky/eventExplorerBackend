@@ -13,7 +13,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    // todo create password
     @Id
     @Column(name = "id_user")
     @GeneratedValue(strategy = GenerationType.AUTO)

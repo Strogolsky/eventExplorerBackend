@@ -31,6 +31,8 @@ public class Event {
     private String location;
     @Column(name = "capacity")
     private int capacity;
+    @Column(name = "sold_tickets")
+    private int soldTickets;
     @Column(name = "description", columnDefinition = "text") // todo check
     private String description;
     @Column(name = "topic")
