@@ -1,8 +1,11 @@
 package cz.cvut.iarylser.controller;
 
 import cz.cvut.iarylser.dao.entity.Event;
+import cz.cvut.iarylser.dao.entity.Ticket;
+import cz.cvut.iarylser.dao.entity.TicketPurchaseRequest;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.service.EventService;
+import cz.cvut.iarylser.service.TicketService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +16,7 @@ import java.util.List;
 @RequestMapping(value = "/event")
 public class EventController {
     private EventService eventService;
-    public EventController(EventService eventService) {
+    public EventController(EventService eventService, TicketService ticketService) {
         this.eventService = eventService;
     }
     @GetMapping
@@ -39,6 +42,11 @@ public class EventController {
         Event event = eventService.updateEvent(eventId, updatedEvent);
         // todo check
         return ResponseEntity.ok(event);
+    }
+    @PostMapping("/{eventId}/purchase-ticket")
+    public ResponseEntity<List<Ticket>> purchaseTicket(@PathVariable Long eventId, @RequestBody TicketPurchaseRequest request) {
+        List<Ticket> tickets = eventService.purchaseTicket(eventId, request);
+        return ResponseEntity.ok(tickets);
     }
     @DeleteMapping("/{eventId}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId){

@@ -46,4 +46,8 @@ public class Event {
     private Set<User> likeBy = new HashSet<>();
     @OneToMany(mappedBy = "event")
     private Set<Ticket> tickets = new HashSet<>();
+
+    public int getAvailableSeat(){
+        return capacity - soldTickets;
+    }
 }
