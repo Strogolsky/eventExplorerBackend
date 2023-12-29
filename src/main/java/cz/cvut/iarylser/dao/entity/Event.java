@@ -14,13 +14,15 @@ import java.util.Set;
 @AllArgsConstructor
 public class Event {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_event")
     private Long id;
     @Column(name = "id_organizer")
     private Long idOrganizer;
     @Column(name = "title")
     private String title;
+    @Column(name = "organizer")
+    private String organizer;
     @Column(name = "date_and_time")
     private LocalDateTime dateAndTime; // todo !!!
     @Column(name = "ticket_price")

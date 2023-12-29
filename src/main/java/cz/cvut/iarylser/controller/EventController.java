@@ -6,6 +6,7 @@ import cz.cvut.iarylser.service.EventService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -20,16 +21,17 @@ public class EventController {
         List<Event> result = eventService.getAllEvents();
         return ResponseEntity.ok(result);
     }
+    // todo principal
     @GetMapping("/{eventId}")
-    public ResponseEntity<Event>getUserById(@PathVariable Long eventId){
+    public ResponseEntity<Event>getEventById(@PathVariable Long eventId){
         Event event = eventService.getEventById(eventId);
         // todo check on null
         return ResponseEntity.ok(event);
     }
     @PostMapping
-    public ResponseEntity<Event>createEvent(@RequestBody Event newEvent){
+    public ResponseEntity<Event>createEvent(@RequestBody Event newEvent)
+    {
         Event event = eventService.createEvent(newEvent);
-        // todo check
         return ResponseEntity.ok(event);
     }
     @PutMapping("/{eventId}")
