@@ -17,28 +17,28 @@ public class EventController {
         this.eventService = eventService;
     }
     @GetMapping
-    public ResponseEntity<List<Event>> getAllEvents(){ // todo create DTO
+    public ResponseEntity<List<EventDTO>> getAllEvents(){ // todo create DTO
         List<Event> result = eventService.getAllEvents();
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(eventService.convertToDTOList(result));
     }
     // todo principal
     @GetMapping("/{eventId}")
-    public ResponseEntity<Event>getEventById(@PathVariable Long eventId){
+    public ResponseEntity<EventDTO>getEventById(@PathVariable Long eventId){
         Event event = eventService.getEventById(eventId);
         // todo check on null
-        return ResponseEntity.ok(event);
+        return ResponseEntity.ok(eventService.convertToDto(event));
     }
     @PostMapping
-    public ResponseEntity<Event>createEvent(@RequestBody Event newEvent)
+    public ResponseEntity<EventDTO>createEvent(@RequestBody Event newEvent)
     {
         Event event = eventService.createEvent(newEvent);
-        return ResponseEntity.ok(event);
+        return ResponseEntity.ok(eventService.convertToDto(event));
     }
     @PutMapping("/{eventId}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long eventId, @RequestBody Event updatedEvent){
+    public ResponseEntity<EventDTO> updateEvent(@PathVariable Long eventId, @RequestBody Event updatedEvent){
         Event event = eventService.updateEvent(eventId, updatedEvent);
         // todo check
-        return ResponseEntity.ok(event);
+        return ResponseEntity.ok(eventService.convertToDto(event));
     }
     @PostMapping("/{eventId}/purchase")
     public ResponseEntity<List<TicketDTO>> purchaseTicket(@PathVariable Long eventId, @RequestBody TicketPurchaseRequest request) {

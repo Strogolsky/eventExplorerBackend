@@ -86,5 +86,29 @@ public class EventService {
             eventRepository.deleteById(eventId);
         }
     }
+    public EventDTO convertToDto(Event event) {
+        EventDTO dto = new EventDTO();
+        dto.setId(event.getId());
+        dto.setTitle(event.getTitle());
+        dto.setDateAndTime(event.getDateAndTime());
+        dto.setTicketPrice(event.getTicketPrice());
+        dto.setLocation(event.getLocation());
+        dto.setCapacity(event.getCapacity());
+        dto.setSoldTickets(event.getSoldTickets());
+        dto.setDescription(event.getDescription());
+        dto.setTopic(event.getTopic());
+        dto.setAgeRestriction(event.isAgeRestriction());
+        dto.setOrganizer(event.getOrganizer());
+
+        return dto;
+    }
+    public List<EventDTO> convertToDTOList(List<Event> events) {
+        List<EventDTO> dtos = new ArrayList<>();
+        for (Event event : events) {
+            dtos.add(convertToDto(event));
+        }
+        return dtos;
+    }
+
 
 }
