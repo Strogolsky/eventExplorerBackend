@@ -1,9 +1,11 @@
 package cz.cvut.iarylser.service;
 import cz.cvut.iarylser.dao.entity.User;
+import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,5 +40,23 @@ public class UserService {
     }
     public void deleteUser(Long userId){
         userRepository.deleteById(userId);
+    }
+
+    public UserDTO convertToDTO(User user){
+        UserDTO dto = new UserDTO();
+        dto.setNickname(user.getNickname());
+        dto.setAge(user.getAge());
+        dto.setEmail(user.getEmail());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setDescription(user.getDescription());
+        return dto;
+    }
+    public List<UserDTO> convertToDTOList(List<User> users) {
+        List<UserDTO> dtos = new ArrayList<>();
+        for (User user : users) {
+            dtos.add(convertToDTO(user));
+        }
+        return dtos;
     }
 }

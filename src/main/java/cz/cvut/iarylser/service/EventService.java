@@ -1,5 +1,8 @@
 package cz.cvut.iarylser.service;
 
+import cz.cvut.iarylser.dao.DTO.EventDTO;
+import cz.cvut.iarylser.dao.DTO.TicketDTO;
+import cz.cvut.iarylser.dao.DTO.TicketPurchaseRequest;
 import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
@@ -67,11 +70,12 @@ public class EventService {
         existingEvent.setDescription(updatedEvent.getDescription());
         existingEvent.setLocation(updatedEvent.getLocation());
         existingEvent.setTicketPrice(updatedEvent.getTicketPrice());
-        existingEvent.setCapacity(updatedEvent.getCapacity());
+        existingEvent.updateCapacity(updatedEvent.getCapacity());
         existingEvent.setAgeRestriction(existingEvent.isAgeRestriction());
 
         return eventRepository.save(existingEvent);
     }
+
     public void deleteEvent(Long eventId) {
         Event event = eventRepository.findById(eventId).orElse(null);
         if (event != null) {

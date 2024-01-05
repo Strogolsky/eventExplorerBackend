@@ -52,4 +52,10 @@ public class Event {
     public int getAvailableSeat(){
         return capacity - soldTickets;
     }
+    public void updateCapacity(int newCapacity){
+        if(soldTickets <= newCapacity){
+            this.capacity = newCapacity;
+        }
+        // todo error
+    }
 }

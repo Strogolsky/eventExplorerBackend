@@ -1,8 +1,6 @@
 package cz.cvut.iarylser.controller;
 
-import cz.cvut.iarylser.dao.entity.Event;
-import cz.cvut.iarylser.dao.entity.Ticket;
-import cz.cvut.iarylser.dao.entity.TicketDTO;
+import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.service.TicketService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

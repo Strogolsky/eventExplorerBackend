@@ -1,5 +1,6 @@
-package cz.cvut.iarylser.dao.entity;
+package cz.cvut.iarylser.dao.DTO;
 
+import cz.cvut.iarylser.dao.entity.TicketStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

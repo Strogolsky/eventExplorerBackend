@@ -1,12 +1,14 @@
 package cz.cvut.iarylser.controller;
 
+import cz.cvut.iarylser.dao.DTO.EventDTO;
+import cz.cvut.iarylser.dao.DTO.TicketDTO;
+import cz.cvut.iarylser.dao.DTO.TicketPurchaseRequest;
 import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.service.EventService;
 import cz.cvut.iarylser.service.TicketService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController

@@ -1,12 +1,12 @@
 package cz.cvut.iarylser.service;
 
+import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.dao.repository.TicketRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static cz.cvut.iarylser.dao.entity.TicketStatus.INVALID;
