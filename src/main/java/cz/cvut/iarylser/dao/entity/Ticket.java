@@ -29,6 +29,6 @@ public class Ticket {
     private User user;
 
     @ManyToOne
-//    @JoinColumn(name = "event_id", referencedColumnName = "id_event" )
+    @JoinColumn(name = "event_id", insertable=false, updatable=false)
     private Event event;
 }

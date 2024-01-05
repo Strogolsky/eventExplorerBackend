@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -43,9 +45,9 @@ public class Event {
 //    @JoinColumn(name = "organizer_nickname", referencedColumnName = "nickname")
     private User user;
     @ManyToMany
-    private Set<User> likeBy = new HashSet<>();
+    private List<User> likeBy = new ArrayList<>();
     @OneToMany(mappedBy = "event")
-    private Set<Ticket> tickets = new HashSet<>();
+    private List<Ticket> tickets = new ArrayList<>();
 
     public int getAvailableSeat(){
         return capacity - soldTickets;

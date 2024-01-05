@@ -1,9 +1,6 @@
 package cz.cvut.iarylser.controller;
 
-import cz.cvut.iarylser.dao.entity.Event;
-import cz.cvut.iarylser.dao.entity.Ticket;
-import cz.cvut.iarylser.dao.entity.TicketPurchaseRequest;
-import cz.cvut.iarylser.dao.entity.User;
+import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.service.EventService;
 import cz.cvut.iarylser.service.TicketService;
 import org.springframework.http.ResponseEntity;
@@ -43,9 +40,9 @@ public class EventController {
         // todo check
         return ResponseEntity.ok(event);
     }
-    @PostMapping("/{eventId}/purchase-ticket")
-    public ResponseEntity<List<Ticket>> purchaseTicket(@PathVariable Long eventId, @RequestBody TicketPurchaseRequest request) {
-        List<Ticket> tickets = eventService.purchaseTicket(eventId, request);
+    @PostMapping("/{eventId}/purchase")
+    public ResponseEntity<List<TicketDTO>> purchaseTicket(@PathVariable Long eventId, @RequestBody TicketPurchaseRequest request) {
+        List<TicketDTO> tickets = eventService.purchaseTicket(eventId, request);
         return ResponseEntity.ok(tickets);
     }
     @DeleteMapping("/{eventId}")

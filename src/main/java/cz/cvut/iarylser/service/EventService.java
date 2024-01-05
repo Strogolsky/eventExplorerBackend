@@ -1,9 +1,6 @@
 package cz.cvut.iarylser.service;
 
-import cz.cvut.iarylser.dao.entity.Event;
-import cz.cvut.iarylser.dao.entity.Ticket;
-import cz.cvut.iarylser.dao.entity.TicketPurchaseRequest;
-import cz.cvut.iarylser.dao.entity.User;
+import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +38,7 @@ public class EventService {
         userRepository.save(organizer);
         return eventRepository.save(newEvent);
     }
-    public List<Ticket> purchaseTicket(Long eventId, TicketPurchaseRequest request){
+    public List<TicketDTO> purchaseTicket(Long eventId, TicketPurchaseRequest request){
         Event event = eventRepository.findById(eventId).orElse(null);
         User customer = userRepository.findByNickname(request.getCustomer());
         if(request.getQuantity() <= event.getAvailableSeat()){
@@ -56,7 +53,7 @@ public class EventService {
             }
             userRepository.save(customer);
             eventRepository.save(event);
-            return tickets;
+            return ticketService.convertTicketsToDTOs(tickets);
         }
         return null;
     }
@@ -75,12 +72,19 @@ public class EventService {
 
         return eventRepository.save(existingEvent);
     }
-    public void deleteEvent(Long eventId){
+    public void deleteEvent(Long eventId) {
         Event event = eventRepository.findById(eventId).orElse(null);
-        User author = userRepository.findByNickname(event.getOrganizer());
-        author.getCreatedEvents().remove(event);
-        userRepository.save(author);
-        eventRepository.deleteById(eventId);
+        if (event != null) {
+            ticketService.deactivateTickets(event);
+
+            User author = userRepository.findByNickname(event.getOrganizer());
+            if (author != null) {
+                author.getCreatedEvents().remove(event);
+                userRepository.save(author);
+            }
+
+            eventRepository.deleteById(eventId);
+        }
     }
 
 }
