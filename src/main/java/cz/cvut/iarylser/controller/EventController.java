@@ -52,16 +52,16 @@ public class EventController {
         eventService.deleteEvent(eventId);
         return ResponseEntity.noContent().build();
     }
-    @PutMapping("/{eventId}/like")
-    public ResponseEntity<?> likeEvent(@PathVariable Long eventId, @RequestParam Long userId) {
+    @PutMapping("/{eventId}/like/{userId}")
+    public ResponseEntity<Void> likeEvent(@PathVariable Long eventId, @PathVariable Long userId) {
         eventService.likeEvent(eventId, userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{eventId}/unlike")
-    public ResponseEntity<?> unlikeEvent(@PathVariable Long eventId, @RequestParam Long userId) {
+    @PutMapping("/{eventId}/unlike/{userId}")
+    public ResponseEntity<Void> unlikeEvent(@PathVariable Long eventId, @PathVariable Long userId) {
         eventService.unlikeEvent(eventId, userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
 }
