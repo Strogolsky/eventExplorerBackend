@@ -41,4 +41,11 @@ public class User {
     @JsonIgnore
     private Set<Event> likeByMe = new HashSet<>();
 
+    public void likeEvent(Event event) {
+        this.likeByMe.add(event);
+    }
+
+    public void unlikeEvent(Event event) {
+        this.likeByMe.remove(event);
+    }
 }

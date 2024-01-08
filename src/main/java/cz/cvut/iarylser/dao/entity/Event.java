@@ -42,7 +42,7 @@ public class Event {
     @Column(name = "age_restriction")
     private boolean ageRestriction;
     @ManyToOne
-//    @JoinColumn(name = "organizer_nickname", referencedColumnName = "nickname")
+    @JoinColumn(name = "id_user")
     private User user;
     @ManyToMany
     private List<User> likeBy = new ArrayList<>();

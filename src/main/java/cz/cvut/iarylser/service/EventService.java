@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -49,8 +50,6 @@ public class EventService {
             for(int i = 0; i < request.getQuantity(); i++){
                 Ticket ticket = ticketService.createTicket(event, customer);
                 tickets.add(ticket);
-                customer.getTickets().add(ticket); // todo check
-                event.getTickets().add(ticket);
                 event.setSoldTickets(event.getSoldTickets() + 1);
 
             }
@@ -73,6 +72,7 @@ public class EventService {
         existingEvent.updateCapacity(updatedEvent.getCapacity());
         existingEvent.setAgeRestriction(existingEvent.isAgeRestriction());
 
+        updateRelatedTickets(existingEvent);
         return eventRepository.save(existingEvent);
     }
 
@@ -97,6 +97,7 @@ public class EventService {
         dto.setDateAndTime(event.getDateAndTime());
         dto.setTicketPrice(event.getTicketPrice());
         dto.setLocation(event.getLocation());
+        dto.setLikes(event.getLikeBy().size());
         dto.setCapacity(event.getCapacity());
         dto.setSoldTickets(event.getSoldTickets());
         dto.setDescription(event.getDescription());
@@ -113,6 +114,30 @@ public class EventService {
         }
         return dtos;
     }
+    private void updateRelatedTickets(Event event){
+        Ticket updatedTicket = new Ticket();
+        updatedTicket.setDetails(event.getDescription()); // change
+        for( Ticket ticket : event.getTickets()){
+            ticketService.updateTicket(ticket.getId(),updatedTicket);
+        }
+    }
+    public void likeEvent(Long eventId, Long userId){
+        User user = userRepository.findById(userId).orElse(null);
+        Event event = eventRepository.findById(eventId).orElse(null);
 
+        user.getLikeByMe().add(event);
+        event.getLikeBy().add(user);
+        userRepository.save(user);
+        eventRepository.save(event);
+    }
+    public void unlikeEvent(Long eventId, Long userId){
+        User user = userRepository.findById(userId).orElse(null);
+        Event event = eventRepository.findById(eventId).orElse(null);
+
+        user.getLikeByMe().remove(event);
+        event.getLikeBy().remove(user);
+        userRepository.save(user);
+        eventRepository.save(event);
+    }
 
 }

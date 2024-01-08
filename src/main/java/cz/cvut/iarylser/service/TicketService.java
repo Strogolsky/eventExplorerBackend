@@ -70,4 +70,15 @@ public class TicketService {
             ticketRepository.save(ticket);
         }
     }
+
+    public Ticket updateTicket(Long ticketId, Ticket updatedTicket) {
+        Ticket existingTicket = ticketRepository.findById(ticketId).orElse(null);
+        existingTicket.setDetails(updatedTicket.getDetails());
+        // todo add
+        return ticketRepository.save(existingTicket);
+    }
+
+    public void deleteTicket(Long ticketId){
+        ticketRepository.deleteById(ticketId);
+    }
 }

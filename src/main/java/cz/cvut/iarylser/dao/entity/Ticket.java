@@ -23,12 +23,12 @@ public class Ticket {
     private String details;
     @Column(name = "ticket_status")
     private TicketStatus ticketStatus;
-
+    // todo add
     @ManyToOne
-//    @JoinColumn(name = "customer_nickname", referencedColumnName = "nickname")
+    @JoinColumn(name = "id_user")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "event_id", insertable=false, updatable=false)
+    @JoinColumn(name = "id_event")
     private Event event;
 }

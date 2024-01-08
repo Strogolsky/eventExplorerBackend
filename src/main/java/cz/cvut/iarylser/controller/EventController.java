@@ -52,6 +52,16 @@ public class EventController {
         eventService.deleteEvent(eventId);
         return ResponseEntity.noContent().build();
     }
-    // todo buy ticket
+    @PutMapping("/{eventId}/like")
+    public ResponseEntity<?> likeEvent(@PathVariable Long eventId, @RequestParam Long userId) {
+        eventService.likeEvent(eventId, userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{eventId}/unlike")
+    public ResponseEntity<?> unlikeEvent(@PathVariable Long eventId, @RequestParam Long userId) {
+        eventService.unlikeEvent(eventId, userId);
+        return ResponseEntity.ok().build();
+    }
 
 }

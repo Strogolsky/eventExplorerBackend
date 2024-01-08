@@ -13,6 +13,7 @@ public class EventDTO {
     private Long id;
     private String title;
     private LocalDateTime dateAndTime;
+    private int likes;
     private int ticketPrice;
     private String location;
     private int capacity;
