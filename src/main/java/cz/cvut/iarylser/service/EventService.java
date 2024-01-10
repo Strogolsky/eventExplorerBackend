@@ -17,9 +17,9 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class EventService {
-    private EventRepository eventRepository;
-    private UserRepository userRepository;
-    private TicketService ticketService;
+    private final EventRepository eventRepository;
+    private final UserRepository userRepository;
+    private final TicketService ticketService;
 
     public EventService(EventRepository eventRepository, UserRepository userRepository, TicketService ticketService) {
         this.eventRepository = eventRepository;
@@ -61,7 +61,7 @@ public class EventService {
     }
 
 
-    public Event updateEvent(Long eventId, Event updatedEvent){
+    public Event updateEvent(Long eventId, Event updatedEvent, boolean changeOrganizer){
         Event existingEvent = getEventById(eventId);
         if (existingEvent == null) {
             log.warn("Event with id {} not found for update", eventId);
@@ -75,10 +75,17 @@ public class EventService {
         existingEvent.updateCapacity(updatedEvent.getCapacity());
         existingEvent.setAgeRestriction(existingEvent.isAgeRestriction());
 
+        if(changeOrganizer) existingEvent.setOrganizer(updatedEvent.getOrganizer());
+
         updateRelatedTickets(existingEvent);
         return eventRepository.save(existingEvent);
     }
 
+    public void updateForOrgChange(Event event, User organizer){
+        event.setOrganizer(organizer.getNickname());
+        eventRepository.save(event);
+        updateRelatedTickets(event);
+    }
     public void deleteEvent(Long eventId) {
         Event event = eventRepository.findById(eventId).orElse(null);
         if (event == null) {

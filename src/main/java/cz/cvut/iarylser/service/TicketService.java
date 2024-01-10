@@ -14,7 +14,7 @@ import static cz.cvut.iarylser.dao.entity.TicketStatus.INVALID;
 @Service
 @Slf4j
 public class TicketService {
-    private TicketRepository ticketRepository;
+    private final TicketRepository ticketRepository;
     public TicketService(TicketRepository ticketRepository){
         this.ticketRepository = ticketRepository;
     }

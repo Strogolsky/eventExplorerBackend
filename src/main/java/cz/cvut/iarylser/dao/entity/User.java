@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,7 +20,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "nickname", unique = true)
-    private String nickname;// todo
+    private String nickname;
     @Column(name = "password")
     private String password;
     @Column(name = "age")
@@ -29,14 +31,14 @@ public class User {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @Column(name = "description", columnDefinition = "text") // TODO check
+    @Column(name = "description", columnDefinition = "text")
     private String description;
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<Ticket> tickets = new HashSet<>();
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private Set<Event> createdEvents = new HashSet<>();
+    private List<Event> createdEvents = new ArrayList<>();
     @ManyToMany(mappedBy = "likeBy")
     @JsonIgnore
     private Set<Event> likeByMe = new HashSet<>();

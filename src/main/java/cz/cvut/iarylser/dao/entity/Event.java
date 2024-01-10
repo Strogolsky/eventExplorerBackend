@@ -5,9 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(schema = "public", name = "event")
@@ -26,7 +24,7 @@ public class Event {
     @Column(name = "organizer")
     private String organizer;
     @Column(name = "date_and_time")
-    private LocalDateTime dateAndTime; // todo !!!
+    private LocalDateTime dateAndTime;
     @Column(name = "ticket_price")
     private int ticketPrice;
     @Column(name = "location")
@@ -35,7 +33,7 @@ public class Event {
     private int capacity;
     @Column(name = "sold_tickets")
     private int soldTickets;
-    @Column(name = "description", columnDefinition = "text") // todo check
+    @Column(name = "description", columnDefinition = "text")
     private String description;
     @Column(name = "topic")
     private Topics topic;

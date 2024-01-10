@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/event")
 public class EventController {
-    private EventService eventService;
+    private final EventService eventService;
     @Autowired
     public EventController(EventService eventService) {
         this.eventService = eventService;
@@ -41,7 +41,7 @@ public class EventController {
     }
     @PutMapping("/{eventId}")
     public ResponseEntity<EventDTO> updateEvent(@PathVariable Long eventId, @RequestBody Event updatedEvent){
-        Event event = eventService.updateEvent(eventId, updatedEvent);
+        Event event = eventService.updateEvent(eventId, updatedEvent,false);
         if (event == null) {
             return ResponseEntity.notFound().build();
         }

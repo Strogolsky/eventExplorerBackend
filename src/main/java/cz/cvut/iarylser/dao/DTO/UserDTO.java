@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
-    private String nickname;// todo
+    private String nickname;
     private int age;
     private String email;
     private String firstName;

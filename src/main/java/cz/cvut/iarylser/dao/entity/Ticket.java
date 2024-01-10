@@ -19,11 +19,10 @@ public class Ticket {
     private Long idCustomer;
     @Column(name = "id_organizer")
     private Long idOrganizer;
-    @Column(name = "details", columnDefinition = "text") // TODO check
+    @Column(name = "details", columnDefinition = "text")
     private String details;
     @Column(name = "ticket_status")
     private TicketStatus ticketStatus;
-    // todo add
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;

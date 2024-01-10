@@ -1,4 +1,5 @@
 package cz.cvut.iarylser.service;
+import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.repository.UserRepository;
@@ -12,9 +13,11 @@ import java.util.List;
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
+    private final EventService eventService;
 
-    public UserService(UserRepository repository) {
+    public UserService(UserRepository repository, EventService eventService) {
         this.userRepository = repository;
+        this.eventService = eventService;
     }
     public List<User> getAllUsers(){
         return userRepository.findAll();
@@ -39,9 +42,18 @@ public class UserService {
         existingUser.setPassword(updatedUser.getPassword());
         existingUser.setAge(updatedUser.getAge());
         existingUser.setEmail(updatedUser.getEmail());
-        // todo check
+
+        updateUserEvents(existingUser);
+
 
         return userRepository.save(existingUser);
+    }
+
+    private void updateUserEvents(User updatedUser) {
+        List<Event> events = updatedUser.getCreatedEvents();
+        for (Event event : events) {
+            eventService.updateForOrgChange(event, updatedUser);
+        }
     }
     public boolean deleteUser(Long userId) {
         if (!userRepository.existsById(userId)) {

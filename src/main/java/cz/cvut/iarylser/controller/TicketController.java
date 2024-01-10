@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/ticket")
 public class TicketController {
-    private TicketService ticketService;
+    private final TicketService ticketService;
     public TicketController(TicketService ticketService){
         this.ticketService = ticketService;
     }
@@ -25,6 +25,4 @@ public class TicketController {
         List<TicketDTO> result = ticketService.getTicketByUser(userId);
         return ResponseEntity.ok(result);
     }
-
-    // todo getByUser
 }
