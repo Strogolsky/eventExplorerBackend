@@ -18,11 +18,11 @@ public class TicketService {
     public TicketService(TicketRepository ticketRepository){
         this.ticketRepository = ticketRepository;
     }
-    public TicketDTO getTicketById(Long ticketId){
-        return convertToDto(ticketRepository.findById(ticketId).orElse(null));
+    public Ticket getTicketById(Long ticketId){
+        return ticketRepository.findById(ticketId).orElse(null);
     }
-    public List<TicketDTO> getTicketByUser(Long userId){
-        return convertTicketsToDTOs(ticketRepository.findByIdCustomer(userId));
+    public List<Ticket> getTicketByUser(Long userId){
+        return ticketRepository.findByIdCustomer(userId);
     }
 
     public Ticket createTicket(Event event, User customer){
@@ -73,8 +73,11 @@ public class TicketService {
 
     public Ticket updateTicket(Long ticketId, Ticket updatedTicket) {
         Ticket existingTicket = ticketRepository.findById(ticketId).orElse(null);
+        if (existingTicket == null) {
+            log.warn("Ticket with id {} not found for update", ticketId);
+            return null;
+        }
         existingTicket.setDetails(updatedTicket.getDetails());
-        // todo add
         return ticketRepository.save(existingTicket);
     }
 
