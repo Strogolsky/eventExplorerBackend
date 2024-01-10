@@ -45,7 +45,15 @@ public class EventService {
     public List<TicketDTO> purchaseTicket(Long eventId, TicketPurchaseRequest request){
         Event event = eventRepository.findById(eventId).orElse(null);
         User customer = userRepository.findByNickname(request.getCustomer());
+        if (customer == null || event == null) {
+            log.warn("User or event with nickname {} not found", request.getCustomer());
+            return null;
+        }
         if(request.getQuantity() <= event.getAvailableSeat()){
+            if (event.isAgeRestriction() && customer.getAge() < 18) {
+                log.warn("User {} does not meet the age requirement for event {}", customer.getNickname(), eventId);
+                return null;
+            }
             List<Ticket> tickets = new ArrayList<>();
             for(int i = 0; i < request.getQuantity(); i++){
                 Ticket ticket = ticketService.createTicket(event, customer);
