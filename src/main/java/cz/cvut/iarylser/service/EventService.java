@@ -63,7 +63,10 @@ public class EventService {
 
     public Event updateEvent(Long eventId, Event updatedEvent){
         Event existingEvent = getEventById(eventId);
-        // todo check
+        if (existingEvent == null) {
+            log.warn("Event with id {} not found for update", eventId);
+            return null;
+        }
         existingEvent.setTitle(updatedEvent.getTitle());
         existingEvent.setDateAndTime(updatedEvent.getDateAndTime());
         existingEvent.setDescription(updatedEvent.getDescription());
@@ -78,18 +81,24 @@ public class EventService {
 
     public void deleteEvent(Long eventId) {
         Event event = eventRepository.findById(eventId).orElse(null);
-        if (event != null) {
-            ticketService.deactivateTickets(event);
-
-            User author = userRepository.findByNickname(event.getOrganizer());
-            if (author != null) {
-                author.getCreatedEvents().remove(event);
-                userRepository.save(author);
-            }
-
-            eventRepository.deleteById(eventId);
+        if (event == null) {
+            log.warn("Event with id {} not found for deletion", eventId);
+            return;
         }
+
+        ticketService.deactivateTickets(event);
+
+        String organizerNickname = event.getOrganizer();
+        User author = userRepository.findByNickname(organizerNickname);
+        if (author != null) {
+            author.getCreatedEvents().remove(event);
+            userRepository.save(author);
+        } else {
+            log.warn("Author with nickname {} not found when deleting event {}", organizerNickname, eventId);
+        }
+        eventRepository.deleteById(eventId);
     }
+
     public EventDTO convertToDto(Event event) {
         EventDTO dto = new EventDTO();
         dto.setId(event.getId());
@@ -116,15 +125,18 @@ public class EventService {
     }
     private void updateRelatedTickets(Event event){
         Ticket updatedTicket = new Ticket();
-        updatedTicket.setDetails(event.getDescription()); // change
+        updatedTicket.setDetails(event.getDescription()); // todo change
         for( Ticket ticket : event.getTickets()){
             ticketService.updateTicket(ticket.getId(),updatedTicket);
         }
     }
-    public void likeEvent(Long eventId, Long userId){
+    public void likeEvent(Long eventId, Long userId){ // todo change on boolean
         User user = userRepository.findById(userId).orElse(null);
         Event event = eventRepository.findById(eventId).orElse(null);
-
+        if (user == null || event == null) {
+            log.warn("User or Event not found for like operation");
+            return;
+        }
         user.getLikeByMe().add(event);
         event.getLikeBy().add(user);
         userRepository.save(user);
@@ -133,7 +145,10 @@ public class EventService {
     public void unlikeEvent(Long eventId, Long userId){
         User user = userRepository.findById(userId).orElse(null);
         Event event = eventRepository.findById(eventId).orElse(null);
-
+        if (user == null || event == null) {
+            log.warn("User or Event not found for unlike operation");
+            return;
+        }
         user.getLikeByMe().remove(event);
         event.getLikeBy().remove(user);
         userRepository.save(user);

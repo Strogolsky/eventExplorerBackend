@@ -6,6 +6,7 @@ import cz.cvut.iarylser.dao.DTO.TicketPurchaseRequest;
 import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.service.EventService;
 import cz.cvut.iarylser.service.TicketService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,19 +16,21 @@ import java.util.List;
 @RequestMapping(value = "/event")
 public class EventController {
     private EventService eventService;
-    public EventController(EventService eventService, TicketService ticketService) {
+    @Autowired
+    public EventController(EventService eventService) {
         this.eventService = eventService;
     }
     @GetMapping
-    public ResponseEntity<List<EventDTO>> getAllEvents(){ // todo create DTO
+    public ResponseEntity<List<EventDTO>> getAllEvents(){
         List<Event> result = eventService.getAllEvents();
         return ResponseEntity.ok(eventService.convertToDTOList(result));
     }
-    // todo principal
     @GetMapping("/{eventId}")
     public ResponseEntity<EventDTO>getEventById(@PathVariable Long eventId){
         Event event = eventService.getEventById(eventId);
-        // todo check on null
+        if (event == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(eventService.convertToDto(event));
     }
     @PostMapping
@@ -39,7 +42,9 @@ public class EventController {
     @PutMapping("/{eventId}")
     public ResponseEntity<EventDTO> updateEvent(@PathVariable Long eventId, @RequestBody Event updatedEvent){
         Event event = eventService.updateEvent(eventId, updatedEvent);
-        // todo check
+        if (event == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(eventService.convertToDto(event));
     }
     @PostMapping("/{eventId}/purchase")
