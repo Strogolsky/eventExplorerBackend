@@ -28,18 +28,29 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-    public User updateUser(Long userId, User updatedUser){
+    public User updateUser(Long userId, User updatedUser) {
         User existingUser = getUserById(userId);
-        // todo check
+        if (existingUser == null) {
+            log.warn("User with id {} not found for update", userId);
+            return null;
+        }
+
         existingUser.setNickname(updatedUser.getNickname());
         existingUser.setPassword(updatedUser.getPassword());
         existingUser.setAge(updatedUser.getAge());
         existingUser.setEmail(updatedUser.getEmail());
+        // todo check
 
         return userRepository.save(existingUser);
     }
-    public void deleteUser(Long userId){
+    public boolean deleteUser(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            log.warn("User with id {} not found for deletion", userId);
+            return false;
+        }
+
         userRepository.deleteById(userId);
+        return true;
     }
 
     public UserDTO convertToDTO(User user){
