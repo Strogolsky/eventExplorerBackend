@@ -33,7 +33,7 @@ public class TicketService {
         ticket.setEventId(event.getId());
         ticket.setIdCustomer(customer.getId());
         ticket.setIdOrganizer(event.getIdOrganizer());
-        ticket.setDetails(event.getDescription()); // todo change
+        setDetailsFromEvent(event,ticket);
         ticket.setTicketStatus(TicketStatus.ACTIVE);
         ticket.setUser(customer);
         ticket.setEvent(event);
@@ -77,6 +77,12 @@ public class TicketService {
         }
         existingTicket.setDetails(updatedTicket.getDetails());
         return ticketRepository.save(existingTicket);
+    }
+    public void setDetailsFromEvent(Event event, Ticket ticket) {
+        String details = "Event: " + event.getTitle() +
+                ", Date: " + event.getDateAndTime().toString() +
+                ", Location: " + event.getLocation();
+        ticket.setDetails(details);
     }
 
     public void deleteTicket(Long ticketId){

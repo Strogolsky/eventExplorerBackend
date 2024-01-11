@@ -173,13 +173,12 @@ public class EventService {
     public List<Event> getRecommend(Long userId){
         List<Event> result = new ArrayList<>();
         User user = userRepository.findById(userId).orElse(null);
-//        if(user == null) return result;
+//        if(user == null) return result; todo control
         List<Event> allEvents = eventRepository.findAll();
         List<Ticket> boughtTickets = user.getTickets();
         if(boughtTickets.isEmpty()) {
             return allEvents;
         }
-        log.info("Pizdaaaaaaaaaaaaaa!");
         for(Event event: allEvents){
             boolean haveTicket = false;
             for(Ticket ticket: boughtTickets){
