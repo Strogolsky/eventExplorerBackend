@@ -33,13 +33,13 @@ public class User {
     private String lastName;
     @Column(name = "description", columnDefinition = "text")
     private String description;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user") // check
     @JsonIgnore
     private Set<Ticket> tickets = new HashSet<>();
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Event> createdEvents = new ArrayList<>();
-    @ManyToMany(mappedBy = "likeBy")
+    @ManyToMany(mappedBy = "likeBy", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Event> likeByMe = new HashSet<>();
 

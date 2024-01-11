@@ -69,7 +69,7 @@ public class EventService {
     }
 
 
-    public Event updateEvent(Long eventId, Event updatedEvent, boolean changeOrganizer){
+    public Event updateEvent(Long eventId, Event updatedEvent){
         Event existingEvent = getEventById(eventId);
         if (existingEvent == null) {
             log.warn("Event with id {} not found for update", eventId);
@@ -83,16 +83,14 @@ public class EventService {
         existingEvent.updateCapacity(updatedEvent.getCapacity());
         existingEvent.setAgeRestriction(existingEvent.isAgeRestriction());
 
-        if(changeOrganizer) existingEvent.setOrganizer(updatedEvent.getOrganizer());
-
         updateRelatedTickets(existingEvent);
         return eventRepository.save(existingEvent);
     }
 
     public void updateForOrgChange(Event event, User organizer){
         event.setOrganizer(organizer.getNickname());
+
         eventRepository.save(event);
-        updateRelatedTickets(event);
     }
     public void deleteEvent(Long eventId) {
         Event event = eventRepository.findById(eventId).orElse(null);

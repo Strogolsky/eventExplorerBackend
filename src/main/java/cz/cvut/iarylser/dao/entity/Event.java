@@ -44,7 +44,7 @@ public class Event {
     private User user;
     @ManyToMany
     private List<User> likeBy = new ArrayList<>();
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Ticket> tickets = new ArrayList<>();
 
     public int getAvailableSeat(){
