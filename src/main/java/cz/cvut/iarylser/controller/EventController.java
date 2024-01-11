@@ -43,7 +43,7 @@ public class EventController {
     public ResponseEntity<EventDTO> updateEvent(@PathVariable Long eventId, @RequestBody Event updatedEvent){
         Event event = eventService.updateEvent(eventId, updatedEvent);
         if (event == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build(); // todo change
         }
         return ResponseEntity.ok(eventService.convertToDto(event));
     }
@@ -67,6 +67,12 @@ public class EventController {
     public ResponseEntity<Void> unlikeEvent(@PathVariable Long eventId, @PathVariable Long userId) {
         eventService.unlikeEvent(eventId, userId);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/recommendations/{userId}")
+    public ResponseEntity<List<EventDTO>> getRecommendedEvents(@PathVariable Long userId){
+        List<Event> result = eventService.getRecommend(userId);
+        List<EventDTO> dtoList = eventService.convertToDTOList(result);
+        return ResponseEntity.ok(dtoList);
     }
 
 }

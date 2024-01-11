@@ -3,6 +3,7 @@ package cz.cvut.iarylser.service;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.dao.repository.TicketRepository;
+import cz.cvut.iarylser.dao.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,10 @@ import static cz.cvut.iarylser.dao.entity.TicketStatus.INVALID;
 @Slf4j
 public class TicketService {
     private final TicketRepository ticketRepository;
-    public TicketService(TicketRepository ticketRepository){
+    private final UserRepository userRepository;
+    public TicketService(TicketRepository ticketRepository, UserRepository userRepository){
         this.ticketRepository = ticketRepository;
+        this.userRepository = userRepository;
     }
     public Ticket getTicketById(Long ticketId){
         return ticketRepository.findById(ticketId).orElse(null);
@@ -34,6 +37,8 @@ public class TicketService {
         ticket.setTicketStatus(TicketStatus.ACTIVE);
         ticket.setUser(customer);
         ticket.setEvent(event);
+        customer.getTickets().add(ticket);
+        userRepository.save(customer);
         return ticketRepository.save(ticket);
     }
     public TicketDTO convertToDto(Ticket ticket) {

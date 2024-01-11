@@ -47,7 +47,7 @@ public class UserController {
         User user = userService.updateUser(userId, updatedUser);
         if (user == null) {
             log.info("Unable to update. User with id {} not found.", userId);
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build(); // todo
         }
         return ResponseEntity.ok(userService.convertToDTO(user));
     }

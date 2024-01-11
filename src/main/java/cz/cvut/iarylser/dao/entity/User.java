@@ -35,7 +35,7 @@ public class User {
     private String description;
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private Set<Ticket> tickets = new HashSet<>();
+    private List<Ticket> tickets = new ArrayList<>();
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Event> createdEvents = new ArrayList<>();
