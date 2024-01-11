@@ -33,7 +33,7 @@ public class User {
     private String lastName;
     @Column(name = "description", columnDefinition = "text")
     private String description;
-    @OneToMany(mappedBy = "user") // check
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<Ticket> tickets = new HashSet<>();
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)

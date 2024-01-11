@@ -63,13 +63,6 @@ public class TicketService {
         }
         return ticketDTOs;
     }
-    public void deactivateTickets(Event event) {
-        List<Ticket> tickets = event.getTickets();
-        for (Ticket ticket : tickets) {
-            ticket.setTicketStatus(INVALID);
-            ticketRepository.save(ticket);
-        }
-    }
 
     public Ticket updateTicket(Long ticketId, Ticket updatedTicket) {
         Ticket existingTicket = ticketRepository.findById(ticketId).orElse(null);

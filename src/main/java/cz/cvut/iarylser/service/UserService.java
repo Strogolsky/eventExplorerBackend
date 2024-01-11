@@ -60,7 +60,8 @@ public class UserService {
             log.warn("User with id {} not found for deletion", userId);
             return false;
         }
-
+        User user = userRepository.findById(userId).orElse(null);
+        log.info("{}", user.getCreatedEvents().size());
         userRepository.deleteById(userId);
         return true;
     }

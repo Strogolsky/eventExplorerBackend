@@ -1,11 +1,14 @@
 package cz.cvut.iarylser.dao.entity;
 
+import ch.qos.logback.classic.Logger;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 @Table(schema = "public", name = "event")
@@ -46,14 +49,16 @@ public class Event {
     private List<User> likeBy = new ArrayList<>();
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Ticket> tickets = new ArrayList<>();
+    private Logger log;
 
     public int getAvailableSeat(){
         return capacity - soldTickets;
     }
-    public void updateCapacity(int newCapacity){
-        if(soldTickets <= newCapacity){
+    public boolean updateCapacity(int newCapacity) {
+        if (soldTickets <= newCapacity) {
             this.capacity = newCapacity;
+            return true;
         }
-        // todo error
+        return false;
     }
 }

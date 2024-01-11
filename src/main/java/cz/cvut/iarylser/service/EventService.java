@@ -38,6 +38,7 @@ public class EventService {
     public Event createEvent(Event newEvent){
         User organizer = userRepository.findByNickname(newEvent.getOrganizer());
         newEvent.setIdOrganizer(organizer.getId());
+        newEvent.setUser(organizer);
         organizer.getCreatedEvents().add(newEvent);
         userRepository.save(organizer);
         return eventRepository.save(newEvent);
@@ -75,12 +76,15 @@ public class EventService {
             log.warn("Event with id {} not found for update", eventId);
             return null;
         }
+        if(!existingEvent.updateCapacity(updatedEvent.getCapacity())) {
+            log.warn("Attempted to set capacity to {}, but there are {} sold tickets", updatedEvent.getCapacity(), updatedEvent.getSoldTickets());
+            return null;
+        }
         existingEvent.setTitle(updatedEvent.getTitle());
         existingEvent.setDateAndTime(updatedEvent.getDateAndTime());
         existingEvent.setDescription(updatedEvent.getDescription());
         existingEvent.setLocation(updatedEvent.getLocation());
         existingEvent.setTicketPrice(updatedEvent.getTicketPrice());
-        existingEvent.updateCapacity(updatedEvent.getCapacity());
         existingEvent.setAgeRestriction(existingEvent.isAgeRestriction());
 
         updateRelatedTickets(existingEvent);
@@ -98,8 +102,6 @@ public class EventService {
             log.warn("Event with id {} not found for deletion", eventId);
             return;
         }
-
-        ticketService.deactivateTickets(event);
 
         String organizerNickname = event.getOrganizer();
         User author = userRepository.findByNickname(organizerNickname);
