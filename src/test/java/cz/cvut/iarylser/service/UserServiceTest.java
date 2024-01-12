@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 class UserServiceTest {
 
@@ -44,7 +45,7 @@ class UserServiceTest {
     void getAllUsers() {
         List<User> users = Arrays.asList(user1,user2);
 
-        Mockito.when(userRepository.findAll()).thenReturn(users);
+        when(userRepository.findAll()).thenReturn(users);
 
         List<User> result = userService.getAllUsers();
         assertFalse(result.isEmpty());
@@ -59,7 +60,7 @@ class UserServiceTest {
         Long id = 1L;
 
         //when
-        Mockito.when(userRepository.findById(id)).thenReturn(Optional.ofNullable(user1));
+        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(user1));
         User found = userService.getUserById(id);
 
         //then
@@ -70,7 +71,7 @@ class UserServiceTest {
     @Test
     void createUser() {
         // when
-        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user1);
+        when(userRepository.save(Mockito.any(User.class))).thenReturn(user1);
         User result = userService.createUser(user1);
         //then
         assertEquals(user1, result);
@@ -88,8 +89,8 @@ class UserServiceTest {
         updatedUser.setId(userId);
         updatedUser.setNickname("NewNickname");
 
-        Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
-        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(updatedUser);
+        when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+        when(userRepository.save(Mockito.any(User.class))).thenReturn(updatedUser);
 
         User result = userService.updateUser(userId, updatedUser);
 
@@ -101,6 +102,16 @@ class UserServiceTest {
 
     @Test
     void deleteUser() {
+        // given
+        Long userId = 1L;
+        Mockito.when(userRepository.existsById(userId)).thenReturn(true);
+
+        // when
+        boolean result = userService.deleteUser(userId);
+
+        //then
+        assertTrue(result);
+        Mockito.verify(userRepository).deleteById(userId);
     }
 
     @Test
