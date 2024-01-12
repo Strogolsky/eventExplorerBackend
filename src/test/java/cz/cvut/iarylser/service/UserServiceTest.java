@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
@@ -14,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 class UserServiceTest {
 
@@ -44,7 +44,7 @@ class UserServiceTest {
     void getAllUsers() {
         List<User> users = Arrays.asList(user1,user2);
 
-        when(userRepository.findAll()).thenReturn(users);
+        Mockito.when(userRepository.findAll()).thenReturn(users);
 
         List<User> result = userService.getAllUsers();
         assertFalse(result.isEmpty());
@@ -59,7 +59,7 @@ class UserServiceTest {
         Long id = 1L;
 
         //when
-        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(user1));
+        Mockito.when(userRepository.findById(id)).thenReturn(Optional.ofNullable(user1));
         User found = userService.getUserById(id);
 
         //then
@@ -69,12 +69,12 @@ class UserServiceTest {
 
     @Test
     void createUser() {
-//        when(userRepository.save(User.class)).thenReturn(user1);
-//
-//        User result = userService.createUser(user1);
-//
-//        assertEquals(user1, result);
-//        verify(userRepository).save(newUser);
+        // when
+        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user1);
+        User result = userService.createUser(user1);
+        //then
+        assertEquals(user1, result);
+        Mockito.verify(userRepository).save(user1);
     }
 
     @Test
