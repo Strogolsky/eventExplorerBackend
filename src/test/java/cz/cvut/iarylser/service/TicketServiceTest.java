@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,6 +67,21 @@ class TicketServiceTest {
 
     @Test
     void getTicketByUser() {
+        Long customerId = 3L;
+        Mockito.when(ticketRepository.findByIdCustomer(customerId)).thenReturn(Arrays.asList(ticket1));
+
+        List<Ticket> results = ticketService.getTicketByUser(customerId);
+
+        assertNotNull(results);
+        assertFalse(results.isEmpty());
+        assertEquals(1, results.size());
+        assertEquals(ticket1.getId(), results.get(0).getId());
+        assertEquals(ticket1.getDetails(), results.get(0).getDetails());
+        assertEquals(ticket1.getIdCustomer(), results.get(0).getIdCustomer());
+        assertEquals(ticket1.getIdOrganizer(), results.get(0).getIdOrganizer());
+        assertEquals(ticket1.getEventId(), results.get(0).getEventId());
+
+        Mockito.verify(ticketRepository).findByIdCustomer(customerId);
     }
 
     @Test
