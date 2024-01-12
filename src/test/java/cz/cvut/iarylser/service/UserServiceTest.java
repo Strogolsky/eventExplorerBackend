@@ -79,6 +79,24 @@ class UserServiceTest {
 
     @Test
     void updateUser() {
+        Long userId = 1L;
+        User existingUser = new User();
+        existingUser.setId(userId);
+        existingUser.setNickname("OldNickname");
+
+        User updatedUser = new User();
+        updatedUser.setId(userId);
+        updatedUser.setNickname("NewNickname");
+
+        Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(updatedUser);
+
+        User result = userService.updateUser(userId, updatedUser);
+
+        assertNotNull(result);
+        assertEquals("NewNickname", result.getNickname());
+        Mockito.verify(userRepository).findById(userId);
+        Mockito.verify(userRepository).save(existingUser);
     }
 
     @Test
