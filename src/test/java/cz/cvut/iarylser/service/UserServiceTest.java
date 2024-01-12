@@ -138,6 +138,40 @@ class UserServiceTest {
 
     @Test
     void convertToDTOList() {
+        user1.setAge(25);
+        user1.setEmail("user1@example.com");
+        user1.setFirstName("FirstName1");
+        user1.setLastName("LastName1");
+        user1.setDescription("Description1");
+
+        user2.setAge(30);
+        user2.setEmail("user2@example.com");
+        user2.setFirstName("FirstName2");
+        user2.setLastName("LastName2");
+        user2.setDescription("Description2");
+
+        List<User> users = Arrays.asList(user1, user2);
+
+        List<UserDTO> dtos = userService.convertToDTOList(users);
+
+        assertNotNull(dtos);
+        assertEquals(2, dtos.size());
+
+        UserDTO dto1 = dtos.get(0);
+        assertEquals("user1", dto1.getNickname());
+        assertEquals(25, dto1.getAge());
+        assertEquals("user1@example.com", dto1.getEmail());
+        assertEquals("FirstName1", dto1.getFirstName());
+        assertEquals("LastName1", dto1.getLastName());
+        assertEquals("Description1", dto1.getDescription());
+
+        UserDTO dto2 = dtos.get(1);
+        assertEquals("user2", dto2.getNickname());
+        assertEquals(30, dto2.getAge());
+        assertEquals("user2@example.com", dto2.getEmail());
+        assertEquals("FirstName2", dto2.getFirstName());
+        assertEquals("LastName2", dto2.getLastName());
+        assertEquals("Description2", dto2.getDescription());
     }
 
     private void initUsers(){
