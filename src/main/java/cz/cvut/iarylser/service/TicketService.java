@@ -86,7 +86,11 @@ public class TicketService {
         ticket.setDetails(details);
     }
 
-    public void deleteTicket(Long ticketId){
+    public boolean deleteTicket(Long ticketId){
+        if(!ticketRepository.existsById(ticketId)){
+            return false;
+        }
         ticketRepository.deleteById(ticketId);
+        return true;
     }
 }

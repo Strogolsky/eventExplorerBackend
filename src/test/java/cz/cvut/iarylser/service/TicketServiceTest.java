@@ -199,5 +199,15 @@ class TicketServiceTest {
 
     @Test
     void deleteTicket() {
+        Long ticketId = 1L;
+
+        Mockito.when(ticketRepository.existsById(ticketId)).thenReturn(true);
+        Mockito.doNothing().when(ticketRepository).deleteById(ticketId);
+
+        boolean result = ticketService.deleteTicket(ticketId);
+
+        assertTrue(result);
+        Mockito.verify(ticketRepository).existsById(ticketId);
+        Mockito.verify(ticketRepository).deleteById(ticketId);
     }
 }
