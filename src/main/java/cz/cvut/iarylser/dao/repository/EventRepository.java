@@ -8,6 +8,6 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    public List<Event> findAllByCapacity(Integer capacity);
+//    public List<Event> findAllByCapacity(Integer capacity);
 
 }
