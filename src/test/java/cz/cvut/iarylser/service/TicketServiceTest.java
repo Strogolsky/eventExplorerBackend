@@ -1,6 +1,9 @@
 package cz.cvut.iarylser.service;
 
+import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.Ticket;
+import cz.cvut.iarylser.dao.entity.TicketStatus;
+import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.repository.TicketRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,6 +89,30 @@ class TicketServiceTest {
 
     @Test
     void createTicket() {
+        Event event = new Event();
+        event.setId(1L);
+        event.setIdOrganizer(2L);
+
+        User customer = new User();
+        customer.setId(3L);
+
+        Mockito.when(ticketRepository.save(Mockito.any(Ticket.class))).thenAnswer(i -> i.getArguments()[0]);
+        Mockito.when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        Ticket result = ticketService.createTicket(event, customer);
+
+        assertNotNull(result);
+        assertEquals(event.getId(), result.getEventId());
+        assertEquals(customer.getId(), result.getIdCustomer());
+        assertEquals(event.getIdOrganizer(), result.getIdOrganizer());
+        assertEquals(TicketStatus.ACTIVE, result.getTicketStatus());
+        assertEquals(customer, result.getUser());
+        assertEquals(event, result.getEvent());
+        assertTrue(customer.getTickets().contains(result));
+        assertTrue(event.getTickets().contains(result));
+
+        Mockito.verify(ticketRepository).save(result);
+        Mockito.verify(userRepository).save(customer);
     }
 
     @Test

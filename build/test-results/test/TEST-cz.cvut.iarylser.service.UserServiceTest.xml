@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.service.UserServiceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2024-01-12T15:05:03" hostname="MACHINE" time="1.224">
+<testsuite name="cz.cvut.iarylser.service.UserServiceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2024-01-12T15:54:43" hostname="MACHINE" time="1.191">
   <properties/>
-  <testcase name="convertToDTOList()" classname="cz.cvut.iarylser.service.UserServiceTest" time="1.133"/>
-  <testcase name="getAllUsers()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.033"/>
-  <testcase name="updateUser()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.024"/>
-  <testcase name="convertToDTO()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.003"/>
+  <testcase name="convertToDTOList()" classname="cz.cvut.iarylser.service.UserServiceTest" time="1.107"/>
+  <testcase name="getAllUsers()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.03"/>
+  <testcase name="updateUser()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.022"/>
+  <testcase name="convertToDTO()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
   <testcase name="createUser()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.005"/>
-  <testcase name="deleteUser()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.006"/>
-  <testcase name="getUserById()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.003"/>
+  <testcase name="deleteUser()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.005"/>
+  <testcase name="getUserById()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.004"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
