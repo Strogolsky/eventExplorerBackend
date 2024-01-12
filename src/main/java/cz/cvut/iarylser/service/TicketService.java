@@ -38,6 +38,7 @@ public class TicketService {
         ticket.setUser(customer);
         ticket.setEvent(event);
         customer.getTickets().add(ticket);
+        event.getTickets().add(ticket);
         userRepository.save(customer);
         return ticketRepository.save(ticket);
     }
