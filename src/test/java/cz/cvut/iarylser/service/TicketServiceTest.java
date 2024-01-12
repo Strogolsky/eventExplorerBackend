@@ -195,6 +195,19 @@ class TicketServiceTest {
 
     @Test
     void setDetailsFromEvent() {
+
+        Event event = new Event();
+        event.setTitle("Concert");
+        event.setDateAndTime(LocalDateTime.of(2024, 1, 15, 20, 0)); // Пример даты и времени
+        event.setLocation("Main Arena");
+
+        Ticket ticket = new Ticket();
+
+        String expectedDetails = "Event: Concert, Date: 2024-01-15T20:00, Location: Main Arena";
+
+        ticketService.setDetailsFromEvent(event, ticket);
+
+        assertEquals(expectedDetails, ticket.getDetails());
     }
 
     @Test
