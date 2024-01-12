@@ -168,6 +168,29 @@ class TicketServiceTest {
 
     @Test
     void updateTicket() {
+        Ticket updatedTicket = new Ticket();
+        updatedTicket.setId(1L);
+        updatedTicket.setEventId(2L);
+        updatedTicket.setIdCustomer(3L);
+        updatedTicket.setIdOrganizer(4L);
+        updatedTicket.setDetails("Updated Details");
+        updatedTicket.setTicketStatus(TicketStatus.INVALID);
+
+        Mockito.when(ticketRepository.findById(ticket1.getId())).thenReturn(Optional.of(ticket1));
+        Mockito.when(ticketRepository.save(Mockito.any(Ticket.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        Ticket result = ticketService.updateTicket(ticket1.getId(), updatedTicket);
+
+        assertNotNull(result);
+        assertEquals(updatedTicket.getId(), result.getId());
+        assertEquals(updatedTicket.getEventId(), result.getEventId());
+        assertEquals(updatedTicket.getIdCustomer(), result.getIdCustomer());
+        assertEquals(updatedTicket.getIdOrganizer(), result.getIdOrganizer());
+        assertEquals(updatedTicket.getDetails(), result.getDetails());
+//        assertEquals(updatedTicket.getTicketStatus(), result.getTicketStatus());
+
+        Mockito.verify(ticketRepository).findById(ticket1.getId());
+        Mockito.verify(ticketRepository).save(result);
     }
 
     @Test

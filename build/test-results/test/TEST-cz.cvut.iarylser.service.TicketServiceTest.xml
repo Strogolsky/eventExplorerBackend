@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.service.TicketServiceTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-01-12T16:57:17" hostname="MACHINE" time="1.195">
+<testsuite name="cz.cvut.iarylser.service.TicketServiceTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-01-12T17:05:19" hostname="MACHINE" time="0.759">
   <properties/>
-  <testcase name="convertTicketsToDTOs()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="1.103"/>
-  <testcase name="setDetailsFromEvent()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.003"/>
-  <testcase name="updateTicket()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.002"/>
-  <testcase name="getTicketByUser()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.045"/>
+  <testcase name="convertTicketsToDTOs()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.697"/>
+  <testcase name="setDetailsFromEvent()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.002"/>
+  <testcase name="updateTicket()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.032"/>
+  <testcase name="getTicketByUser()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.003"/>
   <testcase name="deleteTicket()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.002"/>
   <testcase name="convertToDto()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.002"/>
-  <testcase name="createTicket()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.014"/>
-  <testcase name="getTicketById()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.005"/>
+  <testcase name="createTicket()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.01"/>
+  <testcase name="getTicketById()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
