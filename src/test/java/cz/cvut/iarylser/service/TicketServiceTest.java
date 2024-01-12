@@ -131,12 +131,7 @@ class TicketServiceTest {
         TicketDTO ticketDTO = ticketService.convertToDto(ticket1);
 
         assertNotNull(ticketDTO);
-        assertEquals(ticket1.getId(), ticketDTO.getId());
-        assertEquals(ticket1.getEventId(), ticketDTO.getEventId());
-        assertEquals(ticket1.getIdCustomer(), ticketDTO.getIdCustomer());
-        assertEquals(ticket1.getIdOrganizer(),ticketDTO.getIdOrganizer());
-        assertEquals(ticket1.getDetails(),ticketDTO.getDetails());
-        assertEquals(ticket1.getTicketStatus(),ticketDTO.getTicketStatus());
+        assertTicketAndDtoEquality(ticket1,ticketDTO);
     }
 
     @Test
@@ -150,20 +145,10 @@ class TicketServiceTest {
         assertEquals(2, ticketDTOs.size());
 
         TicketDTO dto1 = ticketDTOs.get(0);
-        assertEquals(ticket1.getId(), dto1.getId());
-        assertEquals(ticket1.getEventId(), dto1.getEventId());
-        assertEquals(ticket1.getIdCustomer(), dto1.getIdCustomer());
-        assertEquals(ticket1.getIdOrganizer(), dto1.getIdOrganizer());
-        assertEquals(ticket1.getDetails(), dto1.getDetails());
-        assertEquals(ticket1.getTicketStatus(), dto1.getTicketStatus());
+        assertTicketAndDtoEquality(ticket1,dto1);
 
         TicketDTO dto2 = ticketDTOs.get(1);
-        assertEquals(ticket2.getId(), dto2.getId());
-        assertEquals(ticket2.getEventId(), dto2.getEventId());
-        assertEquals(ticket2.getIdCustomer(), dto2.getIdCustomer());
-        assertEquals(ticket2.getIdOrganizer(), dto2.getIdOrganizer());
-        assertEquals(ticket2.getDetails(), dto2.getDetails());
-        assertEquals(ticket2.getTicketStatus(), dto2.getTicketStatus());
+        assertTicketAndDtoEquality(ticket2,dto2);
     }
 
     @Test
@@ -182,12 +167,7 @@ class TicketServiceTest {
         Ticket result = ticketService.updateTicket(ticket1.getId(), updatedTicket);
 
         assertNotNull(result);
-        assertEquals(updatedTicket.getId(), result.getId());
-        assertEquals(updatedTicket.getEventId(), result.getEventId());
-        assertEquals(updatedTicket.getIdCustomer(), result.getIdCustomer());
-        assertEquals(updatedTicket.getIdOrganizer(), result.getIdOrganizer());
-        assertEquals(updatedTicket.getDetails(), result.getDetails());
-//        assertEquals(updatedTicket.getTicketStatus(), result.getTicketStatus());
+        assertTicketsEquality(updatedTicket,result);
 
         Mockito.verify(ticketRepository).findById(ticket1.getId());
         Mockito.verify(ticketRepository).save(result);
@@ -222,5 +202,21 @@ class TicketServiceTest {
         assertTrue(result);
         Mockito.verify(ticketRepository).existsById(ticketId);
         Mockito.verify(ticketRepository).deleteById(ticketId);
+    }
+    void assertTicketAndDtoEquality(Ticket ticket, TicketDTO ticketDTO) {
+        assertEquals(ticket.getId(), ticketDTO.getId());
+        assertEquals(ticket.getEventId(), ticketDTO.getEventId());
+        assertEquals(ticket.getIdCustomer(), ticketDTO.getIdCustomer());
+        assertEquals(ticket.getIdOrganizer(), ticketDTO.getIdOrganizer());
+        assertEquals(ticket.getDetails(), ticketDTO.getDetails());
+        assertEquals(ticket.getTicketStatus(), ticketDTO.getTicketStatus());
+    }
+    void assertTicketsEquality(Ticket expectedTicket, Ticket actualTicket) {
+        assertEquals(expectedTicket.getId(), actualTicket.getId());
+        assertEquals(expectedTicket.getEventId(), actualTicket.getEventId());
+        assertEquals(expectedTicket.getIdCustomer(), actualTicket.getIdCustomer());
+        assertEquals(expectedTicket.getIdOrganizer(), actualTicket.getIdOrganizer());
+        assertEquals(expectedTicket.getDetails(), actualTicket.getDetails());
+//        assertEquals(expectedTicket.getTicketStatus(), actualTicket.getTicketStatus());
     }
 }

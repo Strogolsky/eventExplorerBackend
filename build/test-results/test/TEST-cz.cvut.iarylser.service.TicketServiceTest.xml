@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.service.TicketServiceTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-01-12T17:22:43" hostname="MACHINE" time="0.675">
+<testsuite name="cz.cvut.iarylser.service.TicketServiceTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-01-12T17:33:15" hostname="MACHINE" time="0.745">
   <properties/>
-  <testcase name="convertTicketsToDTOs()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.62"/>
-  <testcase name="setDetailsFromEvent()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.006"/>
-  <testcase name="updateTicket()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.025"/>
-  <testcase name="getTicketByUser()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.002"/>
-  <testcase name="deleteTicket()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.003"/>
-  <testcase name="convertToDto()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.001"/>
-  <testcase name="createTicket()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.005"/>
+  <testcase name="convertTicketsToDTOs()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.68"/>
+  <testcase name="setDetailsFromEvent()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.008"/>
+  <testcase name="updateTicket()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.027"/>
+  <testcase name="getTicketByUser()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.004"/>
+  <testcase name="deleteTicket()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.006"/>
+  <testcase name="convertToDto()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.002"/>
+  <testcase name="createTicket()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.006"/>
   <testcase name="getTicketById()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
