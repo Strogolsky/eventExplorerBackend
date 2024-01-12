@@ -1,5 +1,6 @@
 package cz.cvut.iarylser.service;
 
+import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -116,6 +117,23 @@ class UserServiceTest {
 
     @Test
     void convertToDTO() {
+        User user = new User();
+        user.setNickname("TestUser");
+        user.setAge(30);
+        user.setEmail("test@example.com");
+        user.setFirstName("Test");
+        user.setLastName("User");
+        user.setDescription("Test Description");
+
+        UserDTO dto = userService.convertToDTO(user);
+
+        assertNotNull(dto);
+        assertEquals("TestUser", dto.getNickname());
+        assertEquals(30, dto.getAge());
+        assertEquals("test@example.com", dto.getEmail());
+        assertEquals("Test", dto.getFirstName());
+        assertEquals("User", dto.getLastName());
+        assertEquals("Test Description", dto.getDescription());
     }
 
     @Test
