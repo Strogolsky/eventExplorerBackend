@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="cz.cvut.iarylser.service.UserServiceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2024-01-12T11:24:05" hostname="MACHINE" time="0.757">
+  <properties/>
+  <testcase name="convertToDTOList()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.709"/>
+  <testcase name="getAllUsers()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.028"/>
+  <testcase name="updateUser()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
+  <testcase name="convertToDTO()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
+  <testcase name="createUser()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.001"/>
+  <testcase name="deleteUser()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
+  <testcase name="getUserById()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
