@@ -1,5 +1,6 @@
 package cz.cvut.iarylser.service;
 
+import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.Topics;
 import cz.cvut.iarylser.dao.entity.User;
@@ -84,6 +85,21 @@ class EventServiceTest {
         assertEquals(expected.isAgeRestriction(), actual.isAgeRestriction());
     }
 
+    private void assertEventAndDtoEqual(Event event, EventDTO eventDTO) {
+        assertEquals(event.getId(), eventDTO.getId());
+        assertEquals(event.getTitle(), eventDTO.getTitle());
+        assertEquals(event.getDateAndTime(), eventDTO.getDateAndTime());
+        assertEquals(event.getTicketPrice(), eventDTO.getTicketPrice());
+        assertEquals(event.getLocation(), eventDTO.getLocation());
+        assertEquals(event.getCapacity(), eventDTO.getCapacity());
+        assertEquals(event.getOrganizer(), eventDTO.getOrganizer());
+        assertEquals(event.getSoldTickets(), eventDTO.getSoldTickets());
+        assertEquals(event.getDescription(), eventDTO.getDescription());
+        assertEquals(event.getTopic(), eventDTO.getTopic());
+        assertEquals(event.isAgeRestriction(), eventDTO.isAgeRestriction());
+    }
+
+
     @Test
     void getAllEvents() {
         List<Event> events = Arrays.asList(event1, event2);
@@ -163,10 +179,23 @@ class EventServiceTest {
 
     @Test
     void convertToDto() {
+
+        EventDTO eventDTO = eventService.convertToDto(event1);
+
+        assertEventAndDtoEqual(event1, eventDTO);
     }
 
     @Test
     void convertToDTOList() {
+        List<Event> events = Arrays.asList(event1,event2);
+
+        List<EventDTO> eventDTOs = eventService.convertToDTOList(events);
+
+        assertNotNull(eventDTOs);
+        assertEquals(events.size(), eventDTOs.size());
+        for (int i = 0; i < events.size(); i++) {
+            assertEventAndDtoEqual(events.get(i), eventDTOs.get(i));
+        }
     }
 
     @Test
