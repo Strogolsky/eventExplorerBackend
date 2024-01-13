@@ -1,7 +1,10 @@
 package cz.cvut.iarylser.service;
 
 import cz.cvut.iarylser.dao.DTO.EventDTO;
+import cz.cvut.iarylser.dao.DTO.TicketDTO;
+import cz.cvut.iarylser.dao.DTO.TicketPurchaseRequest;
 import cz.cvut.iarylser.dao.entity.Event;
+import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.entity.Topics;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.repository.EventRepository;
@@ -162,6 +165,46 @@ class EventServiceTest {
 
     @Test
     void purchaseTicket() {
+        Long eventId = 1L;
+        String customerNickname = "customerNick";
+        int quantity = 2;
+        int age = 25;
+
+        Event event = new Event();
+        event.setId(eventId);
+        event.setCapacity(10);
+        event.setSoldTickets(3);
+        event.setAgeRestriction(false);
+        event.setDateAndTime(LocalDateTime.now());
+
+        User customer = new User();
+        customer.setNickname(customerNickname);
+        customer.setAge(age);
+
+        TicketPurchaseRequest request = new TicketPurchaseRequest();
+        request.setCustomer(customerNickname);
+        request.setQuantity(quantity);
+
+        Ticket ticket1 = new Ticket();
+        Ticket ticket2 = new Ticket();
+        List<Ticket> tickets = List.of(ticket1, ticket2);
+        List<TicketDTO> ticketDTOs = List.of(new TicketDTO(), new TicketDTO());
+
+        Mockito.when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
+        Mockito.when(userRepository.findByNickname(customerNickname)).thenReturn(customer);
+        Mockito.when(ticketService.createTicket(Mockito.any(), Mockito.any())).thenReturn(ticket1, ticket2);
+        Mockito.when(ticketService.convertTicketsToDTOs(tickets)).thenReturn(ticketDTOs);
+
+        List<TicketDTO> result = eventService.purchaseTicket(eventId,request);
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        Mockito.verify(eventRepository).findById(eventId);
+        Mockito.verify(userRepository).findByNickname(customerNickname);
+        Mockito.verify(ticketService, Mockito.times(quantity)).createTicket(Mockito.any(Event.class), Mockito.any(User.class));
+        Mockito.verify(eventRepository).save(event);
+        Mockito.verify(userRepository).save(customer);
+        assertEquals(5, event.getSoldTickets());
     }
 
     @Test
