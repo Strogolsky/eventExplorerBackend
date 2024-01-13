@@ -197,6 +197,7 @@ class EventServiceTest {
 
         List<TicketDTO> result = eventService.purchaseTicket(eventId,request);
 
+
         assertNotNull(result);
         assertEquals(2, result.size());
         Mockito.verify(eventRepository).findById(eventId);
@@ -205,6 +206,7 @@ class EventServiceTest {
         Mockito.verify(eventRepository).save(event);
         Mockito.verify(userRepository).save(customer);
         assertEquals(5, event.getSoldTickets());
+        assertEquals(5, event.getTickets().size()); // todo fix
     }
 
     @Test
