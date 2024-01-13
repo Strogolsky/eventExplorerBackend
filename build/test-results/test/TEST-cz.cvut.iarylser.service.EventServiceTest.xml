@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.service.EventServiceTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2024-01-13T10:14:28" hostname="MACHINE" time="1.239">
+<testsuite name="cz.cvut.iarylser.service.EventServiceTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2024-01-13T10:20:06" hostname="MACHINE" time="1.301">
   <properties/>
-  <testcase name="convertToDTOList()" classname="cz.cvut.iarylser.service.EventServiceTest" time="1.124"/>
-  <testcase name="deleteEvent()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.004"/>
-  <testcase name="getAllEvents()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.036"/>
-  <testcase name="updateEvent()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.017"/>
+  <testcase name="convertToDTOList()" classname="cz.cvut.iarylser.service.EventServiceTest" time="1.2"/>
+  <testcase name="deleteEvent()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.003"/>
+  <testcase name="getAllEvents()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.034"/>
+  <testcase name="updateEvent()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.011"/>
   <testcase name="createEvent()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.008"/>
-  <testcase name="updateForOrgChange()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.003"/>
-  <testcase name="likeEvent()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.003"/>
-  <testcase name="unlikeEvent()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.002"/>
-  <testcase name="getEventById()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.006"/>
+  <testcase name="updateForOrgChange()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.004"/>
+  <testcase name="likeEvent()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.002"/>
+  <testcase name="unlikeEvent()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.003"/>
+  <testcase name="getEventById()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.004"/>
   <testcase name="convertToDto()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.002"/>
   <testcase name="getRecommend()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.002"/>
-  <testcase name="purchaseTicket()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.004"/>
+  <testcase name="purchaseTicket()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -205,6 +205,19 @@ class EventServiceTest {
 
     @Test
     void updateForOrgChange() {
+        Event event = new Event();
+        event.setId(1L);
+        event.setOrganizer("Original Organizer");
+
+        User newOrganizer = new User();
+        newOrganizer.setNickname("New Organizer");
+
+        Mockito.when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        eventService.updateForOrgChange(event, newOrganizer);
+
+        assertEquals(newOrganizer.getNickname(), event.getOrganizer());
+        Mockito.verify(eventRepository).save(event);
     }
 
     @Test
