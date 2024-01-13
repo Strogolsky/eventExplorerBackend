@@ -45,7 +45,12 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "event_likes", // имя таблицы связей
+            joinColumns = @JoinColumn(name = "id_event"), // столбец в таблице связей, указывающий на Event
+            inverseJoinColumns = @JoinColumn(name = "id_user") // столбец в таблице связей, указывающий на User
+    )
     private List<User> likeBy = new ArrayList<>();
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Ticket> tickets = new ArrayList<>();

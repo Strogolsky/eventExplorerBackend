@@ -14,9 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -143,7 +141,7 @@ class EventServiceTest {
         newEvent.setDescription(event1.getDescription());
         newEvent.setTopic(event1.getTopic());
         newEvent.setAgeRestriction(event1.isAgeRestriction());
-        newEvent.setOrganizer("OrganizerName"); // Example organizer name
+        newEvent.setOrganizer("OrganizerName");
 
         User organizer = new User();
         organizer.setId(10L);
@@ -155,6 +153,7 @@ class EventServiceTest {
         Event createdEvent = eventService.createEvent(newEvent);
 
         assertEventsEqual(newEvent, createdEvent);
+        assertTrue(organizer.getCreatedEvents().contains(createdEvent));
 
         Mockito.verify(userRepository).findByNickname("OrganizerName");
         Mockito.verify(userRepository).save(organizer);
@@ -222,6 +221,31 @@ class EventServiceTest {
 
     @Test
     void deleteEvent() {
+        Long eventId = 1L;
+        Long organizerId = 2L;
+
+        User organizer = new User();
+        organizer.setId(organizerId);
+
+        Event eventToDelete = new Event();
+        eventToDelete.setId(eventId);
+        eventToDelete.setIdOrganizer(organizerId);
+        eventToDelete.setUser(organizer);
+
+        organizer.getCreatedEvents().add(eventToDelete);
+
+        Mockito.when(eventRepository.findById(eventId)).thenReturn(Optional.of(eventToDelete));
+        Mockito.when(userRepository.findById(organizerId)).thenReturn(Optional.of(organizer));
+        Mockito.doNothing().when(eventRepository).deleteById(eventId);
+
+        boolean result = eventService.deleteEvent(eventId);
+
+        assertTrue(result);
+        assertFalse(organizer.getCreatedEvents().contains(eventToDelete));
+        Mockito.verify(eventRepository).deleteById(eventId);
+        Mockito.verify(eventRepository).findById(eventId);
+        Mockito.verify(userRepository).findById(organizerId);
+        Mockito.verify(userRepository).save(organizer);
     }
 
     @Test
@@ -246,11 +270,54 @@ class EventServiceTest {
     }
 
     @Test
-    void likeEvent() {
+    void likeEvent() { // todo fix
+        User user = new User();
+        user.setId(1L);
+        user.setLikeByMe(new HashSet<>());
+
+        Event event = new Event();
+        event.setId(2L);
+        event.setLikeBy(new ArrayList<>());
+
+        Mockito.when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        Mockito.when(eventRepository.findById(event.getId())).thenReturn(Optional.of(event));
+        Mockito.when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+        Mockito.when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        boolean result = eventService.likeEvent(event.getId(), user.getId());
+
+        assertTrue(result);
+        assertTrue(user.getLikeByMe().stream().anyMatch(e -> e.getId().equals(event.getId())));
+        assertTrue(event.getLikeBy().stream().anyMatch(u -> u.getId().equals(user.getId())));
+        Mockito.verify(userRepository).save(user);
+        Mockito.verify(eventRepository).save(event);
     }
 
     @Test
-    void unlikeEvent() {
+    void unlikeEvent() { // todo fix
+        User user = new User();
+        user.setId(1L);
+        user.setLikeByMe(new HashSet<>());
+
+        Event event = new Event();
+        event.setId(2L);
+        event.setLikeBy(new ArrayList<>());
+
+        user.getLikeByMe().add(event);
+        event.getLikeBy().add(user);
+
+        Mockito.when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        Mockito.when(eventRepository.findById(event.getId())).thenReturn(Optional.of(event));
+        Mockito.when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+        Mockito.when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        boolean result = eventService.unlikeEvent(event.getId(), user.getId());
+
+        assertTrue(result);
+        assertTrue(user.getLikeByMe().isEmpty());
+        assertTrue(event.getLikeBy().isEmpty());
+        Mockito.verify(userRepository).save(user);
+        Mockito.verify(eventRepository).save(event);
     }
 
     @Test

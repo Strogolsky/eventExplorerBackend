@@ -97,22 +97,24 @@ public class EventService {
 
         eventRepository.save(event);
     }
-    public void deleteEvent(Long eventId) {
+    public boolean deleteEvent(Long eventId) {
         Event event = eventRepository.findById(eventId).orElse(null);
         if (event == null) {
             log.warn("Event with id {} not found for deletion", eventId);
-            return;
+            return false;
         }
 
-        String organizerNickname = event.getOrganizer();
-        User author = userRepository.findByNickname(organizerNickname);
+        Long idOrganizer = event.getIdOrganizer();
+        User author = userRepository.findById(idOrganizer).orElse(null);
         if (author != null) {
             author.getCreatedEvents().remove(event);
             userRepository.save(author);
         } else {
-            log.warn("Author with nickname {} not found when deleting event {}", organizerNickname, eventId);
+            log.warn("Author with nickname {} not found when deleting event {}", event.getOrganizer(), eventId);
+            return false;
         }
         eventRepository.deleteById(eventId);
+        return true;
     }
 
     public EventDTO convertToDto(Event event) {
@@ -146,29 +148,31 @@ public class EventService {
             ticketService.updateTicket(ticket.getId(),updatedTicket);
         }
     }
-    public void likeEvent(Long eventId, Long userId){ // todo change on boolean
+    public boolean likeEvent(Long eventId, Long userId){
         User user = userRepository.findById(userId).orElse(null);
         Event event = eventRepository.findById(eventId).orElse(null);
         if (user == null || event == null) {
             log.warn("User or Event not found for like operation");
-            return;
+            return false;
         }
-        user.getLikeByMe().add(event);
+//        user.getLikeByMe().add(event);
         event.getLikeBy().add(user);
-        userRepository.save(user);
+//        userRepository.save(user);
         eventRepository.save(event);
+        return true;
     }
-    public void unlikeEvent(Long eventId, Long userId){
+    public boolean unlikeEvent(Long eventId, Long userId){
         User user = userRepository.findById(userId).orElse(null);
         Event event = eventRepository.findById(eventId).orElse(null);
         if (user == null || event == null) {
             log.warn("User or Event not found for unlike operation");
-            return;
+            return false;
         }
-        user.getLikeByMe().remove(event);
+//        user.getLikeByMe().remove(event);
         event.getLikeBy().remove(user);
-        userRepository.save(user);
+//        userRepository.save(user);
         eventRepository.save(event);
+        return true;
     }
     public List<Event> getRecommend(Long userId){
         List<Event> result = new ArrayList<>();
