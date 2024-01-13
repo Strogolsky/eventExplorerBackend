@@ -167,6 +167,40 @@ class EventServiceTest {
 
     @Test
     void updateEvent() {
+        Long eventId = 1L;
+        Event existingEvent = new Event();
+        existingEvent.setId(eventId);
+        existingEvent.setTitle("Original Title");
+        existingEvent.setDateAndTime(LocalDateTime.now());
+        existingEvent.setDescription("Original Description");
+        existingEvent.setLocation("Original Location");
+        existingEvent.setTicketPrice(100);
+        existingEvent.setCapacity(500);
+        existingEvent.setSoldTickets(200);
+        existingEvent.setAgeRestriction(false);
+
+        Event updatedEventData = new Event();
+        updatedEventData.setId(eventId);
+        updatedEventData.setTitle("Updated Title");
+        updatedEventData.setDateAndTime(LocalDateTime.now().plusDays(1));
+        updatedEventData.setDescription("Updated Description");
+        updatedEventData.setLocation("Updated Location");
+        updatedEventData.setTicketPrice(150);
+        updatedEventData.setCapacity(600);
+        updatedEventData.setSoldTickets(200);
+        updatedEventData.setAgeRestriction(true);
+
+        Mockito.when(eventRepository.findById(eventId)).thenReturn(Optional.of(existingEvent));
+        Mockito.when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        Event updatedEvent = eventService.updateEvent(eventId, updatedEventData);
+
+        assertNotNull(updatedEvent);
+        assertEventsEqual(existingEvent,updatedEvent);
+
+        Mockito.verify(eventRepository).findById(eventId);
+        Mockito.verify(eventRepository).save(Mockito.any(Event.class));
+
     }
 
     @Test
