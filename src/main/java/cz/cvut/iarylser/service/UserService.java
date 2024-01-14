@@ -28,6 +28,9 @@ public class UserService {
         return userRepository.findById(userId).orElse(null);
     }
     public User createUser(User newUser){
+        if(userRepository.existsById(newUser.getId()) || userRepository.existsByNickname(newUser.getNickname())){
+            throw new IllegalArgumentException();
+        }
         return userRepository.save(newUser);
     }
 

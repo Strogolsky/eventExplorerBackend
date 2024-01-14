@@ -66,4 +66,8 @@ public class Event {
         }
         return false;
     }
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
 }

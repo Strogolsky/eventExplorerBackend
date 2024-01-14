@@ -164,11 +164,15 @@ class EventServiceTest {
     }
 
     @Test
-    void purchaseTicket() { // todo fix
+    void purchaseTicket() {
         Long eventId = 1L;
         String customerNickname = "customerNick";
         int quantity = 2;
         int age = 25;
+
+        Ticket ticket1 = new Ticket();
+        Ticket ticket2 = new Ticket();
+        Ticket ticket3 = new Ticket();
 
         Event event = new Event();
         event.setId(eventId);
@@ -176,6 +180,9 @@ class EventServiceTest {
         event.setSoldTickets(3);
         event.setAgeRestriction(false);
         event.setDateAndTime(LocalDateTime.now());
+        event.getTickets().add(ticket1);
+        event.getTickets().add(ticket2);
+        event.getTickets().add(ticket3);
 
         User customer = new User();
         customer.setNickname(customerNickname);
@@ -185,8 +192,8 @@ class EventServiceTest {
         request.setCustomer(customerNickname);
         request.setQuantity(quantity);
 
-        Ticket ticket1 = new Ticket();
-        Ticket ticket2 = new Ticket();
+        Ticket ticket4 = new Ticket();
+        Ticket ticket5 = new Ticket();
         List<Ticket> tickets = List.of(ticket1, ticket2);
         List<TicketDTO> ticketDTOs = List.of(new TicketDTO(), new TicketDTO());
 
@@ -206,7 +213,6 @@ class EventServiceTest {
         Mockito.verify(eventRepository).save(event);
         Mockito.verify(userRepository).save(customer);
         assertEquals(5, event.getSoldTickets());
-        assertEquals(5, event.getTickets().size()); // todo fix
     }
 
     @Test

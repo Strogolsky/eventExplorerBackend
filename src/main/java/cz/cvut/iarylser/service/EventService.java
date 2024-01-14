@@ -155,9 +155,9 @@ public class EventService {
             log.warn("User or Event not found for like operation");
             return false;
         }
-//        user.getLikeByMe().add(event);
+        user.getLikeByMe().add(event);
         event.getLikeBy().add(user);
-//        userRepository.save(user);
+        userRepository.save(user);
         eventRepository.save(event);
         return true;
     }
@@ -168,9 +168,9 @@ public class EventService {
             log.warn("User or Event not found for unlike operation");
             return false;
         }
-//        user.getLikeByMe().remove(event);
+        user.getLikeByMe().remove(event);
         event.getLikeBy().remove(user);
-//        userRepository.save(user);
+        userRepository.save(user);
         eventRepository.save(event);
         return true;
     }

@@ -83,7 +83,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser() throws Exception{
+    void createUserSuccesful() throws Exception{
         User user = new User();
         user.setNickname("testUser");
         user.setAge(25);
@@ -115,6 +115,19 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.firstName").value(userDTO.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(userDTO.getLastName()))
                 .andExpect(jsonPath("$.description").value(userDTO.getDescription()));
+    }
+
+    @Test
+    public void createUserFail() throws Exception {
+        User user = new User();
+        when(userService.createUser(Mockito.any(User.class))).thenThrow(new IllegalArgumentException());
+
+        String userJson = new ObjectMapper().writeValueAsString(user);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userJson))
+                .andExpect(status().isConflict());
     }
 
     @Test
