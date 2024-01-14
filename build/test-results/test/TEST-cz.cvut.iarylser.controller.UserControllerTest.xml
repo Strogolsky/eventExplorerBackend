@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.controller.UserControllerTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2024-01-14T13:19:06" hostname="MACHINE" time="0.321">
+<testsuite name="cz.cvut.iarylser.controller.UserControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-14T15:07:41" hostname="MACHINE" time="0.295">
   <properties/>
-  <testcase name="getAllUsers()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.26"/>
-  <testcase name="updateUser()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.004"/>
-  <testcase name="createUser()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.006"/>
-  <testcase name="deleteUser()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.006"/>
-  <testcase name="getUserById()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.027"/>
-  <system-out><![CDATA[14:19:03.367 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.UserControllerTest]: UserControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-14:19:03.606 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.UserControllerTest
+  <testcase name="createUser()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.295"/>
+  <system-out><![CDATA[16:07:38.765 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.UserControllerTest]: UserControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:07:38.948 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.UserControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -17,12 +13,12 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.5)
 
-2024-01-14T14:19:04.322+01:00  INFO 9028 --- [    Test worker] c.c.i.controller.UserControllerTest      : Starting UserControllerTest using Java 17.0.9 with PID 9028 (started by 1 in D:\Project\eventexplorer)
-2024-01-14T14:19:04.328+01:00  INFO 9028 --- [    Test worker] c.c.i.controller.UserControllerTest      : No active profile set, falling back to 1 default profile: "default"
-2024-01-14T14:19:06.418+01:00  INFO 9028 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-01-14T14:19:06.418+01:00  INFO 9028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-01-14T14:19:06.422+01:00  INFO 9028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
-2024-01-14T14:19:06.453+01:00  INFO 9028 --- [    Test worker] c.c.i.controller.UserControllerTest      : Started UserControllerTest in 2.699 seconds (process running for 4.686)
+2024-01-14T16:07:39.442+01:00  INFO 30092 --- [    Test worker] c.c.i.controller.UserControllerTest      : Starting UserControllerTest using Java 17.0.9 with PID 30092 (started by 1 in D:\Project\eventexplorer)
+2024-01-14T16:07:39.444+01:00  INFO 30092 --- [    Test worker] c.c.i.controller.UserControllerTest      : No active profile set, falling back to 1 default profile: "default"
+2024-01-14T16:07:41.198+01:00  INFO 30092 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-01-14T16:07:41.198+01:00  INFO 30092 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-01-14T16:07:41.202+01:00  INFO 30092 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2024-01-14T16:07:41.237+01:00  INFO 30092 --- [    Test worker] c.c.i.controller.UserControllerTest      : Started UserControllerTest in 2.175 seconds (process running for 3.673)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
