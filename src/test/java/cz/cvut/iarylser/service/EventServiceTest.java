@@ -164,7 +164,7 @@ class EventServiceTest {
     }
 
     @Test
-    void purchaseTicket() {
+    void purchaseTicket() { // todo fix
         Long eventId = 1L;
         String customerNickname = "customerNick";
         int quantity = 2;
