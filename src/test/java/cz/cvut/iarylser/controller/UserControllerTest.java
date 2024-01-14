@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 import java.util.List;
@@ -117,7 +118,42 @@ class UserControllerTest {
     }
 
     @Test
-    void updateUser() {
+    void updateUser() throws Exception {
+        Long userId = 1L;
+        User updatedUser = new User();
+        updatedUser.setId(userId);
+        updatedUser.setNickname("updatedTest");
+        updatedUser.setEmail("updated@example.com");
+        updatedUser.setFirstName("UpdatedFirstName");
+        updatedUser.setLastName("UpdatedLastName");
+        updatedUser.setDescription("Updated description");
+        updatedUser.setAge(30);
+
+        UserDTO updatedUserDTO = new UserDTO();
+        updatedUserDTO.setNickname(updatedUser.getNickname());
+        updatedUserDTO.setEmail(updatedUser.getEmail());
+        updatedUserDTO.setFirstName(updatedUser.getFirstName());
+        updatedUserDTO.setLastName(updatedUser.getLastName());
+        updatedUserDTO.setDescription(updatedUser.getDescription());
+        updatedUserDTO.setAge(updatedUser.getAge());
+
+        Mockito.when(userService.updateUser(userId, updatedUser)).thenReturn(updatedUser);
+        Mockito.when(userService.convertToDTO(updatedUser)).thenReturn(updatedUserDTO);
+
+        String updatedUserJson = new ObjectMapper().writeValueAsString(updatedUser);
+
+        mockMvc.perform(put("/user/" + userId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(updatedUserJson)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nickname").value(updatedUserDTO.getNickname()))
+                .andExpect(jsonPath("$.email").value(updatedUserDTO.getEmail()))
+                .andExpect(jsonPath("$.firstName").value(updatedUserDTO.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(updatedUserDTO.getLastName()))
+                .andExpect(jsonPath("$.description").value(updatedUserDTO.getDescription()))
+                .andExpect(jsonPath("$.age").value(updatedUserDTO.getAge()));
+
     }
 
     @Test
