@@ -59,8 +59,23 @@ class UserControllerTest {
     }
 
     @Test
-    void getUserById() {
+    void getUserById() throws Exception {
+        Long userId = 1L;
+        String userNickname = "user1";
 
+        User user = new User();
+        user.setId(userId);
+        user.setNickname(userNickname);
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setNickname(userNickname);
+
+        when(userService.getUserById(userId)).thenReturn(user);
+        when(userService.convertToDTO(user)).thenReturn(userDTO);
+
+        mockMvc.perform(get("/user/" + userId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nickname").value(user.getNickname()));
     }
 
     @Test
