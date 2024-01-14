@@ -102,12 +102,7 @@ class UserControllerTest {
         when(userService.createUser(Mockito.any(User.class))).thenReturn(user);
         when(userService.convertToDTO(Mockito.any(User.class))).thenReturn(userDTO);
 
-
-        user.setNickname("a;sdasd");
-
         String userJson = new ObjectMapper().writeValueAsString(user);
-
-
 
         mockMvc.perform(post("/user")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -126,6 +121,11 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteUser() {
+    void deleteUser() throws Exception {
+        Long userId = 1L;
+        Mockito.when(userService.deleteUser(userId)).thenReturn(true);
+
+        mockMvc.perform(delete("/user/" + userId))
+                .andExpect(status().isNoContent());
     }
 }
