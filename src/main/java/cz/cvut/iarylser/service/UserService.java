@@ -76,7 +76,6 @@ public class UserService {
             throw new AuthenticationException("Пользователь не найден");
         }
 
-        // Проверка пароля
         if (!user.getPassword().equals(password)) {
             throw new AuthenticationException("Неверный пароль");
         }

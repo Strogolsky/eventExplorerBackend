@@ -321,7 +321,7 @@ class EventServiceTest {
     }
 
     @Test
-    void likeEvent() { // todo fix
+    void likeEvent() {
         User user = new User();
         user.setId(1L);
         user.setLikeByMe(new HashSet<>());
@@ -345,7 +345,7 @@ class EventServiceTest {
     }
 
     @Test
-    void unlikeEvent() { // todo fix
+    void unlikeEvent() {
         User user = new User();
         user.setId(1L);
         user.setLikeByMe(new HashSet<>());

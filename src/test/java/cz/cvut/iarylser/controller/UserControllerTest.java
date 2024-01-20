@@ -1,6 +1,7 @@
 package cz.cvut.iarylser.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cz.cvut.iarylser.dao.DTO.LoginRequest;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.service.UserService;
@@ -20,6 +21,8 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -100,8 +103,8 @@ class UserControllerTest {
         userDTO.setLastName(user.getLastName());
         userDTO.setDescription(user.getDescription());
 
-        when(userService.createUser(Mockito.any(User.class))).thenReturn(user);
-        when(userService.convertToDTO(Mockito.any(User.class))).thenReturn(userDTO);
+        when(userService.createUser(any(User.class))).thenReturn(user);
+        when(userService.convertToDTO(any(User.class))).thenReturn(userDTO);
 
         String userJson = new ObjectMapper().writeValueAsString(user);
 
@@ -120,7 +123,7 @@ class UserControllerTest {
     @Test
     public void createUserFail() throws Exception {
         User user = new User();
-        when(userService.createUser(Mockito.any(User.class))).thenThrow(new IllegalArgumentException());
+        when(userService.createUser(any(User.class))).thenThrow(new IllegalArgumentException());
 
         String userJson = new ObjectMapper().writeValueAsString(user);
 
@@ -176,5 +179,29 @@ class UserControllerTest {
 
         mockMvc.perform(delete("/user/" + userId))
                 .andExpect(status().isNoContent());
+    }
+
+
+    @Test
+    public void loginUserSucceeds() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        LoginRequest loginRequest = new LoginRequest("testUser", "testPassword");
+        UserDTO userDTO = new UserDTO(1L, "testUser", 25, "test@example.com", "FirstName", "LastName", "Description");
+
+        when(userService.authenticateUser(anyString(), anyString())).thenReturn(new User());
+        when(userService.convertToDTO(any(User.class))).thenReturn(userDTO);
+
+
+        mockMvc.perform(post("/user/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(userDTO.getId()))
+                .andExpect(jsonPath("$.nickname").value(userDTO.getNickname()))
+                .andExpect(jsonPath("$.age").value(userDTO.getAge()))
+                .andExpect(jsonPath("$.email").value(userDTO.getEmail()))
+                .andExpect(jsonPath("$.firstName").value(userDTO.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(userDTO.getLastName()))
+                .andExpect(jsonPath("$.description").value(userDTO.getDescription()));
     }
 }
