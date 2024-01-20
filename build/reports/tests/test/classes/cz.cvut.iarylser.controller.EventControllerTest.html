@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">1</div>
+<div class="counter">9</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.299s</div>
+<div class="counter">0.401s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,7 +79,47 @@
 </thead>
 <tr>
 <td class="success">createEventSucceeded()</td>
-<td class="success">0.299s</td>
+<td class="success">0.008s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">deleteEventSucceeded()</td>
+<td class="success">0.006s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getAllEventsSucceeded()</td>
+<td class="success">0.010s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getEventByIdSucceeded()</td>
+<td class="success">0.009s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getRecommendedEventsSucceeded()</td>
+<td class="success">0.030s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">likeEventSucceeded()</td>
+<td class="success">0.125s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">purchaseTicketSucceeded()</td>
+<td class="success">0.019s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">unlikeEventSucceeded()</td>
+<td class="success">0.006s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">updateEventSucceeded()</td>
+<td class="success">0.188s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -87,8 +127,8 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>17:07:43.266 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.EventControllerTest]: EventControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-17:07:43.487 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.EventControllerTest
+<pre>18:28:48.935 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.EventControllerTest]: EventControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:28:49.139 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.EventControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -98,12 +138,12 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.5)
 
-2024-01-20T17:07:43.949+01:00  INFO 4476 --- [    Test worker] c.c.i.controller.EventControllerTest     : Starting EventControllerTest using Java 17.0.9 with PID 4476 (started by 1 in D:\Project\eventexplorer)
-2024-01-20T17:07:43.950+01:00  INFO 4476 --- [    Test worker] c.c.i.controller.EventControllerTest     : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2024-01-20T17:07:45.523+01:00  INFO 4476 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-01-20T17:07:45.523+01:00  INFO 4476 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-01-20T17:07:45.526+01:00  INFO 4476 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2024-01-20T17:07:45.559+01:00  INFO 4476 --- [    Test worker] c.c.i.controller.EventControllerTest     : Started EventControllerTest in 1.988 seconds (process running for 3.478)
+2024-01-20T18:28:49.674+01:00  INFO 17564 --- [    Test worker] c.c.i.controller.EventControllerTest     : Starting EventControllerTest using Java 17.0.9 with PID 17564 (started by 1 in D:\Project\eventexplorer)
+2024-01-20T18:28:49.677+01:00  INFO 17564 --- [    Test worker] c.c.i.controller.EventControllerTest     : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-01-20T18:28:51.521+01:00  INFO 17564 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-01-20T18:28:51.521+01:00  INFO 17564 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-01-20T18:28:51.527+01:00  INFO 17564 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2024-01-20T18:28:51.573+01:00  INFO 17564 --- [    Test worker] c.c.i.controller.EventControllerTest     : Started EventControllerTest in 2.325 seconds (process running for 3.934)
 </pre>
 </span>
 </div>
@@ -115,7 +155,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.2</a> at 20 янв. 2024 г., 17:07:45</p>
+<a href="http://www.gradle.org">Gradle 8.2</a> at 20 янв. 2024 г., 18:28:52</p>
 </div>
 </div>
 </body>

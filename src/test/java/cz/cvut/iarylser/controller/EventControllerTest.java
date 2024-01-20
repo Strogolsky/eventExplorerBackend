@@ -2,7 +2,10 @@ package cz.cvut.iarylser.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.cvut.iarylser.dao.DTO.EventDTO;
+import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
+import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Event;
+import cz.cvut.iarylser.dao.entity.TicketStatus;
 import cz.cvut.iarylser.dao.entity.Topics;
 import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
@@ -27,11 +30,9 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -125,7 +126,7 @@ class EventControllerTest {
     }
 
     @Test
-    void createEventSucceeded() throws Exception {
+    void createEventSucceeded() throws Exception  {
         Event newEvent = new Event();
         EventDTO eventDTO = new EventDTO(
                 1L,
@@ -163,26 +164,107 @@ class EventControllerTest {
     }
 
     @Test
-    void updateEvent() {
+    void updateEventSucceeded() throws Exception {
+        Long eventId = 1L;
+        Event updatedEvent = new Event();
+        EventDTO eventDTO = new EventDTO(
+                eventId,
+                "Updated Event Title",
+                LocalDateTime.of(2023, 1, 20, 15, 30),
+                150,
+                20,
+                "Updated Event Location",
+                300,
+                "Updated Event Organizer",
+                75,
+                "Updated Event Description",
+                Topics.CULTURE,
+                false
+        );
+
+        when(eventService.updateEvent(eq(eventId), any(Event.class))).thenReturn(updatedEvent);
+        when(eventService.convertToDto(any(Event.class))).thenReturn(eventDTO);
+
+        mockMvc.perform(put("/event/{eventId}", eventId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedEvent)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(eventDTO.getId()))
+                .andExpect(jsonPath("$.title").value(eventDTO.getTitle()))
+                .andExpect(jsonPath("$.likes").value(eventDTO.getLikes()))
+                .andExpect(jsonPath("$.ticketPrice").value(eventDTO.getTicketPrice()))
+                .andExpect(jsonPath("$.location").value(eventDTO.getLocation()))
+                .andExpect(jsonPath("$.capacity").value(eventDTO.getCapacity()))
+                .andExpect(jsonPath("$.organizer").value(eventDTO.getOrganizer()))
+                .andExpect(jsonPath("$.soldTickets").value(eventDTO.getSoldTickets()))
+                .andExpect(jsonPath("$.description").value(eventDTO.getDescription()))
+                .andExpect(jsonPath("$.topic").value(eventDTO.getTopic().toString()))
+                .andExpect(jsonPath("$.ageRestriction").value(eventDTO.isAgeRestriction()));
+    }
+
+
+    @Test
+    void purchaseTicketSucceeded() throws Exception {
+        Long eventId = 1L;
+        PurchaseRequest request = new PurchaseRequest();
+        List<TicketDTO> tickets = Arrays.asList(
+                new TicketDTO(1L, eventId, 1L, 2L, "Details 1", TicketStatus.ACTIVE),
+                new TicketDTO(2L, eventId, 3L, 4L, "Details 2", TicketStatus.ACTIVE)
+        );
+
+        when(eventService.purchaseTicket(eq(eventId), any(PurchaseRequest.class))).thenReturn(tickets);
+
+        mockMvc.perform(post("/event/{eventId}/purchase", eventId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(tickets.size())))
+                .andExpect(jsonPath("$[0].id").value(tickets.get(0).getId()))
+                .andExpect(jsonPath("$[0].eventId").value(tickets.get(0).getEventId()))
+                .andExpect(jsonPath("$[0].idCustomer").value(tickets.get(0).getIdCustomer()))
+                .andExpect(jsonPath("$[0].idOrganizer").value(tickets.get(0).getIdOrganizer()))
+                .andExpect(jsonPath("$[0].details").value(tickets.get(0).getDetails()))
+                .andExpect(jsonPath("$[0].ticketStatus").value(tickets.get(0).getTicketStatus().toString()))
+
+                .andExpect(jsonPath("$[1].id").value(tickets.get(1).getId()))
+                .andExpect(jsonPath("$[1].eventId").value(tickets.get(1).getEventId()))
+                .andExpect(jsonPath("$[1].idCustomer").value(tickets.get(1).getIdCustomer()))
+                .andExpect(jsonPath("$[1].idOrganizer").value(tickets.get(1).getIdOrganizer()))
+                .andExpect(jsonPath("$[1].details").value(tickets.get(1).getDetails()))
+                .andExpect(jsonPath("$[1].ticketStatus").value(tickets.get(1).getTicketStatus().toString()));
+    }
+
+
+    @Test
+    void deleteEventSucceeded() throws Exception {
+        Long eventId = 1L;
+
+        mockMvc.perform(delete("/event/{eventId}", eventId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 
     @Test
-    void purchaseTicket() {
+    void likeEventSucceeded() throws Exception {
+        Long eventId = 1L;
+        Long userId = 2L;
+
+        mockMvc.perform(put("/event/{eventId}/like/{userId}", eventId, userId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 
     @Test
-    void deleteEvent() {
+    void unlikeEventSucceeded() throws Exception {
+        Long eventId = 1L;
+        Long userId = 2L;
+
+        mockMvc.perform(put("/event/{eventId}/unlike/{userId}", eventId, userId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 
     @Test
-    void likeEvent() {
-    }
-
-    @Test
-    void unlikeEvent() {
-    }
-
-    @Test
-    void getRecommendedEvents() {
+    void getRecommendedEventsSucceeded() {
     }
 }
