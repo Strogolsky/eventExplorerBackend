@@ -1,2 +1,7 @@
-o19:16:04.809 [Test worker] WARN cz.cvut.iarylser.service.UserService -- User with id 1 not found for deletion
-m19:16:04.833 [Test worker] WARN cz.cvut.iarylser.service.UserService -- User with id 1 not found for update
+u20:03:18.088 [Test worker] WARN cz.cvut.iarylser.service.EventService -- User or Event not found for like operation
+o20:03:18.114 [Test worker] WARN cz.cvut.iarylser.service.EventService -- Event with id 1 not found for update
+	w20:03:18.148 [Test worker] WARN cz.cvut.iarylser.service.EventService -- User or Event not found for unlike operation
+„20:03:18.186 [Test worker] WARN cz.cvut.iarylser.service.EventService -- Author with nickname null not found when deleting event 1
+‡20:03:18.190 [Test worker] WARN cz.cvut.iarylser.service.EventService -- Attempted to set capacity to 5, but there are 0 sold tickets
+q20:03:18.194 [Test worker] WARN cz.cvut.iarylser.service.EventService -- Event with id 1 not found for deletion
+u20:03:18.203 [Test worker] WARN cz.cvut.iarylser.service.EventService -- User or event with nickname null not found

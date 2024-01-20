@@ -7,8 +7,10 @@ import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
 import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.naming.AuthenticationException;
 
 import java.util.List;
 
@@ -36,10 +38,12 @@ public class EventController {
         return ResponseEntity.ok(eventService.convertToDto(event));
     }
     @PostMapping
-    public ResponseEntity<EventDTO>createEvent(@RequestBody Event newEvent)
-    {
-        Event event = eventService.createEvent(newEvent);
-        return ResponseEntity.ok(eventService.convertToDto(event));
+    public ResponseEntity<EventDTO> createEvent(@RequestBody Event newEvent) {
+            Event event = eventService.createEvent(newEvent);
+            if (event == null){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            return ResponseEntity.ok(eventService.convertToDto(event));
     }
     @PutMapping("/{eventId}")
     public ResponseEntity<EventDTO> updateEvent(@PathVariable Long eventId, @RequestBody Event updatedEvent){

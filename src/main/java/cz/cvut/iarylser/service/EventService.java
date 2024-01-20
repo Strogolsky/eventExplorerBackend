@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
 
+import javax.naming.AuthenticationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +38,9 @@ public class EventService {
 
     public Event createEvent(Event newEvent){
         User organizer = userRepository.findByNickname(newEvent.getOrganizer());
+        if (organizer == null) {
+            return null;
+        }
         newEvent.setIdOrganizer(organizer.getId());
         newEvent.setUser(organizer);
         organizer.getCreatedEvents().add(newEvent);
