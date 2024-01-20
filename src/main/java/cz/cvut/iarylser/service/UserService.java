@@ -73,11 +73,11 @@ public class UserService {
         User user = userRepository.findByNickname(nickname);
 
         if (user == null) {
-            throw new AuthenticationException("Пользователь не найден");
+            throw new AuthenticationException();
         }
 
         if (!user.getPassword().equals(password)) {
-            throw new AuthenticationException("Неверный пароль");
+            throw new AuthenticationException();
         }
         return user;
     }

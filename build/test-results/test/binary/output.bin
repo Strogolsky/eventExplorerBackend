@@ -1,1 +1,2 @@
-q19:02:00.526 [Test worker] WARN cz.cvut.iarylser.service.TicketService -- Ticket with id 1 not found for update
+o19:16:04.809 [Test worker] WARN cz.cvut.iarylser.service.UserService -- User with id 1 not found for deletion
+m19:16:04.833 [Test worker] WARN cz.cvut.iarylser.service.UserService -- User with id 1 not found for update

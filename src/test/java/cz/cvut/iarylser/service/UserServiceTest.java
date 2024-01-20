@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 class UserServiceTest {
@@ -71,7 +72,7 @@ class UserServiceTest {
     }
 
     @Test
-    void createUser() {
+    void createUserSucceeded() {
         // when
         when(userRepository.save(Mockito.any(User.class))).thenReturn(user1);
         User result = userService.createUser(user1);
@@ -81,7 +82,27 @@ class UserServiceTest {
     }
 
     @Test
-    void updateUser() {
+    void createUserFailure() {
+        User newUser = new User();
+        newUser.setNickname("existing_nickname");
+        when(userRepository.existsByNickname(anyString())).thenReturn(true);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            userService.createUser(newUser);
+        });
+    }
+    @Test
+    void updateUserFailure() {
+        Long userId = 1L;
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        User result = userService.updateUser(userId, new User());
+
+        assertNull(result);
+    }
+
+    @Test
+    void updateUserSucceeded() {
         Long userId = 1L;
         User existingUser = new User();
         existingUser.setId(userId);
@@ -103,7 +124,7 @@ class UserServiceTest {
     }
 
     @Test
-    void deleteUser() {
+    void deleteUserSucceeded() {
         // given
         Long userId = 1L;
         Mockito.when(userRepository.existsById(userId)).thenReturn(true);
@@ -114,6 +135,16 @@ class UserServiceTest {
         //then
         assertTrue(result);
         Mockito.verify(userRepository).deleteById(userId);
+    }
+
+    @Test
+    void deleteUserFailure() {
+        Long userId = 1L;
+        when(userRepository.existsById(userId)).thenReturn(false);
+
+        boolean result = userService.deleteUser(userId);
+
+        assertFalse(result);
     }
 
     @Test
@@ -190,6 +221,15 @@ class UserServiceTest {
         assertNotNull(result);
         assertEquals(nickname, result.getNickname());
         assertEquals(password, result.getPassword());
+    }
+    @Test
+    void authenticateUserFailure() {
+        String nickname = "nonexistent_user";
+        when(userRepository.findByNickname(nickname)).thenReturn(null);
+
+        assertThrows(AuthenticationException.class, () -> {
+            userService.authenticateUser(nickname, "password");
+        });
     }
 
     private void initUsers(){
