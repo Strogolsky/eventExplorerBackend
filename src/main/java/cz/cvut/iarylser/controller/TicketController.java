@@ -2,6 +2,7 @@ package cz.cvut.iarylser.controller;
 
 import ch.qos.logback.classic.Logger;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
+import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.service.TicketService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +20,14 @@ public class TicketController {
     }
     @GetMapping("/{ticketId}")
     public ResponseEntity<TicketDTO> getTicketById(@PathVariable Long ticketId){
-        TicketDTO ticket = ticketService.convertToDto(ticketService.getTicketById(ticketId));
-        return ResponseEntity.ok(ticket);
+        Ticket ticket = ticketService.getTicketById(ticketId);
+        if (ticket == null) {
+            return ResponseEntity.notFound().build();
+        }
+        TicketDTO ticketDTO = ticketService.convertToDto(ticket);
+        return ResponseEntity.ok(ticketDTO);
     }
+
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<TicketDTO>> getTicketByUser(@PathVariable Long userId){
         List<TicketDTO> result = ticketService.convertTicketsToDTOs(ticketService.getTicketByUser(userId));
