@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import javax.naming.AuthenticationException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -172,6 +173,23 @@ class UserServiceTest {
         assertEquals("FirstName2", dto2.getFirstName());
         assertEquals("LastName2", dto2.getLastName());
         assertEquals("Description2", dto2.getDescription());
+    }
+
+    @Test
+    public void authenticateUserSucceeds() throws AuthenticationException {
+        String nickname = "testUser";
+        String password = "testPassword";
+        User mockUser = new User();
+        mockUser.setNickname(nickname);
+        mockUser.setPassword(password);
+
+        when(userRepository.findByNickname(nickname)).thenReturn(mockUser);
+
+        User result = userService.authenticateUser(nickname, password);
+
+        assertNotNull(result);
+        assertEquals(nickname, result.getNickname());
+        assertEquals(password, result.getPassword());
     }
 
     private void initUsers(){
