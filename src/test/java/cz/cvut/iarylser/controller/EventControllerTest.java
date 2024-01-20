@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,6 +88,16 @@ class EventControllerTest {
                 .andExpect(jsonPath("$[1].topic").value(event2.getTopic().toString()))
                 .andExpect(jsonPath("$[1].ageRestriction").value(event2.isAgeRestriction()));
 }
+
+    @Test
+    void getEventByIdFailure() throws Exception {
+        Long eventId = 1L;
+        when(eventService.getEventById(eventId)).thenReturn(null);
+
+        mockMvc.perform(get("/event/{eventId}", eventId))
+                .andExpect(status().isNotFound());
+    }
+
 
     @Test
     void getEventByIdSucceeded() throws Exception {
@@ -164,6 +175,18 @@ class EventControllerTest {
     }
 
     @Test
+    void createEventFailure() throws Exception {
+        Event newEvent = new Event();
+        when(eventService.createEvent(newEvent)).thenReturn(null);
+
+        mockMvc.perform(post("/event")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(newEvent)))
+                .andExpect(status().isNotFound());
+    }
+
+
+    @Test
     void updateEventSucceeded() throws Exception {
         Long eventId = 1L;
         Event updatedEvent = new Event();
@@ -202,6 +225,18 @@ class EventControllerTest {
                 .andExpect(jsonPath("$.ageRestriction").value(eventDTO.isAgeRestriction()));
     }
 
+    @Test
+    void updateEventFailure() throws Exception {
+        Long eventId = 1L;
+        Event updatedEvent = new Event();
+        when(eventService.updateEvent(eventId, updatedEvent)).thenReturn(null);
+
+        mockMvc.perform(put("/event/{eventId}", eventId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(updatedEvent)))
+                .andExpect(status().isNotFound());
+    }
+
 
     @Test
     void purchaseTicketSucceeded() throws Exception {
@@ -234,10 +269,24 @@ class EventControllerTest {
                 .andExpect(jsonPath("$[1].ticketStatus").value(tickets.get(1).getTicketStatus().toString()));
     }
 
+    @Test
+    void purchaseTicketFailure() throws Exception {
+        Long eventId = 1L;
+        PurchaseRequest request = new PurchaseRequest(/* set request properties */);
+        when(eventService.purchaseTicket(anyLong(), any(PurchaseRequest.class))).thenReturn(null);
+
+        mockMvc.perform(post("/event/{eventId}/purchase", eventId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+    }
+
 
     @Test
     void deleteEventSucceeded() throws Exception {
         Long eventId = 1L;
+
+        when(eventService.deleteEvent(eventId)).thenReturn(true);
 
         mockMvc.perform(delete("/event/{eventId}", eventId)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -245,9 +294,23 @@ class EventControllerTest {
     }
 
     @Test
+    void deleteEventFailure() throws Exception {
+        Long eventId = 1L;
+        when(eventService.deleteEvent(eventId)).thenReturn(false);
+
+        mockMvc.perform(delete("/event/{eventId}", eventId))
+                .andExpect(status().isNotFound());
+    }
+
+
+
+
+    @Test
     void likeEventSucceeded() throws Exception {
         Long eventId = 1L;
         Long userId = 2L;
+
+        when(eventService.likeEvent(eventId,userId)).thenReturn(true);
 
         mockMvc.perform(put("/event/{eventId}/like/{userId}", eventId, userId)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -255,14 +318,38 @@ class EventControllerTest {
     }
 
     @Test
+    void likeEventFailure() throws Exception {
+        Long eventId = 1L;
+        Long userId = 1L;
+        when(eventService.likeEvent(eventId, userId)).thenReturn(false);
+
+        mockMvc.perform(put("/event/{eventId}/like/{userId}", eventId, userId))
+                .andExpect(status().isNotFound());
+    }
+
+
+    @Test
     void unlikeEventSucceeded() throws Exception {
         Long eventId = 1L;
         Long userId = 2L;
+
+        when(eventService.unlikeEvent(eventId,userId)).thenReturn(true);
 
         mockMvc.perform(put("/event/{eventId}/unlike/{userId}", eventId, userId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
+
+    @Test
+    void unlikeEventFailure() throws Exception {
+        Long eventId = 1L;
+        Long userId = 1L;
+        when(eventService.unlikeEvent(eventId, userId)).thenReturn(false);
+
+        mockMvc.perform(put("/event/{eventId}/unlike/{userId}", eventId, userId))
+                .andExpect(status().isNotFound());
+    }
+
 
     @Test
     void getRecommendedEventsSucceeded() {

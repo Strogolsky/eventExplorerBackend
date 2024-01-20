@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="cz.cvut.iarylser.service.EventServiceTest" tests="20" skipped="0" failures="0" errors="0" timestamp="2024-01-20T20:50:27" hostname="MACHINE" time="0.189">
+  <properties/>
+  <testcase name="likeEventFailure()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.11"/>
+  <testcase name="convertToDTOList()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.001"/>
+  <testcase name="updateEventFailureNotFound()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.002"/>
+  <testcase name="getAllEvents()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.009"/>
+  <testcase name="updateForOrgChange()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.002"/>
+  <testcase name="likeEventSucceeded()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.006"/>
+  <testcase name="getEventById()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.002"/>
+  <testcase name="unlikeEventFailure()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.003"/>
+  <testcase name="updateEventSucceeded()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.004"/>
+  <testcase name="purchaseTicketSucceeded()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.007"/>
+  <testcase name="createEventSucceeded()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.004"/>
+  <testcase name="convertToDto()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.001"/>
+  <testcase name="unlikeEventSucceeded()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.005"/>
+  <testcase name="getRecommend()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.001"/>
+  <testcase name="deleteEventSucceeded()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.005"/>
+  <testcase name="deleteEventFailureOrganizerNotFound()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.003"/>
+  <testcase name="updateEventFailureCapacity()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.002"/>
+  <testcase name="deleteEventFailureEventNotFound()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.001"/>
+  <testcase name="createEventFailure()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.002"/>
+  <testcase name="purchaseTicketFailure()" classname="cz.cvut.iarylser.service.EventServiceTest" time="0.003"/>
+  <system-out><![CDATA[2024-01-20T21:50:28.063+01:00  WARN 27056 --- [    Test worker] cz.cvut.iarylser.service.EventService    : User or Event not found for like operation
+2024-01-20T21:50:28.067+01:00  WARN 27056 --- [    Test worker] cz.cvut.iarylser.service.EventService    : Event with id 1 not found for update
+2024-01-20T21:50:28.094+01:00  WARN 27056 --- [    Test worker] cz.cvut.iarylser.service.EventService    : User or Event not found for unlike operation
+2024-01-20T21:50:28.130+01:00  WARN 27056 --- [    Test worker] cz.cvut.iarylser.service.EventService    : Author with nickname null not found when deleting event 1
+2024-01-20T21:50:28.132+01:00  WARN 27056 --- [    Test worker] cz.cvut.iarylser.service.EventService    : Attempted to set capacity to 5, but there are 0 sold tickets
+2024-01-20T21:50:28.135+01:00  WARN 27056 --- [    Test worker] cz.cvut.iarylser.service.EventService    : Event with id 1 not found for deletion
+2024-01-20T21:50:28.142+01:00  WARN 27056 --- [    Test worker] cz.cvut.iarylser.service.EventService    : User or event with nickname null not found
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

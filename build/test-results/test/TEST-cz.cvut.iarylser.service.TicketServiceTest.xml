@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="cz.cvut.iarylser.service.TicketServiceTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2024-01-20T20:50:28" hostname="MACHINE" time="0.069">
+  <properties/>
+  <testcase name="deleteTicketFailure()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.036"/>
+  <testcase name="updateTicketFailure()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.002"/>
+  <testcase name="getTicketByUserFailure()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.002"/>
+  <testcase name="convertTicketsToDTOs()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.001"/>
+  <testcase name="setDetailsFromEvent()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.002"/>
+  <testcase name="deleteTicketSucceeded()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.002"/>
+  <testcase name="getTicketByIdFailure()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.002"/>
+  <testcase name="getTicketByIdSucceeded()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.001"/>
+  <testcase name="updateTicketSucceeded()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.004"/>
+  <testcase name="convertToDto()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.001"/>
+  <testcase name="getTicketByUserSucceeded()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.003"/>
+  <testcase name="createTicket()" classname="cz.cvut.iarylser.service.TicketServiceTest" time="0.006"/>
+  <system-out><![CDATA[2024-01-20T21:50:28.183+01:00  WARN 27056 --- [    Test worker] cz.cvut.iarylser.service.TicketService   : Ticket with id 1 not found for update
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -17,8 +17,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class UserServiceTest {
 
@@ -74,7 +76,7 @@ class UserServiceTest {
     @Test
     void createUserSucceeded() {
         // when
-        when(userRepository.save(Mockito.any(User.class))).thenReturn(user1);
+        when(userRepository.save(any(User.class))).thenReturn(user1);
         User result = userService.createUser(user1);
         //then
         assertEquals(user1, result);
@@ -113,7 +115,7 @@ class UserServiceTest {
         updatedUser.setNickname("NewNickname");
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
-        when(userRepository.save(Mockito.any(User.class))).thenReturn(updatedUser);
+        when(userRepository.save(any(User.class))).thenReturn(updatedUser);
 
         User result = userService.updateUser(userId, updatedUser);
 
@@ -221,6 +223,27 @@ class UserServiceTest {
         assertNotNull(result);
         assertEquals(nickname, result.getNickname());
         assertEquals(password, result.getPassword());
+    }
+
+    @Test
+    void updateUserFailureNicknameExist(){
+        Long userId = 1L;
+        User existingUser = new User();
+        existingUser.setId(userId);
+        existingUser.setNickname("originalNickname");
+
+        User updatedUser = new User();
+        updatedUser.setNickname("existingNickname");
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+        when(userRepository.existsByNickname("existingNickname")).thenReturn(true);
+
+        IllegalArgumentException thrown = assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.updateUser(userId, updatedUser),
+                "Expected updateUser to throw, but it didn't"
+        );
+
     }
     @Test
     void authenticateUserFailure() {

@@ -66,13 +66,18 @@ public class UserController {
         }
     }
     @PutMapping("/{userId}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody User updatedUser) {
-        User user = userService.updateUser(userId, updatedUser);
-        if (user == null) {
-            log.info("Unable to update. User with id {} not found.", userId);
-            return ResponseEntity.notFound().build(); // todo
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User updatedUser) {
+        try {
+            User user = userService.updateUser(userId, updatedUser);
+            if (user == null) {
+                log.info("Unable to update. User with id {} not found.", userId);
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(userService.convertToDTO(user));
+        } catch (IllegalArgumentException e) {
+            log.info("Error updating user: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok(userService.convertToDTO(user));
     }
 
     @DeleteMapping("/{userId}")

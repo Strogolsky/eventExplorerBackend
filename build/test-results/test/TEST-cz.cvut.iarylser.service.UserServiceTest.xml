@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="cz.cvut.iarylser.service.UserServiceTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2024-01-20T20:50:28" hostname="MACHINE" time="0.039">
+  <properties/>
+  <testcase name="convertToDTOList()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.003"/>
+  <testcase name="authenticateUserFailure()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.004"/>
+  <testcase name="deleteUserSucceeded()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.003"/>
+  <testcase name="updateUserSucceeded()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.004"/>
+  <testcase name="deleteUserFailure()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
+  <testcase name="updateUserFailureNicknameExist()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.003"/>
+  <testcase name="createUserFailure()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
+  <testcase name="getAllUsers()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
+  <testcase name="createUserSucceeded()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.003"/>
+  <testcase name="convertToDTO()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.001"/>
+  <testcase name="updateUserFailure()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.003"/>
+  <testcase name="getUserById()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
+  <testcase name="authenticateUserSucceeds()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.001"/>
+  <system-out><![CDATA[2024-01-20T21:50:28.233+01:00  WARN 27056 --- [    Test worker] cz.cvut.iarylser.service.UserService     : User with id 1 not found for deletion
+2024-01-20T21:50:28.250+01:00  WARN 27056 --- [    Test worker] cz.cvut.iarylser.service.UserService     : User with id 1 not found for update
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -43,6 +43,10 @@ public class UserService {
             return null;
         }
 
+        if(userRepository.existsByNickname(updatedUser.getNickname())){
+            throw new IllegalArgumentException();
+        }
+
         existingUser.setNickname(updatedUser.getNickname());
         existingUser.setPassword(updatedUser.getPassword());
         existingUser.setAge(updatedUser.getAge());

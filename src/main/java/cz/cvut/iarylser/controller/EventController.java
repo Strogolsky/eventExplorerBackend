@@ -14,6 +14,7 @@ import javax.naming.AuthenticationException;
 
 import java.util.List;
 
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value = "/event")
@@ -30,7 +31,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.convertToDTOList(result));
     }
     @GetMapping("/{eventId}")
-    public ResponseEntity<EventDTO>getEventById(@PathVariable Long eventId){
+    public ResponseEntity<?>getEventById(@PathVariable Long eventId){
         Event event = eventService.getEventById(eventId);
         if (event == null) {
             return ResponseEntity.notFound().build();
@@ -38,7 +39,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.convertToDto(event));
     }
     @PostMapping
-    public ResponseEntity<EventDTO> createEvent(@RequestBody Event newEvent) {
+    public ResponseEntity<?> createEvent(@RequestBody Event newEvent) {
             Event event = eventService.createEvent(newEvent);
             if (event == null){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -63,24 +64,38 @@ public class EventController {
     }
 
     @PostMapping("/{eventId}/purchase")
-    public ResponseEntity<List<TicketDTO>> purchaseTicket(@PathVariable Long eventId, @RequestBody PurchaseRequest request) {
+    public ResponseEntity<?> purchaseTicket(@PathVariable Long eventId, @RequestBody PurchaseRequest request) {
         List<TicketDTO> tickets = eventService.purchaseTicket(eventId, request);
+        if (tickets == null) {
+            return ResponseEntity.badRequest().body("Purchase failed due to invalid data or other issues.");
+        }
         return ResponseEntity.ok(tickets);
     }
+
     @DeleteMapping("/{eventId}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId){
-        eventService.deleteEvent(eventId);
+    public ResponseEntity<?> deleteEvent(@PathVariable Long eventId){
+        boolean isDeleted = eventService.deleteEvent(eventId);
+        if (!isDeleted) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.noContent().build();
     }
+
     @PutMapping("/{eventId}/like/{userId}")
-    public ResponseEntity<Void> likeEvent(@PathVariable Long eventId, @PathVariable Long userId) {
-        eventService.likeEvent(eventId, userId);
+    public ResponseEntity<?> likeEvent(@PathVariable Long eventId, @PathVariable Long userId) {
+        boolean result = eventService.likeEvent(eventId, userId);
+        if (!result) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{eventId}/unlike/{userId}")
-    public ResponseEntity<Void> unlikeEvent(@PathVariable Long eventId, @PathVariable Long userId) {
-        eventService.unlikeEvent(eventId, userId);
+    public ResponseEntity<?> unlikeEvent(@PathVariable Long eventId, @PathVariable Long userId) {
+        boolean result = eventService.unlikeEvent(eventId, userId);
+        if (!result) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/recommendations/{userId}")

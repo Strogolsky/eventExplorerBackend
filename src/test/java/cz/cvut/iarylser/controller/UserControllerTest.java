@@ -21,12 +21,14 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.naming.AuthenticationException;
 @WebMvcTest(UserController.class)
 class UserControllerTest {
 
@@ -35,6 +37,8 @@ class UserControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private UserService userService;
+
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void setUp() {
@@ -66,7 +70,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getUserById() throws Exception {
+    void getUserByIdSucceeded() throws Exception {
         Long userId = 1L;
         String userNickname = "user1";
 
@@ -83,6 +87,14 @@ class UserControllerTest {
         mockMvc.perform(get("/user/" + userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nickname").value(user.getNickname()));
+    }
+    @Test
+    void getUserByIdFailure() throws Exception {
+        Long userId = 1L;
+        when(userService.getUserById(userId)).thenReturn(null);
+
+        mockMvc.perform(get("/user/{userId}", userId))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -130,11 +142,11 @@ class UserControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
-                .andExpect(status().isConflict());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    void updateUser() throws Exception {
+    void updateUserSucceeded() throws Exception {
         Long userId = 1L;
         User updatedUser = new User();
         updatedUser.setId(userId);
@@ -173,12 +185,46 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteUser() throws Exception {
+    void updateUserFailureNickname() throws Exception {
+        Long userId = 1L;
+        User updatedUser = new User();
+        given(userService.updateUser(eq(userId), any(User.class))).willThrow(new IllegalArgumentException());
+
+        mockMvc.perform(put("/user/{userId}", userId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(updatedUser)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void updateUserFailureNotFound() throws Exception {
+        Long userId = 1L;
+        User updatedUser = new User();
+        given(userService.updateUser(eq(userId), any(User.class))).willReturn(null);
+
+        mockMvc.perform(put("/user/{userId}", userId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(updatedUser)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteUserSucceeded() throws Exception {
         Long userId = 1L;
         Mockito.when(userService.deleteUser(userId)).thenReturn(true);
 
         mockMvc.perform(delete("/user/" + userId))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void deleteUserFailure() throws Exception {
+        Long userId = 1L;
+        given(userService.deleteUser(userId)).willReturn(false);
+
+        mockMvc.perform(delete("/user/{userId}", userId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
 
@@ -203,5 +249,17 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.firstName").value(userDTO.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(userDTO.getLastName()))
                 .andExpect(jsonPath("$.description").value(userDTO.getDescription()));
+    }
+
+    @Test
+    void loginUserFailure() throws Exception {
+        LoginRequest loginRequest = new LoginRequest("username", "password");
+        when(userService.authenticateUser(anyString(), anyString())).thenThrow(new AuthenticationException());
+
+
+        mockMvc.perform(post("/user/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginRequest)))
+                .andExpect(status().isUnauthorized());
     }
 }
