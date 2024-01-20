@@ -26,6 +26,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -82,7 +83,40 @@ class EventControllerTest {
 }
 
     @Test
-    void getEventById() {
+    void getEventByIdSucceeded() throws Exception {
+        Long eventId = 1L;
+        EventDTO eventDTO = new EventDTO(
+                eventId,
+                "Event Title",
+                LocalDateTime.of(2023, 1, 20, 15, 30),
+                150,
+                20,
+                "Event Location",
+                300,
+                "Event Organizer",
+                75,
+                "Event Description",
+                Topics.CULTURE,
+                false
+        );
+
+        when(eventService.getEventById(eventId)).thenReturn(new Event());
+        when(eventService.convertToDto(any(Event.class))).thenReturn(eventDTO);
+
+        mockMvc.perform(get("/event/{eventId}", eventId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(eventDTO.getId()))
+                .andExpect(jsonPath("$.title").value(eventDTO.getTitle()))
+                .andExpect(jsonPath("$.likes").value(eventDTO.getLikes()))
+                .andExpect(jsonPath("$.ticketPrice").value(eventDTO.getTicketPrice()))
+                .andExpect(jsonPath("$.location").value(eventDTO.getLocation()))
+                .andExpect(jsonPath("$.capacity").value(eventDTO.getCapacity()))
+                .andExpect(jsonPath("$.organizer").value(eventDTO.getOrganizer()))
+                .andExpect(jsonPath("$.soldTickets").value(eventDTO.getSoldTickets()))
+                .andExpect(jsonPath("$.description").value(eventDTO.getDescription()))
+                .andExpect(jsonPath("$.topic").value(eventDTO.getTopic().toString()))
+                .andExpect(jsonPath("$.ageRestriction").value(eventDTO.isAgeRestriction()));
     }
 
     @Test
