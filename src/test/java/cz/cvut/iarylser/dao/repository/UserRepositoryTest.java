@@ -24,7 +24,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    void findByNicknameExistUser() {
+    void findByNicknameSucceeded() {
         //give
         userRepository.save(user);
         String nickname = "NoizeMC";
@@ -35,7 +35,7 @@ class UserRepositoryTest {
         assertEquals(found.getNickname(), user.getNickname());
     }
     @Test
-    void findByNicknameNotExistUser() {
+    void findByNicknameFailure() {
         //give
         userRepository.save(user);
         String nickname = "unknowedUser";

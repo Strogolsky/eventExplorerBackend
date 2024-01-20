@@ -15,12 +15,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class TicketServiceTest {
 
@@ -58,9 +56,9 @@ class TicketServiceTest {
     }
 
     @Test
-    void getTicketById() {
+    void getTicketByIdSucceeded() {
         Long ticketId = 1L;
-        Mockito.when(ticketRepository.findById(ticketId)).thenReturn(Optional.of(ticket1));
+        when(ticketRepository.findById(ticketId)).thenReturn(Optional.of(ticket1));
 
         Ticket result = ticketService.getTicketById(ticketId);
 
@@ -72,13 +70,23 @@ class TicketServiceTest {
         assertEquals(ticket1.getEventId(), result.getEventId());
 
 
-        Mockito.verify(ticketRepository).findById(ticketId);
+        verify(ticketRepository).findById(ticketId);
     }
 
     @Test
-    void getTicketByUser() {
+    void getTicketByIdFailure() {
+        Long ticketId = 1L;
+        when(ticketRepository.findById(ticketId)).thenReturn(Optional.empty());
+
+        Ticket result = ticketService.getTicketById(ticketId);
+
+        assertNull(result);
+    }
+
+    @Test
+    void getTicketByUserSucceeded() {
         Long customerId = 3L;
-        Mockito.when(ticketRepository.findByIdCustomer(customerId)).thenReturn(Arrays.asList(ticket1));
+        when(ticketRepository.findByIdCustomer(customerId)).thenReturn(Arrays.asList(ticket1));
 
         List<Ticket> results = ticketService.getTicketByUser(customerId);
 
@@ -91,7 +99,18 @@ class TicketServiceTest {
         assertEquals(ticket1.getIdOrganizer(), results.get(0).getIdOrganizer());
         assertEquals(ticket1.getEventId(), results.get(0).getEventId());
 
-        Mockito.verify(ticketRepository).findByIdCustomer(customerId);
+        verify(ticketRepository).findByIdCustomer(customerId);
+    }
+
+    @Test
+    void getTicketByUserFailure() {
+        Long userId = 1L;
+        when(ticketRepository.findByIdCustomer(userId)).thenReturn(Collections.emptyList());
+
+        List<Ticket> result = ticketService.getTicketByUser(userId);
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -106,8 +125,8 @@ class TicketServiceTest {
         customer.setId(3L);
         customer.setTickets(new ArrayList<>());
 
-        Mockito.when(ticketRepository.save(Mockito.any(Ticket.class))).thenAnswer(i -> i.getArguments()[0]);
-        Mockito.when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(ticketRepository.save(Mockito.any(Ticket.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
 
         Ticket result = ticketService.createTicket(event, customer);
 
@@ -121,8 +140,8 @@ class TicketServiceTest {
         assertTrue(customer.getTickets().contains(result));
         assertTrue(event.getTickets().contains(result));
 
-        Mockito.verify(ticketRepository).save(result);
-        Mockito.verify(userRepository).save(customer);
+        verify(ticketRepository).save(result);
+        verify(userRepository).save(customer);
     }
 
     @Test
@@ -152,7 +171,7 @@ class TicketServiceTest {
     }
 
     @Test
-    void updateTicket() {
+    void updateTicketSucceeded() {
         Ticket updatedTicket = new Ticket();
         updatedTicket.setId(1L);
         updatedTicket.setEventId(2L);
@@ -161,16 +180,27 @@ class TicketServiceTest {
         updatedTicket.setDetails("Updated Details");
         updatedTicket.setTicketStatus(TicketStatus.INVALID);
 
-        Mockito.when(ticketRepository.findById(ticket1.getId())).thenReturn(Optional.of(ticket1));
-        Mockito.when(ticketRepository.save(Mockito.any(Ticket.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(ticketRepository.findById(ticket1.getId())).thenReturn(Optional.of(ticket1));
+        when(ticketRepository.save(Mockito.any(Ticket.class))).thenAnswer(i -> i.getArguments()[0]);
 
         Ticket result = ticketService.updateTicket(ticket1.getId(), updatedTicket);
 
         assertNotNull(result);
         assertTicketsEquality(updatedTicket,result);
 
-        Mockito.verify(ticketRepository).findById(ticket1.getId());
-        Mockito.verify(ticketRepository).save(result);
+        verify(ticketRepository).findById(ticket1.getId());
+        verify(ticketRepository).save(result);
+    }
+
+    @Test
+    void updateTicketFailure() {
+        Long ticketId = 1L;
+        Ticket updatedTicket = new Ticket();
+        when(ticketRepository.findById(ticketId)).thenReturn(Optional.empty());
+
+        Ticket result = ticketService.updateTicket(ticketId, updatedTicket);
+
+        assertNull(result);
     }
 
     @Test
@@ -191,17 +221,28 @@ class TicketServiceTest {
     }
 
     @Test
-    void deleteTicket() {
+    void deleteTicketSucceeded() {
         Long ticketId = 1L;
 
-        Mockito.when(ticketRepository.existsById(ticketId)).thenReturn(true);
+        when(ticketRepository.existsById(ticketId)).thenReturn(true);
         Mockito.doNothing().when(ticketRepository).deleteById(ticketId);
 
         boolean result = ticketService.deleteTicket(ticketId);
 
         assertTrue(result);
-        Mockito.verify(ticketRepository).existsById(ticketId);
-        Mockito.verify(ticketRepository).deleteById(ticketId);
+        verify(ticketRepository).existsById(ticketId);
+        verify(ticketRepository).deleteById(ticketId);
+    }
+
+    @Test
+    void deleteTicketFailure() {
+        Long ticketId = 1L;
+        when(ticketRepository.existsById(ticketId)).thenReturn(false);
+
+        boolean result = ticketService.deleteTicket(ticketId);
+
+        assertFalse(result);
+        verify(ticketRepository, never()).deleteById(ticketId);
     }
     void assertTicketAndDtoEquality(Ticket ticket, TicketDTO ticketDTO) {
         assertEquals(ticket.getId(), ticketDTO.getId());

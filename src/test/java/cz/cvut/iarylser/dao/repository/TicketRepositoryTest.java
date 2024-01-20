@@ -24,7 +24,7 @@ class TicketRepositoryTest {
     }
 
     @Test
-    void findByIdCustomerExistCustomer() {
+    void findByIdCustomerSucceeded() {
         // give
         ticketRepository.save(ticket);
         Long idCustomer = 2L;
@@ -38,7 +38,7 @@ class TicketRepositoryTest {
 
     }
     @Test
-    void findByIdCustomerNotExistCustomer() {
+    void findByIdCustomerFailure() {
         // give
         ticketRepository.save(ticket);
         Long idCustomer = 4L;
