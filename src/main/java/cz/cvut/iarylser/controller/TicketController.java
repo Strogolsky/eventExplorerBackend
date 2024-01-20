@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ticket")
+@CrossOrigin("*")
 public class TicketController {
     private final TicketService ticketService;
     public TicketController(TicketService ticketService){

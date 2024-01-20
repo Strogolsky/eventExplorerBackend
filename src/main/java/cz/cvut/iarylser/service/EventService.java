@@ -2,7 +2,7 @@ package cz.cvut.iarylser.service;
 
 import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
-import cz.cvut.iarylser.dao.DTO.TicketPurchaseRequest;
+import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
 import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -44,7 +43,7 @@ public class EventService {
         userRepository.save(organizer);
         return eventRepository.save(newEvent);
     }
-    public List<TicketDTO> purchaseTicket(Long eventId, TicketPurchaseRequest request){
+    public List<TicketDTO> purchaseTicket(Long eventId, PurchaseRequest request){
         Event event = eventRepository.findById(eventId).orElse(null);
         User customer = userRepository.findByNickname(request.getCustomer());
         if (customer == null || event == null) {
@@ -70,7 +69,9 @@ public class EventService {
         return null;
     }
 
-
+    public List<Event> getEventsByUserId(Long userId) {
+        return eventRepository.findByIdOrganizer(userId);
+    }
     public Event updateEvent(Long eventId, Event updatedEvent){
         Event existingEvent = getEventById(eventId);
         if (existingEvent == null) {

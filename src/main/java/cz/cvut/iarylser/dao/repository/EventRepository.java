@@ -9,5 +9,6 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Long> {
 
 //    public List<Event> findAllByCapacity(Integer capacity);
+    public List<Event> findByIdOrganizer(Long userId);
 
 }

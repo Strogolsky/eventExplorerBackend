@@ -2,10 +2,9 @@ package cz.cvut.iarylser.controller;
 
 import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
-import cz.cvut.iarylser.dao.DTO.TicketPurchaseRequest;
+import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
 import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.service.EventService;
-import cz.cvut.iarylser.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping(value = "/event")
 public class EventController {
     private final EventService eventService;
@@ -47,8 +47,17 @@ public class EventController {
         }
         return ResponseEntity.ok(eventService.convertToDto(event));
     }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<EventDTO>> getEventsByUserId(@PathVariable Long userId) {
+        List<Event> events = eventService.getEventsByUserId(userId);
+
+        List<EventDTO> eventDTOs = eventService.convertToDTOList(events);
+
+        return ResponseEntity.ok(eventDTOs);
+    }
+
     @PostMapping("/{eventId}/purchase")
-    public ResponseEntity<List<TicketDTO>> purchaseTicket(@PathVariable Long eventId, @RequestBody TicketPurchaseRequest request) {
+    public ResponseEntity<List<TicketDTO>> purchaseTicket(@PathVariable Long eventId, @RequestBody PurchaseRequest request) {
         List<TicketDTO> tickets = eventService.purchaseTicket(eventId, request);
         return ResponseEntity.ok(tickets);
     }

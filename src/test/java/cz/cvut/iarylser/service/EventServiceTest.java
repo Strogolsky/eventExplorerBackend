@@ -2,7 +2,7 @@ package cz.cvut.iarylser.service;
 
 import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
-import cz.cvut.iarylser.dao.DTO.TicketPurchaseRequest;
+import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.entity.Topics;
@@ -188,7 +188,7 @@ class EventServiceTest {
         customer.setNickname(customerNickname);
         customer.setAge(age);
 
-        TicketPurchaseRequest request = new TicketPurchaseRequest();
+        PurchaseRequest request = new PurchaseRequest();
         request.setCustomer(customerNickname);
         request.setQuantity(quantity);
 

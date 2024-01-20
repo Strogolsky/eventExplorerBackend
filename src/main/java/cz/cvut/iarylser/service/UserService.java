@@ -6,6 +6,7 @@ import cz.cvut.iarylser.dao.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.naming.AuthenticationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +29,12 @@ public class UserService {
         return userRepository.findById(userId).orElse(null);
     }
     public User createUser(User newUser){
-        if(userRepository.existsById(newUser.getId()) || userRepository.existsByNickname(newUser.getNickname())){
+        if(userRepository.existsByNickname(newUser.getNickname())){
             throw new IllegalArgumentException();
         }
         return userRepository.save(newUser);
     }
+
 
     public User updateUser(Long userId, User updatedUser) {
         User existingUser = getUserById(userId);
@@ -67,8 +69,23 @@ public class UserService {
         return true;
     }
 
+    public User authenticateUser(String nickname, String password) throws AuthenticationException {
+        User user = userRepository.findByNickname(nickname);
+
+        if (user == null) {
+            throw new AuthenticationException("Пользователь не найден");
+        }
+
+        // Проверка пароля
+        if (!user.getPassword().equals(password)) {
+            throw new AuthenticationException("Неверный пароль");
+        }
+        return user;
+    }
+
     public UserDTO convertToDTO(User user){
         UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
         dto.setNickname(user.getNickname());
         dto.setAge(user.getAge());
         dto.setEmail(user.getEmail());

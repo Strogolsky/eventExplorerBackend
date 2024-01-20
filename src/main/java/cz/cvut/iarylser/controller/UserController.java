@@ -1,4 +1,5 @@
 package cz.cvut.iarylser.controller;
+import cz.cvut.iarylser.dao.DTO.LoginRequest;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.service.UserService;
@@ -9,9 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.naming.AuthenticationException;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping(value = "/user")
 public class UserController {
 
@@ -39,17 +42,29 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody User newUser) {
+    public ResponseEntity<?> createUser(@RequestBody User newUser) {
         User user;
         try {
             user = userService.createUser(newUser);
         } catch (IllegalArgumentException e){
-            throw new ResponseStatusException(HttpStatus.CONFLICT);
+            return ResponseEntity.badRequest().body("User is not added" + e.getMessage());
         }
 
         return ResponseEntity.ok(userService.convertToDTO(user));
     }
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+        String username = loginRequest.getNickname();
+        String password = loginRequest.getPassword();
 
+        try {
+            User user = userService.authenticateUser(username, password);
+            UserDTO userDTO = userService.convertToDTO(user);
+            return ResponseEntity.ok(userDTO);
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
     @PutMapping("/{userId}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody User updatedUser) {
         User user = userService.updateUser(userId, updatedUser);
