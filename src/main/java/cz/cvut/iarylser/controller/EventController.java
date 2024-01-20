@@ -1,5 +1,6 @@
 package cz.cvut.iarylser.controller;
 
+
 import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequestMapping(value = "/event")
 public class EventController {
     private final EventService eventService;
+
     @Autowired
     public EventController(EventService eventService) {
         this.eventService = eventService;

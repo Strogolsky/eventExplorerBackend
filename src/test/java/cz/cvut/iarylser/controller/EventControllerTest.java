@@ -1,5 +1,6 @@
 package cz.cvut.iarylser.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.Topics;
@@ -30,6 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,6 +42,9 @@ class EventControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private EventService eventService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
     @BeforeEach
     void setUp() {
     }
@@ -120,7 +125,41 @@ class EventControllerTest {
     }
 
     @Test
-    void createEvent() {
+    void createEventSucceeded() throws Exception {
+        Event newEvent = new Event();
+        EventDTO eventDTO = new EventDTO(
+                1L,
+                "Event Title",
+                LocalDateTime.of(2023, 1, 20, 15, 30),
+                150,
+                20,
+                "Event Location",
+                300,
+                "Event Organizer",
+                75,
+                "Event Description",
+                Topics.EDUCATION,
+                false
+        );
+
+        when(eventService.createEvent(any(Event.class))).thenReturn(newEvent);
+        when(eventService.convertToDto(any(Event.class))).thenReturn(eventDTO);
+
+        mockMvc.perform(post("/event")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newEvent)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(eventDTO.getId()))
+                .andExpect(jsonPath("$.title").value(eventDTO.getTitle()))
+                .andExpect(jsonPath("$.likes").value(eventDTO.getLikes()))
+                .andExpect(jsonPath("$.ticketPrice").value(eventDTO.getTicketPrice()))
+                .andExpect(jsonPath("$.location").value(eventDTO.getLocation()))
+                .andExpect(jsonPath("$.capacity").value(eventDTO.getCapacity()))
+                .andExpect(jsonPath("$.organizer").value(eventDTO.getOrganizer()))
+                .andExpect(jsonPath("$.soldTickets").value(eventDTO.getSoldTickets()))
+                .andExpect(jsonPath("$.description").value(eventDTO.getDescription()))
+                .andExpect(jsonPath("$.topic").value(eventDTO.getTopic().toString()))
+                .andExpect(jsonPath("$.ageRestriction").value(eventDTO.isAgeRestriction()));
     }
 
     @Test

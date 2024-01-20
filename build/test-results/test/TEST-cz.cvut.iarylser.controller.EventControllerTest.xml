@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.controller.EventControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-20T15:54:28" hostname="MACHINE" time="0.226">
+<testsuite name="cz.cvut.iarylser.controller.EventControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-20T16:07:45" hostname="MACHINE" time="0.299">
   <properties/>
-  <testcase name="getEventByIdSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.226"/>
-  <system-out><![CDATA[16:54:26.023 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.EventControllerTest]: EventControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-16:54:26.194 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.EventControllerTest
+  <testcase name="createEventSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.299"/>
+  <system-out><![CDATA[17:07:43.266 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.EventControllerTest]: EventControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+17:07:43.487 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.EventControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -13,12 +13,12 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.5)
 
-2024-01-20T16:54:26.619+01:00  INFO 20204 --- [    Test worker] c.c.i.controller.EventControllerTest     : Starting EventControllerTest using Java 17.0.9 with PID 20204 (started by 1 in D:\Project\eventexplorer)
-2024-01-20T16:54:26.621+01:00  INFO 20204 --- [    Test worker] c.c.i.controller.EventControllerTest     : No active profile set, falling back to 1 default profile: "default"
-2024-01-20T16:54:28.272+01:00  INFO 20204 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-01-20T16:54:28.273+01:00  INFO 20204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-01-20T16:54:28.276+01:00  INFO 20204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
-2024-01-20T16:54:28.309+01:00  INFO 20204 --- [    Test worker] c.c.i.controller.EventControllerTest     : Started EventControllerTest in 2.024 seconds (process running for 3.409)
+2024-01-20T17:07:43.949+01:00  INFO 4476 --- [    Test worker] c.c.i.controller.EventControllerTest     : Starting EventControllerTest using Java 17.0.9 with PID 4476 (started by 1 in D:\Project\eventexplorer)
+2024-01-20T17:07:43.950+01:00  INFO 4476 --- [    Test worker] c.c.i.controller.EventControllerTest     : No active profile set, falling back to 1 default profile: "default"
+2024-01-20T17:07:45.523+01:00  INFO 4476 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-01-20T17:07:45.523+01:00  INFO 4476 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-01-20T17:07:45.526+01:00  INFO 4476 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2024-01-20T17:07:45.559+01:00  INFO 4476 --- [    Test worker] c.c.i.controller.EventControllerTest     : Started EventControllerTest in 1.988 seconds (process running for 3.478)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
