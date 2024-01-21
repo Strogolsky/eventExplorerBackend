@@ -3,6 +3,11 @@ import cz.cvut.iarylser.dao.DTO.LoginRequest;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -26,13 +31,28 @@ public class UserController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all users",
+            description = "Retrieves a list of all users in the system.")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of users",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = UserDTO.class)))
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<User> result = userService.getAllUsers();
         return ResponseEntity.ok(userService.convertToDTOList(result));
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
+    @Operation(summary = "Get User by ID",
+            description = "Retrieve a user by their unique identifier. If the user is not found, a 404 status is returned.",
+            responses = {
+                    @ApiResponse(description = "The User is found and returned", responseCode = "200",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = UserDTO.class))),
+                    @ApiResponse(description = "User not found", responseCode = "404")
+            })
+    public ResponseEntity<UserDTO> getUserById(
+            @Parameter(description = "Unique identifier of the user to be retrieved")
+            @PathVariable Long userId) {
         User user = userService.getUserById(userId);
         if (user == null) {
             log.info("User with id {} not found.", userId);
@@ -42,7 +62,15 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody User newUser) {
+    @Operation(summary = "Create a new user",
+            description = "Creates a new user with the provided information. Returns an error if the user cannot be added.")
+    @ApiResponse(responseCode = "200", description = "User created successfully",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = UserDTO.class)))
+    @ApiResponse(responseCode = "400", description = "Invalid user data provided")
+    public ResponseEntity<?> createUser(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User object that needs to be added to the database", required = true)
+            @RequestBody User newUser) {
         User user;
         try {
             user = userService.createUser(newUser);
@@ -53,7 +81,15 @@ public class UserController {
         return ResponseEntity.ok(userService.convertToDTO(user));
     }
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+    @Operation(summary = "User login",
+            description = "Authenticates a user with a nickname and password. Returns the user data on success.")
+    @ApiResponse(responseCode = "200", description = "User logged in successfully",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = UserDTO.class)))
+    @ApiResponse(responseCode = "401", description = "Unauthorized - Invalid credentials")
+    public ResponseEntity<?> loginUser(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Login request with nickname and password", required = true)
+            @RequestBody LoginRequest loginRequest) {
         String username = loginRequest.getNickname();
         String password = loginRequest.getPassword();
 
@@ -66,7 +102,18 @@ public class UserController {
         }
     }
     @PutMapping("/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User updatedUser) {
+    @Operation(summary = "Update user",
+            description = "Updates the user's information for the given user ID. If the user doesn't exist, returns not found.")
+    @ApiResponse(responseCode = "200", description = "User updated successfully",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = UserDTO.class)))
+    @ApiResponse(responseCode = "400", description = "Invalid user data provided for update")
+    @ApiResponse(responseCode = "404", description = "User not found for the given ID")
+    public ResponseEntity<?> updateUser(
+            @Parameter(description = "Unique identifier of the user to be retrieved")
+            @PathVariable Long userId,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated user object", required = true)
+            @RequestBody User updatedUser) {
         try {
             User user = userService.updateUser(userId, updatedUser);
             if (user == null) {
@@ -81,7 +128,13 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+    @Operation(summary = "Delete user",
+            description = "Deletes a user with the specified user ID. If the user is not found, returns an error.")
+    @ApiResponse(responseCode = "204", description = "User deleted successfully")
+    @ApiResponse(responseCode = "404", description = "User not found for the given ID")
+    public ResponseEntity<Void> deleteUser(
+            @Parameter(description = "Unique identifier of the user to be retrieved")
+            @PathVariable Long userId) {
         if (!userService.deleteUser(userId)) {
             log.info("Unable to delete. User with id {} not found.", userId);
             return ResponseEntity.notFound().build();
