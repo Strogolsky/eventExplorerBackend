@@ -21,7 +21,7 @@ public class Ticket {
     private Long idOrganizer;
     @Column(name = "details", columnDefinition = "text")
     private String details;
-    @Column(name = "ticket_status") // todo delete
+    @Column(name = "ticket_status")
     private TicketStatus ticketStatus;
     @ManyToOne
     @JoinColumn(name = "id_user")

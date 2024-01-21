@@ -164,7 +164,7 @@ public class EventService {
     }
     private void updateRelatedTickets(Event event){
         Ticket updatedTicket = new Ticket();
-        updatedTicket.setDetails(event.getDescription()); // todo change
+        updatedTicket.setDetails(event.getDescription());
         for( Ticket ticket : event.getTickets()){
             ticketService.updateTicket(ticket.getId(),updatedTicket);
         }

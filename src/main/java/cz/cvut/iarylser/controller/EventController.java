@@ -86,7 +86,7 @@ public class EventController {
             @RequestBody Event updatedEvent){
         Event event = eventService.updateEvent(eventId, updatedEvent);
         if (event == null) {
-            return ResponseEntity.notFound().build(); // todo change
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(eventService.convertToDto(event));
     }
@@ -173,7 +173,7 @@ public class EventController {
         }
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/recommendations/{likes}")
+    @GetMapping("/likes/{likes}")
     @Operation(summary = "Get events by likes",
             description = "Retrieves a list of events where the number of likes is greater than the specified threshold.")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved events",
