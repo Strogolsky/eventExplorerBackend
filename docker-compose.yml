@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_USER=iarylser
+      - POSTGRES_PASSWORD=4321
+      - POSTGRES_DB=iarylser
+    ports:
+      - '5432:5432'
+
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - APP_DIR=/app
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres

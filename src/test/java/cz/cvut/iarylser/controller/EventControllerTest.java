@@ -381,7 +381,7 @@ class EventControllerTest {
         when(eventService.getByLikedGreaterThan(likes)).thenReturn(Arrays.asList(event1,event2));
         when(eventService.convertToDTOList(any())).thenReturn(dtoList);
 
-        mockMvc.perform(get("/event/recommendations/{likes}", likes))
+        mockMvc.perform(get("/event/likes/{likes}", likes))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(dtoList.size())));
@@ -392,7 +392,7 @@ class EventControllerTest {
         when(eventService.getByLikedGreaterThan(likes)).thenReturn(new ArrayList<>());
         when(eventService.convertToDTOList(any())).thenReturn(new ArrayList<>());
 
-        mockMvc.perform(get("/event/recommendations/{likes}", likes))
+        mockMvc.perform(get("/event/likes/{likes}", likes))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(0)));
