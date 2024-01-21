@@ -174,7 +174,14 @@ public class EventController {
         return ResponseEntity.ok().build();
     }
     @GetMapping("/recommendations/{likes}")
-    public ResponseEntity<List<EventDTO>> getByLikedGreaterThan(@PathVariable int likes){
+    @Operation(summary = "Get events by likes",
+            description = "Retrieves a list of events where the number of likes is greater than the specified threshold.")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved events",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EventDTO.class)))
+    public ResponseEntity<List<EventDTO>> getByLikedGreaterThan(
+            @Parameter(description = "The minimum number of likes for events to be retrieved", required = true)
+            @PathVariable int likes){
         List<Event> result = eventService.getByLikedGreaterThan(likes);
         List<EventDTO> dtoList = eventService.convertToDTOList(result);
         return ResponseEntity.ok(dtoList);
