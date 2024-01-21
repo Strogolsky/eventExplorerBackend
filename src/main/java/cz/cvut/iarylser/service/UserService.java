@@ -47,9 +47,15 @@ public class UserService {
             throw new IllegalArgumentException();
         }
 
-        existingUser.setNickname(updatedUser.getNickname());
-        existingUser.setPassword(updatedUser.getPassword());
-        existingUser.setAge(updatedUser.getAge());
+        if (updatedUser.getNickname() != null && !updatedUser.getNickname().isEmpty()) {
+            existingUser.setNickname(updatedUser.getNickname());
+        }
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
+            existingUser.setPassword(updatedUser.getPassword());
+        }
+        if (updatedUser.getAge() != 0) {
+            existingUser.setAge(updatedUser.getAge());
+        }
         existingUser.setEmail(updatedUser.getEmail());
 
         updateUserEvents(existingUser);

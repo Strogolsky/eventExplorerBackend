@@ -86,12 +86,27 @@ public class EventService {
             log.warn("Attempted to set capacity to {}, but there are {} sold tickets", updatedEvent.getCapacity(), updatedEvent.getSoldTickets());
             return null;
         }
-        existingEvent.setTitle(updatedEvent.getTitle());
-        existingEvent.setDateAndTime(updatedEvent.getDateAndTime());
-        existingEvent.setDescription(updatedEvent.getDescription());
-        existingEvent.setLocation(updatedEvent.getLocation());
-        existingEvent.setTicketPrice(updatedEvent.getTicketPrice());
-        existingEvent.setAgeRestriction(existingEvent.isAgeRestriction());
+        if (updatedEvent.getTitle() != null && !updatedEvent.getTitle().isEmpty()) {
+            existingEvent.setTitle(updatedEvent.getTitle());
+        }
+
+        if (updatedEvent.getDateAndTime() != null) {
+            existingEvent.setDateAndTime(updatedEvent.getDateAndTime());
+        }
+
+        if (updatedEvent.getDescription() != null && !updatedEvent.getDescription().isEmpty()) {
+            existingEvent.setDescription(updatedEvent.getDescription());
+        }
+
+        if (updatedEvent.getLocation() != null && !updatedEvent.getLocation().isEmpty()) {
+            existingEvent.setLocation(updatedEvent.getLocation());
+        }
+
+        if (updatedEvent.getTicketPrice() >= 0) {
+            existingEvent.setTicketPrice(updatedEvent.getTicketPrice());
+        }
+
+        existingEvent.setAgeRestriction(updatedEvent.isAgeRestriction());
 
         updateRelatedTickets(existingEvent);
         return eventRepository.save(existingEvent);
