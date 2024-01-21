@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.controller.TicketControllerTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-01-21T12:39:18" hostname="MACHINE" time="0.039">
+<testsuite name="cz.cvut.iarylser.controller.TicketControllerTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-01-21T19:31:34" hostname="MACHINE" time="0.052">
   <properties/>
-  <testcase name="getTicketByUserFailure()" classname="cz.cvut.iarylser.controller.TicketControllerTest" time="0.017"/>
-  <testcase name="getTicketByIdFailure()" classname="cz.cvut.iarylser.controller.TicketControllerTest" time="0.006"/>
+  <testcase name="getTicketByUserFailure()" classname="cz.cvut.iarylser.controller.TicketControllerTest" time="0.022"/>
+  <testcase name="getTicketByIdFailure()" classname="cz.cvut.iarylser.controller.TicketControllerTest" time="0.008"/>
   <testcase name="getTicketByIdSucceeded()" classname="cz.cvut.iarylser.controller.TicketControllerTest" time="0.006"/>
-  <testcase name="getTicketByUserSucceeded()" classname="cz.cvut.iarylser.controller.TicketControllerTest" time="0.006"/>
-  <system-out><![CDATA[2024-01-21T13:39:18.347+01:00  INFO 21440 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.TicketControllerTest]: TicketControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-01-21T13:39:18.353+01:00  INFO 21440 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.TicketControllerTest
+  <testcase name="getTicketByUserSucceeded()" classname="cz.cvut.iarylser.controller.TicketControllerTest" time="0.01"/>
+  <system-out><![CDATA[2024-01-21T20:31:33.704+01:00  INFO 28728 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.TicketControllerTest]: TicketControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-01-21T20:31:33.711+01:00  INFO 28728 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.TicketControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -16,12 +16,12 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.5)
 
-2024-01-21T13:39:18.383+01:00  INFO 21440 --- [    Test worker] c.c.i.controller.TicketControllerTest    : Starting TicketControllerTest using Java 17.0.9 with PID 21440 (started by 1 in D:\Project\eventexplorer)
-2024-01-21T13:39:18.383+01:00  INFO 21440 --- [    Test worker] c.c.i.controller.TicketControllerTest    : No active profile set, falling back to 1 default profile: "default"
-2024-01-21T13:39:18.592+01:00  INFO 21440 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-01-21T13:39:18.592+01:00  INFO 21440 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-01-21T13:39:18.593+01:00  INFO 21440 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2024-01-21T13:39:18.597+01:00  INFO 21440 --- [    Test worker] c.c.i.controller.TicketControllerTest    : Started TicketControllerTest in 0.239 seconds (process running for 5.477)
+2024-01-21T20:31:33.751+01:00  INFO 28728 --- [    Test worker] c.c.i.controller.TicketControllerTest    : Starting TicketControllerTest using Java 17.0.9 with PID 28728 (started by 1 in D:\Project\eventexplorer)
+2024-01-21T20:31:33.751+01:00  INFO 28728 --- [    Test worker] c.c.i.controller.TicketControllerTest    : No active profile set, falling back to 1 default profile: "default"
+2024-01-21T20:31:34.067+01:00  INFO 28728 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-01-21T20:31:34.067+01:00  INFO 28728 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-01-21T20:31:34.068+01:00  INFO 28728 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2024-01-21T20:31:34.075+01:00  INFO 28728 --- [    Test worker] c.c.i.controller.TicketControllerTest    : Started TicketControllerTest in 0.36 seconds (process running for 5.049)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

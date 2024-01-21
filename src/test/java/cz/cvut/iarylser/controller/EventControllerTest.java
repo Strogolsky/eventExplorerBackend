@@ -21,11 +21,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,6 +34,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(EventController.class)
 class EventControllerTest {
@@ -314,7 +313,7 @@ class EventControllerTest {
 
         mockMvc.perform(put("/event/{eventId}/like/{userId}", eventId, userId)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -337,7 +336,7 @@ class EventControllerTest {
 
         mockMvc.perform(put("/event/{eventId}/unlike/{userId}", eventId, userId)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -350,8 +349,53 @@ class EventControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-
     @Test
-    void getRecommendedEventsSucceeded() {
+    void getByLikedGreaterThanSuccessful() throws Exception {
+        int likes = 10;
+        EventDTO eventDTO1 = new EventDTO();
+        eventDTO1.setId(1L);
+        eventDTO1.setTitle("Event Title 1");
+        eventDTO1.setLikes(15);
+        eventDTO1.setTicketPrice(100);
+
+        Event event1 = new Event();
+        event1.setId(1L);
+        event1.setTitle("Event Title 1");
+        event1.setTicketPrice(100);
+
+        EventDTO eventDTO2 = new EventDTO();
+        eventDTO2.setId(2L);
+        eventDTO2.setTitle("Event Title 2");
+        eventDTO2.setLikes(20);
+        eventDTO2.setTicketPrice(150);
+
+        Event event2 = new Event();
+        event2.setId(2L);
+        event2.setTitle("Event Title 2");
+        event2.setTicketPrice(150);
+
+        List<EventDTO> dtoList = new ArrayList<>();
+        dtoList.add(eventDTO1);
+        dtoList.add(eventDTO2);
+
+        when(eventService.getByLikedGreaterThan(likes)).thenReturn(Arrays.asList(event1,event2));
+        when(eventService.convertToDTOList(any())).thenReturn(dtoList);
+
+        mockMvc.perform(get("/event/recommendations/{likes}", likes))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(dtoList.size())));
     }
+    @Test
+    void getByLikedGreaterThanNoEventsFound() throws Exception {
+        int likes = 10;
+        when(eventService.getByLikedGreaterThan(likes)).thenReturn(new ArrayList<>());
+        when(eventService.convertToDTOList(any())).thenReturn(new ArrayList<>());
+
+        mockMvc.perform(get("/event/recommendations/{likes}", likes))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
+
 }

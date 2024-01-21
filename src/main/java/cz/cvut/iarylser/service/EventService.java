@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -194,25 +195,11 @@ public class EventService {
         eventRepository.save(event);
         return true;
     }
-    public List<Event> getRecommend(Long userId){
-        List<Event> result = new ArrayList<>();
-        User user = userRepository.findById(userId).orElse(null);
-//        if(user == null) return result; todo control
-        List<Event> allEvents = eventRepository.findAll();
-        List<Ticket> boughtTickets = user.getTickets();
-        if(boughtTickets.isEmpty()) {
-            return allEvents;
-        }
-        for(Event event: allEvents){
-            boolean haveTicket = false;
-            for(Ticket ticket: boughtTickets){
-                if(Objects.equals(ticket.getEventId(), event.getId())){
-                    haveTicket = true;
-                    break;
-                }
-            }
-            if(!haveTicket) result.add(event);
-        }
-        return result;
+
+    public List<Event> getByLikedGreaterThan(int likes) {
+        Collection<Event> eventsCollection = eventRepository.findByLikedGreaterThan(likes);
+
+
+        return new ArrayList<>(eventsCollection);
     }
 }

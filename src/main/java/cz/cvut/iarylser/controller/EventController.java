@@ -143,7 +143,7 @@ public class EventController {
     @PutMapping("/{eventId}/like/{userId}")
     @Operation(summary = "Like an event",
             description = "Marks the event as liked by the user.")
-    @ApiResponse(responseCode = "204", description = "Event liked successfully")
+    @ApiResponse(responseCode = "200", description = "Event liked successfully")
     @ApiResponse(responseCode = "404", description = "Event or user not found")
     public ResponseEntity<?> likeEvent(
             @Parameter(description = "ID of the event to like", required = true)
@@ -154,13 +154,13 @@ public class EventController {
         if (!result) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{eventId}/unlike/{userId}")
     @Operation(summary = "Unlike an event",
             description = "Removes the like mark from the event by the user.")
-    @ApiResponse(responseCode = "204", description = "Event unliked successfully")
+    @ApiResponse(responseCode = "200", description = "Event unliked successfully")
     @ApiResponse(responseCode = "404", description = "Event or user not found")
     public ResponseEntity<?> unlikeEvent(
             @Parameter(description = "ID of the event to unlike", required = true)
@@ -171,11 +171,11 @@ public class EventController {
         if (!result) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
-    @GetMapping("/recommendations/{userId}")
-    public ResponseEntity<List<EventDTO>> getRecommendedEvents(@PathVariable Long userId){
-        List<Event> result = eventService.getRecommend(userId);
+    @GetMapping("/recommendations/{likes}")
+    public ResponseEntity<List<EventDTO>> getByLikedGreaterThan(@PathVariable int likes){
+        List<Event> result = eventService.getByLikedGreaterThan(likes);
         List<EventDTO> dtoList = eventService.convertToDTOList(result);
         return ResponseEntity.ok(dtoList);
     }

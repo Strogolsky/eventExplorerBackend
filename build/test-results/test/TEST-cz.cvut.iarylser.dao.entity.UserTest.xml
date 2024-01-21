@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.dao.entity.UserTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-01-21T12:39:18" hostname="MACHINE" time="0.004">
+<testsuite name="cz.cvut.iarylser.dao.entity.UserTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-01-21T19:31:34" hostname="MACHINE" time="0.004">
   <properties/>
-  <testcase name="likeEventSucceeded()" classname="cz.cvut.iarylser.dao.entity.UserTest" time="0.001"/>
-  <testcase name="unlikeEventSucceeded()" classname="cz.cvut.iarylser.dao.entity.UserTest" time="0.002"/>
+  <testcase name="likeEventSucceeded()" classname="cz.cvut.iarylser.dao.entity.UserTest" time="0.002"/>
+  <testcase name="unlikeEventSucceeded()" classname="cz.cvut.iarylser.dao.entity.UserTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

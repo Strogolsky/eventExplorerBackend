@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.service.UserServiceTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2024-01-21T12:39:21" hostname="MACHINE" time="0.041">
+<testsuite name="cz.cvut.iarylser.service.UserServiceTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2024-01-21T19:31:39" hostname="MACHINE" time="0.04">
   <properties/>
-  <testcase name="convertToDTOList()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.003"/>
-  <testcase name="authenticateUserFailure()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.004"/>
+  <testcase name="convertToDTOList()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
+  <testcase name="authenticateUserFailure()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.003"/>
   <testcase name="deleteUserSucceeded()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
   <testcase name="updateUserSucceeded()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.004"/>
-  <testcase name="deleteUserFailure()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.003"/>
-  <testcase name="updateUserFailureNicknameExist()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.004"/>
+  <testcase name="deleteUserFailure()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
+  <testcase name="updateUserFailureNicknameExist()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.003"/>
   <testcase name="createUserFailure()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.003"/>
   <testcase name="getAllUsers()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
   <testcase name="createUserSucceeded()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
-  <testcase name="convertToDTO()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
-  <testcase name="updateUserFailure()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.003"/>
-  <testcase name="getUserById()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
+  <testcase name="convertToDTO()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.001"/>
+  <testcase name="updateUserFailure()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
+  <testcase name="getUserById()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.003"/>
   <testcase name="authenticateUserSucceeds()" classname="cz.cvut.iarylser.service.UserServiceTest" time="0.002"/>
-  <system-out><![CDATA[2024-01-21T13:39:21.792+01:00  WARN 21440 --- [    Test worker] cz.cvut.iarylser.service.UserService     : User with id 1 not found for deletion
-2024-01-21T13:39:21.810+01:00  WARN 21440 --- [    Test worker] cz.cvut.iarylser.service.UserService     : User with id 1 not found for update
+  <system-out><![CDATA[2024-01-21T20:31:39.591+01:00  WARN 28728 --- [    Test worker] cz.cvut.iarylser.service.UserService     : User with id 1 not found for deletion
+2024-01-21T20:31:39.608+01:00  WARN 28728 --- [    Test worker] cz.cvut.iarylser.service.UserService     : User with id 1 not found for update
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

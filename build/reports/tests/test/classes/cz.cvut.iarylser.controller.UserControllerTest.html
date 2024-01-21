@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.089s</div>
+<div class="counter">0.203s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,57 +79,57 @@
 </thead>
 <tr>
 <td class="success">createUserFail()</td>
-<td class="success">0.008s</td>
+<td class="success">0.014s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">createUserSuccesful()</td>
-<td class="success">0.008s</td>
+<td class="success">0.033s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">deleteUserFailure()</td>
-<td class="success">0.006s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">deleteUserSucceeded()</td>
-<td class="success">0.005s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">getAllUsers()</td>
-<td class="success">0.008s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">getUserByIdFailure()</td>
-<td class="success">0.006s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">getUserByIdSucceeded()</td>
-<td class="success">0.004s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">loginUserFailure()</td>
-<td class="success">0.006s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">loginUserSucceeds()</td>
-<td class="success">0.006s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">updateUserFailureNickname()</td>
 <td class="success">0.007s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">deleteUserSucceeded()</td>
+<td class="success">0.006s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getAllUsers()</td>
+<td class="success">0.010s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getUserByIdFailure()</td>
+<td class="success">0.007s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getUserByIdSucceeded()</td>
+<td class="success">0.013s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">loginUserFailure()</td>
+<td class="success">0.029s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">loginUserSucceeds()</td>
+<td class="success">0.011s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">updateUserFailureNickname()</td>
+<td class="success">0.044s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">updateUserFailureNotFound()</td>
-<td class="success">0.015s</td>
+<td class="success">0.019s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -142,8 +142,8 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2024-01-21T13:39:18.644+01:00  INFO 21440 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.UserControllerTest]: UserControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-01-21T13:39:18.651+01:00  INFO 21440 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.UserControllerTest
+<pre>2024-01-21T20:31:34.138+01:00  INFO 28728 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.UserControllerTest]: UserControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-01-21T20:31:34.148+01:00  INFO 28728 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.UserControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -153,16 +153,16 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.5)
 
-2024-01-21T13:39:18.673+01:00  INFO 21440 --- [    Test worker] c.c.i.controller.UserControllerTest      : Starting UserControllerTest using Java 17.0.9 with PID 21440 (started by 1 in D:\Project\eventexplorer)
-2024-01-21T13:39:18.673+01:00  INFO 21440 --- [    Test worker] c.c.i.controller.UserControllerTest      : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2024-01-21T13:39:18.872+01:00  INFO 21440 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-01-21T13:39:18.872+01:00  INFO 21440 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-01-21T13:39:18.872+01:00  INFO 21440 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
-2024-01-21T13:39:18.876+01:00  INFO 21440 --- [    Test worker] c.c.i.controller.UserControllerTest      : Started UserControllerTest in 0.222 seconds (process running for 5.756)
-2024-01-21T13:39:18.889+01:00  INFO 21440 --- [    Test worker] c.c.iarylser.controller.UserController   : Unable to update. User with id 1 not found.
-2024-01-21T13:39:18.916+01:00  INFO 21440 --- [    Test worker] c.c.iarylser.controller.UserController   : Unable to delete. User with id 1 not found.
-2024-01-21T13:39:18.923+01:00  INFO 21440 --- [    Test worker] c.c.iarylser.controller.UserController   : User with id 1 not found.
-2024-01-21T13:39:18.961+01:00  INFO 21440 --- [    Test worker] c.c.iarylser.controller.UserController   : Error updating user: null
+2024-01-21T20:31:34.177+01:00  INFO 28728 --- [    Test worker] c.c.i.controller.UserControllerTest      : Starting UserControllerTest using Java 17.0.9 with PID 28728 (started by 1 in D:\Project\eventexplorer)
+2024-01-21T20:31:34.178+01:00  INFO 28728 --- [    Test worker] c.c.i.controller.UserControllerTest      : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-01-21T20:31:34.462+01:00  INFO 28728 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-01-21T20:31:34.463+01:00  INFO 28728 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-01-21T20:31:34.464+01:00  INFO 28728 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2024-01-21T20:31:34.470+01:00  INFO 28728 --- [    Test worker] c.c.i.controller.UserControllerTest      : Started UserControllerTest in 0.318 seconds (process running for 5.443)
+2024-01-21T20:31:34.488+01:00  INFO 28728 --- [    Test worker] c.c.iarylser.controller.UserController   : Unable to update. User with id 1 not found.
+2024-01-21T20:31:34.518+01:00  INFO 28728 --- [    Test worker] c.c.iarylser.controller.UserController   : Unable to delete. User with id 1 not found.
+2024-01-21T20:31:34.528+01:00  INFO 28728 --- [    Test worker] c.c.iarylser.controller.UserController   : User with id 1 not found.
+2024-01-21T20:31:34.616+01:00  INFO 28728 --- [    Test worker] c.c.iarylser.controller.UserController   : Error updating user: null
 </pre>
 </span>
 </div>
@@ -174,7 +174,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.2</a> at 21 янв. 2024 г., 13:39:22</p>
+<a href="http://www.gradle.org">Gradle 8.2</a> at 21 янв. 2024 г., 20:31:39</p>
 </div>
 </div>
 </body>
