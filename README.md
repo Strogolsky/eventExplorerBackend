@@ -40,3 +40,15 @@ A user can always delete their account or the events they own.
 ![data model](images/DataModel.png)
 ## 4. Complex request on the server side
 When viewing an event, you can see a list of other events that have more likes than this event.
+## 5. Client-side business operation: Ticket purchase with improved availability control
+
+### 5.1 Description
+---
+This optimized process is designed for convenient purchase of tickets for various events. When a customer clicks the "Buy Ticket" button, the system automatically checks the availability of seats. If seats are available, the ticket purchase process continues successfully; otherwise, the customer is informed that tickets are not available.
+
+### 5.2 Steps
+---
+1. The customer selects an event, enters the required information and clicks the "Buy Ticket" button.
+2. After this action, the system instantly checks the current availability of the selected event.
+3. If tickets are available, the ticket purchase is successfully completed.
+4. If all tickets are already sold out, the system informs the customer.
