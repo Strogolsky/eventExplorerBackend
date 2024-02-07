@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - TicketRepositoryTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>TicketRepositoryTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/cz.cvut.iarylser.dao.repository.html">cz.cvut.iarylser.dao.repository</a> &gt; TicketRepositoryTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">2</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.039s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">findByIdCustomerFailure()</td>
+<td class="success">0.026s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">findByIdCustomerSucceeded()</td>
+<td class="success">0.013s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2024-02-07T17:41:52.640+01:00  INFO 28788 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.dao.repository.TicketRepositoryTest]: TicketRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-02-07T17:41:52.647+01:00  INFO 28788 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.dao.repository.TicketRepositoryTest
+Hibernate: select t1_0.id_ticket,t1_0.details,e1_0.id_event,e1_0.age_restriction,e1_0.capacity,e1_0.date_and_time,e1_0.description,e1_0.id_organizer,e1_0.location,e1_0.log,e1_0.organizer,e1_0.sold_tickets,e1_0.ticket_price,e1_0.title,e1_0.topic,u1_0.id_user,u1_0.age,u1_0.description,u1_0.email,u1_0.first_name,u1_0.last_name,l1_0.id_user,l1_1.id_event,l1_1.age_restriction,l1_1.capacity,l1_1.date_and_time,l1_1.description,l1_1.id_organizer,l1_1.location,l1_1.log,l1_1.organizer,l1_1.sold_tickets,l1_1.ticket_price,l1_1.title,l1_1.topic,l1_1.id_user,u1_0.nickname,u1_0.password,t1_0.event_id,t1_0.id_customer,t1_0.id_organizer,t1_0.ticket_status,u3_0.id_user,u3_0.age,u3_0.description,u3_0.email,u3_0.first_name,u3_0.last_name,u3_0.nickname,u3_0.password from public.ticket t1_0 left join public.event e1_0 on e1_0.id_event=t1_0.id_event left join users u1_0 on u1_0.id_user=e1_0.id_user left join (event_likes l1_0 join public.event l1_1 on l1_1.id_event=l1_0.id_event) on u1_0.id_user=l1_0.id_user left join users u3_0 on u3_0.id_user=t1_0.id_user where t1_0.id_ticket=?
+Hibernate: select next value for ticket_seq
+Hibernate: insert into public.ticket (details,id_event,event_id,id_customer,id_organizer,ticket_status,id_user,id_ticket) values (?,?,?,?,?,?,?,?)
+Hibernate: select t1_0.id_ticket,t1_0.details,t1_0.id_event,t1_0.event_id,t1_0.id_customer,t1_0.id_organizer,t1_0.ticket_status,t1_0.id_user from public.ticket t1_0 where t1_0.id_customer=?
+Hibernate: select t1_0.id_ticket,t1_0.details,e1_0.id_event,e1_0.age_restriction,e1_0.capacity,e1_0.date_and_time,e1_0.description,e1_0.id_organizer,e1_0.location,e1_0.log,e1_0.organizer,e1_0.sold_tickets,e1_0.ticket_price,e1_0.title,e1_0.topic,u1_0.id_user,u1_0.age,u1_0.description,u1_0.email,u1_0.first_name,u1_0.last_name,l1_0.id_user,l1_1.id_event,l1_1.age_restriction,l1_1.capacity,l1_1.date_and_time,l1_1.description,l1_1.id_organizer,l1_1.location,l1_1.log,l1_1.organizer,l1_1.sold_tickets,l1_1.ticket_price,l1_1.title,l1_1.topic,l1_1.id_user,u1_0.nickname,u1_0.password,t1_0.event_id,t1_0.id_customer,t1_0.id_organizer,t1_0.ticket_status,u3_0.id_user,u3_0.age,u3_0.description,u3_0.email,u3_0.first_name,u3_0.last_name,u3_0.nickname,u3_0.password from public.ticket t1_0 left join public.event e1_0 on e1_0.id_event=t1_0.id_event left join users u1_0 on u1_0.id_user=e1_0.id_user left join (event_likes l1_0 join public.event l1_1 on l1_1.id_event=l1_0.id_event) on u1_0.id_user=l1_0.id_user left join users u3_0 on u3_0.id_user=t1_0.id_user where t1_0.id_ticket=?
+Hibernate: select next value for ticket_seq
+Hibernate: insert into public.ticket (details,id_event,event_id,id_customer,id_organizer,ticket_status,id_user,id_ticket) values (?,?,?,?,?,?,?,?)
+Hibernate: select t1_0.id_ticket,t1_0.details,t1_0.id_event,t1_0.event_id,t1_0.id_customer,t1_0.id_organizer,t1_0.ticket_status,t1_0.id_user from public.ticket t1_0 where t1_0.id_customer=?
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.2</a> at 7 февр. 2024 г., 17:41:55</p>
+</div>
+</div>
+</body>
+</html>

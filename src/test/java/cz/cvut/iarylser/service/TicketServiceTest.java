@@ -13,20 +13,23 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
+@SpringBootTest
 class TicketServiceTest {
 
-    @Mock
+    @MockBean
     private TicketRepository ticketRepository;
-    @Mock
+    @MockBean
     private UserRepository userRepository;
-    @InjectMocks
+    @Autowired
     private TicketService ticketService;
 
     Ticket ticket1, ticket2;

@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.502s</div>
+<div class="counter">0.554s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,17 +79,17 @@
 </thead>
 <tr>
 <td class="success">createEventFailure()</td>
-<td class="success">0.010s</td>
+<td class="success">0.014s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">createEventSucceeded()</td>
-<td class="success">0.007s</td>
+<td class="success">0.009s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">deleteEventFailure()</td>
-<td class="success">0.010s</td>
+<td class="success">0.008s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -99,7 +99,7 @@
 </tr>
 <tr>
 <td class="success">getAllEventsSucceeded()</td>
-<td class="success">0.009s</td>
+<td class="success">0.011s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -109,22 +109,22 @@
 </tr>
 <tr>
 <td class="success">getByLikedGreaterThanSuccessful()</td>
-<td class="success">0.262s</td>
+<td class="success">0.295s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getEventByIdFailure()</td>
-<td class="success">0.006s</td>
+<td class="success">0.008s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getEventByIdSucceeded()</td>
-<td class="success">0.007s</td>
+<td class="success">0.010s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">likeEventFailure()</td>
-<td class="success">0.014s</td>
+<td class="success">0.010s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -134,12 +134,12 @@
 </tr>
 <tr>
 <td class="success">purchaseTicketFailure()</td>
-<td class="success">0.008s</td>
+<td class="success">0.011s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">purchaseTicketSucceeded()</td>
-<td class="success">0.014s</td>
+<td class="success">0.018s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -149,17 +149,17 @@
 </tr>
 <tr>
 <td class="success">unlikeEventSucceeded()</td>
-<td class="success">0.005s</td>
+<td class="success">0.008s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateEventFailure()</td>
-<td class="success">0.103s</td>
+<td class="success">0.104s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateEventSucceeded()</td>
-<td class="success">0.019s</td>
+<td class="success">0.020s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -167,8 +167,8 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>23:44:35.908 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.EventControllerTest]: EventControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-23:44:36.183 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.EventControllerTest
+<pre>17:41:44.894 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.EventControllerTest]: EventControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+17:41:45.089 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.EventControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -178,12 +178,12 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.5)
 
-2024-01-21T23:44:36.773+01:00  INFO 15116 --- [    Test worker] c.c.i.controller.EventControllerTest     : Starting EventControllerTest using Java 17.0.9 with PID 15116 (started by 1 in D:\Project\eventexplorer)
-2024-01-21T23:44:36.775+01:00  INFO 15116 --- [    Test worker] c.c.i.controller.EventControllerTest     : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2024-01-21T23:44:38.820+01:00  INFO 15116 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-01-21T23:44:38.821+01:00  INFO 15116 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-01-21T23:44:38.825+01:00  INFO 15116 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
-2024-01-21T23:44:38.861+01:00  INFO 15116 --- [    Test worker] c.c.i.controller.EventControllerTest     : Started EventControllerTest in 2.57 seconds (process running for 4.329)
+2024-02-07T17:41:45.619+01:00  INFO 28788 --- [    Test worker] c.c.i.controller.EventControllerTest     : Starting EventControllerTest using Java 17.0.9 with PID 28788 (started by 1 in D:\Project\eventexplorer)
+2024-02-07T17:41:45.620+01:00  INFO 28788 --- [    Test worker] c.c.i.controller.EventControllerTest     : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-02-07T17:41:47.618+01:00  INFO 28788 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-02-07T17:41:47.619+01:00  INFO 28788 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-02-07T17:41:47.623+01:00  INFO 28788 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2024-02-07T17:41:47.663+01:00  INFO 28788 --- [    Test worker] c.c.i.controller.EventControllerTest     : Started EventControllerTest in 2.448 seconds (process running for 3.95)
 </pre>
 </span>
 </div>
@@ -195,7 +195,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.2</a> at 21 янв. 2024 г., 23:44:39</p>
+<a href="http://www.gradle.org">Gradle 8.2</a> at 7 февр. 2024 г., 17:41:55</p>
 </div>
 </div>
 </body>
