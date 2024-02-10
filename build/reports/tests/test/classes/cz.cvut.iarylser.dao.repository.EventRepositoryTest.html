@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - EventRepositoryTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>EventRepositoryTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/cz.cvut.iarylser.dao.repository.html">cz.cvut.iarylser.dao.repository</a> &gt; EventRepositoryTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">4</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.365s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">FindByLikedGreaterThanExist()</td>
+<td class="success">0.309s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">FindByLikedGreaterThanNotExist()</td>
+<td class="success">0.017s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">findByIdOrganizer()</td>
+<td class="success">0.005s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testFindByIdOrganizer()</td>
+<td class="success">0.034s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2024-02-09T14:11:31.862+01:00  INFO 11952 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.dao.repository.EventRepositoryTest]: EventRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-02-09T14:11:31.878+01:00  INFO 11952 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.dao.repository.EventRepositoryTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.5)
+
+2024-02-09T14:11:31.904+01:00  INFO 11952 --- [    Test worker] c.c.i.d.repository.EventRepositoryTest   : Starting EventRepositoryTest using Java 17.0.9 with PID 11952 (started by 1 in D:\Project\eventexplorer)
+2024-02-09T14:11:31.905+01:00  INFO 11952 --- [    Test worker] c.c.i.d.repository.EventRepositoryTest   : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-02-09T14:11:32.091+01:00  INFO 11952 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-09T14:11:32.160+01:00  INFO 11952 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 50 ms. Found 3 JPA repository interfaces.
+2024-02-09T14:11:32.228+01:00  INFO 11952 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2024-02-09T14:11:32.297+01:00  INFO 11952 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:365c0213-199a-4f51-aa20-1df96c255d60;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2024-02-09T14:11:32.596+01:00  INFO 11952 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-09T14:11:32.675+01:00  INFO 11952 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.13.Final
+2024-02-09T14:11:32.679+01:00  INFO 11952 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2024-02-09T14:11:32.868+01:00  INFO 11952 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-09T14:11:32.928+01:00  WARN 11952 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-02-09T14:11:33.861+01:00  INFO 11952 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: drop table if exists public.event cascade 
+Hibernate: drop table if exists public.ticket cascade 
+Hibernate: drop table if exists event_likes cascade 
+Hibernate: drop table if exists users cascade 
+Hibernate: drop sequence if exists event_seq
+Hibernate: drop sequence if exists ticket_seq
+Hibernate: drop sequence if exists users_seq
+Hibernate: create table public.event (age_restriction boolean, capacity integer, sold_tickets integer, ticket_price integer, topic tinyint check (topic between 0 and 8), date_and_time timestamp(6), id_event bigint not null, id_organizer bigint, id_user bigint, description text, location varchar(255), log varbinary(255), organizer varchar(255), title varchar(255), primary key (id_event))
+Hibernate: create table public.ticket (ticket_status tinyint check (ticket_status between 0 and 1), event_id bigint, id_customer bigint, id_event bigint, id_organizer bigint, id_ticket bigint not null, id_user bigint, details text, primary key (id_ticket))
+Hibernate: create sequence event_seq start with 1 increment by 50
+Hibernate: create sequence ticket_seq start with 1 increment by 50
+Hibernate: create sequence users_seq start with 1 increment by 50
+Hibernate: create table event_likes (id_event bigint not null, id_user bigint not null)
+Hibernate: create table users (age integer, id_user bigint not null, description text, email varchar(255), first_name varchar(255), last_name varchar(255), nickname varchar(255) unique, password varchar(255), primary key (id_user))
+Hibernate: alter table if exists public.event add constraint FKcam53vvc1ecfyiejtv98f49oe foreign key (id_user) references users
+Hibernate: alter table if exists public.ticket add constraint FKh5r4ua2h63akkkiae6evkfr0 foreign key (id_event) references public.event
+Hibernate: alter table if exists public.ticket add constraint FKmlniiijfm8ihk6w6dcnog7vrh foreign key (id_user) references users
+Hibernate: alter table if exists event_likes add constraint FKrp1c5614p8wmelko5fonis1f4 foreign key (id_user) references users
+Hibernate: alter table if exists event_likes add constraint FKqpm9tffl8xuh7wac7s2xj951l foreign key (id_event) references public.event
+2024-02-09T14:11:33.920+01:00  INFO 11952 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-09T14:11:34.329+01:00  INFO 11952 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-02-09T14:11:34.789+01:00  INFO 11952 --- [    Test worker] c.c.i.d.repository.EventRepositoryTest   : Started EventRepositoryTest in 2.906 seconds (process running for 7.726)
+Hibernate: select next value for users_seq
+Hibernate: select next value for users_seq
+Hibernate: select next value for event_seq
+Hibernate: insert into users (age,description,email,first_name,last_name,nickname,password,id_user) values (?,?,?,?,?,?,?,?)
+Hibernate: insert into users (age,description,email,first_name,last_name,nickname,password,id_user) values (?,?,?,?,?,?,?,?)
+Hibernate: insert into public.event (age_restriction,capacity,date_and_time,description,id_organizer,location,log,organizer,sold_tickets,ticket_price,title,topic,id_user,id_event) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into event_likes (id_event,id_user) values (?,?)
+Hibernate: insert into event_likes (id_event,id_user) values (?,?)
+Hibernate: select e1_0.id_event,e1_0.age_restriction,e1_0.capacity,e1_0.date_and_time,e1_0.description,e1_0.id_organizer,e1_0.location,e1_0.log,e1_0.organizer,e1_0.sold_tickets,e1_0.ticket_price,e1_0.title,e1_0.topic,e1_0.id_user from public.event e1_0 where (select count(1) from event_likes l1_0 where e1_0.id_event=l1_0.id_event)&gt;?
+Hibernate: select next value for event_seq
+Hibernate: insert into public.event (age_restriction,capacity,date_and_time,description,id_organizer,location,log,organizer,sold_tickets,ticket_price,title,topic,id_user,id_event) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into public.event (age_restriction,capacity,date_and_time,description,id_organizer,location,log,organizer,sold_tickets,ticket_price,title,topic,id_user,id_event) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into public.event (age_restriction,capacity,date_and_time,description,id_organizer,location,log,organizer,sold_tickets,ticket_price,title,topic,id_user,id_event) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: select e1_0.id_event,e1_0.age_restriction,e1_0.capacity,e1_0.date_and_time,e1_0.description,e1_0.id_organizer,e1_0.location,e1_0.log,e1_0.organizer,e1_0.sold_tickets,e1_0.ticket_price,e1_0.title,e1_0.topic,e1_0.id_user from public.event e1_0 where e1_0.id_organizer=?
+Hibernate: insert into users (age,description,email,first_name,last_name,nickname,password,id_user) values (?,?,?,?,?,?,?,?)
+Hibernate: insert into users (age,description,email,first_name,last_name,nickname,password,id_user) values (?,?,?,?,?,?,?,?)
+Hibernate: insert into public.event (age_restriction,capacity,date_and_time,description,id_organizer,location,log,organizer,sold_tickets,ticket_price,title,topic,id_user,id_event) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into event_likes (id_event,id_user) values (?,?)
+Hibernate: insert into event_likes (id_event,id_user) values (?,?)
+Hibernate: select e1_0.id_event,e1_0.age_restriction,e1_0.capacity,e1_0.date_and_time,e1_0.description,e1_0.id_organizer,e1_0.location,e1_0.log,e1_0.organizer,e1_0.sold_tickets,e1_0.ticket_price,e1_0.title,e1_0.topic,e1_0.id_user from public.event e1_0 where (select count(1) from event_likes l1_0 where e1_0.id_event=l1_0.id_event)&gt;?
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.2</a> at 9 февр. 2024 г., 14:11:38</p>
+</div>
+</div>
+</body>
+</html>
