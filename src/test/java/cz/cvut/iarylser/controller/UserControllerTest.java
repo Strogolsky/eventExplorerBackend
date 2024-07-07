@@ -60,7 +60,7 @@ class UserControllerTest {
         userDTO2.setNickname("user2");
         List<UserDTO> userDTOs = Arrays.asList(userDTO1, userDTO2);
 
-        when(userService.getAllUsers()).thenReturn(users);
+        when(userService.getAll()).thenReturn(users);
         when(userService.convertToDTOList(users)).thenReturn(userDTOs);
 
         mockMvc.perform(get("/user"))
@@ -82,7 +82,7 @@ class UserControllerTest {
         UserDTO userDTO = new UserDTO();
         userDTO.setNickname(userNickname);
 
-        when(userService.getUserById(userId)).thenReturn(user);
+        when(userService.getById(userId)).thenReturn(user);
         when(userService.convertToDTO(user)).thenReturn(userDTO);
 
         mockMvc.perform(get("/user/" + userId))
@@ -92,7 +92,7 @@ class UserControllerTest {
     @Test
     void getUserByIdFailure() throws Exception {
         Long userId = 1L;
-        when(userService.getUserById(userId)).thenReturn(null);
+        when(userService.getById(userId)).thenReturn(null);
 
         mockMvc.perform(get("/user/{userId}", userId))
                 .andExpect(status().isNotFound());
@@ -116,7 +116,7 @@ class UserControllerTest {
         userDTO.setLastName(user.getLastName());
         userDTO.setDescription(user.getDescription());
 
-        when(userService.createUser(any(User.class))).thenReturn(user);
+        when(userService.create(any(User.class))).thenReturn(user);
         when(userService.convertToDTO(any(User.class))).thenReturn(userDTO);
 
         String userJson = new ObjectMapper().writeValueAsString(user);
@@ -136,7 +136,7 @@ class UserControllerTest {
     @Test
     public void createUserFail() throws Exception {
         User user = new User();
-        when(userService.createUser(any(User.class))).thenThrow(new IllegalArgumentException());
+        when(userService.create(any(User.class))).thenThrow(new IllegalArgumentException());
 
         String userJson = new ObjectMapper().writeValueAsString(user);
 
@@ -166,7 +166,7 @@ class UserControllerTest {
         updatedUserDTO.setDescription(updatedUser.getDescription());
         updatedUserDTO.setAge(updatedUser.getAge());
 
-        Mockito.when(userService.updateUser(userId, updatedUser)).thenReturn(updatedUser);
+        Mockito.when(userService.update(userId, updatedUser)).thenReturn(updatedUser);
         Mockito.when(userService.convertToDTO(updatedUser)).thenReturn(updatedUserDTO);
 
         String updatedUserJson = new ObjectMapper().writeValueAsString(updatedUser);
@@ -189,7 +189,7 @@ class UserControllerTest {
     void updateUserFailureNickname() throws Exception {
         Long userId = 1L;
         User updatedUser = new User();
-        given(userService.updateUser(eq(userId), any(User.class))).willThrow(new IllegalArgumentException());
+        given(userService.update(eq(userId), any(User.class))).willThrow(new IllegalArgumentException());
 
         mockMvc.perform(put("/user/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -201,7 +201,7 @@ class UserControllerTest {
     void updateUserFailureNotFound() throws Exception {
         Long userId = 1L;
         User updatedUser = new User();
-        given(userService.updateUser(eq(userId), any(User.class))).willReturn(null);
+        given(userService.update(eq(userId), any(User.class))).willReturn(null);
 
         mockMvc.perform(put("/user/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -212,7 +212,7 @@ class UserControllerTest {
     @Test
     void deleteUserSucceeded() throws Exception {
         Long userId = 1L;
-        Mockito.when(userService.deleteUser(userId)).thenReturn(true);
+        Mockito.when(userService.delete(userId)).thenReturn(true);
 
         mockMvc.perform(delete("/user/" + userId))
                 .andExpect(status().isNoContent());
@@ -221,7 +221,7 @@ class UserControllerTest {
     @Test
     void deleteUserFailure() throws Exception {
         Long userId = 1L;
-        given(userService.deleteUser(userId)).willReturn(false);
+        given(userService.delete(userId)).willReturn(false);
 
         mockMvc.perform(delete("/user/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON))

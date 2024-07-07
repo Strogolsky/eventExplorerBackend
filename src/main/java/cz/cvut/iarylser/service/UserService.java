@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class UserService {
+public class UserService implements CrudService<User,Long>{
     private final UserRepository userRepository;
     private final EventService eventService;
 
@@ -20,15 +20,15 @@ public class UserService {
         this.userRepository = repository;
         this.eventService = eventService;
     }
-    public List<User> getAllUsers(){
+    public List<User> getAll(){
         return userRepository.findAll();
 
     }
 
-    public User getUserById(Long userId){
+    public User getById(Long userId){
         return userRepository.findById(userId).orElse(null);
     }
-    public User createUser(User newUser){
+    public User create(User newUser){
         if(userRepository.existsByNickname(newUser.getNickname())){
             throw new IllegalArgumentException();
         }
@@ -36,8 +36,8 @@ public class UserService {
     }
 
 
-    public User updateUser(Long userId, User updatedUser) {
-        User existingUser = getUserById(userId);
+    public User update(Long userId, User updatedUser) {
+        User existingUser = getById(userId);
         if (existingUser == null) {
             log.warn("User with id {} not found for update", userId);
             return null;
@@ -70,7 +70,7 @@ public class UserService {
             eventService.updateForOrgChange(event, updatedUser);
         }
     }
-    public boolean deleteUser(Long userId) {
+    public boolean delete(Long userId) {
         if (!userRepository.existsById(userId)) {
             log.warn("User with id {} not found for deletion", userId);
             return false;

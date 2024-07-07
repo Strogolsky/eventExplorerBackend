@@ -37,7 +37,7 @@ public class UserController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = UserDTO.class)))
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<User> result = userService.getAllUsers();
+        List<User> result = userService.getAll();
         return ResponseEntity.ok(userService.convertToDTOList(result));
     }
 
@@ -53,7 +53,7 @@ public class UserController {
     public ResponseEntity<UserDTO> getUserById(
             @Parameter(description = "Unique identifier of the user to be retrieved")
             @PathVariable Long userId) {
-        User user = userService.getUserById(userId);
+        User user = userService.getById(userId);
         if (user == null) {
             log.info("User with id {} not found.", userId);
             return ResponseEntity.notFound().build();
@@ -73,7 +73,7 @@ public class UserController {
             @RequestBody User newUser) {
         User user;
         try {
-            user = userService.createUser(newUser);
+            user = userService.create(newUser);
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body("User is not added" + e.getMessage());
         }
@@ -115,7 +115,7 @@ public class UserController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated user object", required = true)
             @RequestBody User updatedUser) {
         try {
-            User user = userService.updateUser(userId, updatedUser);
+            User user = userService.update(userId, updatedUser);
             if (user == null) {
                 log.info("Unable to update. User with id {} not found.", userId);
                 return ResponseEntity.notFound().build();
@@ -135,7 +135,7 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(
             @Parameter(description = "Unique identifier of the user to be retrieved")
             @PathVariable Long userId) {
-        if (!userService.deleteUser(userId)) {
+        if (!userService.delete(userId)) {
             log.info("Unable to delete. User with id {} not found.", userId);
             return ResponseEntity.notFound().build();
         }

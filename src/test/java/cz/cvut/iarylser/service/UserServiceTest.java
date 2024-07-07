@@ -57,7 +57,7 @@ class UserServiceTest {
 
         when(userRepository.findAll()).thenReturn(users);
 
-        List<User> result = userService.getAllUsers();
+        List<User> result = userService.getAll();
         assertFalse(result.isEmpty());
         assertEquals(2, result.size());
         assertEquals("user1", result.get(0).getNickname());
@@ -71,7 +71,7 @@ class UserServiceTest {
 
         //when
         when(userRepository.findById(id)).thenReturn(Optional.ofNullable(user1));
-        User found = userService.getUserById(id);
+        User found = userService.getById(id);
 
         //then
         assertNotNull(found);
@@ -82,7 +82,7 @@ class UserServiceTest {
     void createUserSucceeded() {
         // when
         when(userRepository.save(any(User.class))).thenReturn(user1);
-        User result = userService.createUser(user1);
+        User result = userService.create(user1);
         //then
         assertEquals(user1, result);
         Mockito.verify(userRepository).save(user1);
@@ -95,7 +95,7 @@ class UserServiceTest {
         when(userRepository.existsByNickname(anyString())).thenReturn(true);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            userService.createUser(newUser);
+            userService.create(newUser);
         });
     }
     @Test
@@ -103,7 +103,7 @@ class UserServiceTest {
         Long userId = 1L;
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        User result = userService.updateUser(userId, new User());
+        User result = userService.update(userId, new User());
 
         assertNull(result);
     }
@@ -122,7 +122,7 @@ class UserServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
         when(userRepository.save(any(User.class))).thenReturn(updatedUser);
 
-        User result = userService.updateUser(userId, updatedUser);
+        User result = userService.update(userId, updatedUser);
 
         assertNotNull(result);
         assertEquals("NewNickname", result.getNickname());
@@ -137,7 +137,7 @@ class UserServiceTest {
         Mockito.when(userRepository.existsById(userId)).thenReturn(true);
 
         // when
-        boolean result = userService.deleteUser(userId);
+        boolean result = userService.delete(userId);
 
         //then
         assertTrue(result);
@@ -149,7 +149,7 @@ class UserServiceTest {
         Long userId = 1L;
         when(userRepository.existsById(userId)).thenReturn(false);
 
-        boolean result = userService.deleteUser(userId);
+        boolean result = userService.delete(userId);
 
         assertFalse(result);
     }
@@ -245,7 +245,7 @@ class UserServiceTest {
 
         IllegalArgumentException thrown = assertThrows(
                 IllegalArgumentException.class,
-                () -> userService.updateUser(userId, updatedUser),
+                () -> userService.update(userId, updatedUser),
                 "Expected updateUser to throw, but it didn't"
         );
 
