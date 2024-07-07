@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:15
+    image: postgres:12.19-alpine3.20
     restart: always
     environment:
       - POSTGRES_USER=iarylser
