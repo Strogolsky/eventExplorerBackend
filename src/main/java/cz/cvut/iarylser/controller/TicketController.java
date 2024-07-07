@@ -34,7 +34,7 @@ public class TicketController {
     public ResponseEntity<TicketDTO> getTicketById(
             @Parameter(description = "Unique identifier of the ticket to be retrieved", required = true)
             @PathVariable Long ticketId){
-        Ticket ticket = ticketService.getTicketById(ticketId);
+        Ticket ticket = ticketService.getById(ticketId);
         if (ticket == null) {
             return ResponseEntity.notFound().build();
         }
@@ -49,7 +49,7 @@ public class TicketController {
             content = @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = TicketDTO.class))))
     public ResponseEntity<List<TicketDTO>> getTicketByUser(@PathVariable Long userId){
-        List<TicketDTO> result = ticketService.convertTicketsToDTOs(ticketService.getTicketByUser(userId));
+        List<TicketDTO> result = ticketService.convertTicketsToDTOs(ticketService.getByUser(userId));
         return ResponseEntity.ok(result);
     }
 }

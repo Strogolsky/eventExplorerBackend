@@ -64,7 +64,7 @@ class TicketServiceTest {
         Long ticketId = 1L;
         when(ticketRepository.findById(ticketId)).thenReturn(Optional.of(ticket1));
 
-        Ticket result = ticketService.getTicketById(ticketId);
+        Ticket result = ticketService.getById(ticketId);
 
         assertNotNull(result);
         assertEquals(ticket1.getId(), result.getId());
@@ -82,7 +82,7 @@ class TicketServiceTest {
         Long ticketId = 1L;
         when(ticketRepository.findById(ticketId)).thenReturn(Optional.empty());
 
-        Ticket result = ticketService.getTicketById(ticketId);
+        Ticket result = ticketService.getById(ticketId);
 
         assertNull(result);
     }
@@ -92,7 +92,7 @@ class TicketServiceTest {
         Long customerId = 3L;
         when(ticketRepository.findByIdCustomer(customerId)).thenReturn(Arrays.asList(ticket1));
 
-        List<Ticket> results = ticketService.getTicketByUser(customerId);
+        List<Ticket> results = ticketService.getByUser(customerId);
 
         assertNotNull(results);
         assertFalse(results.isEmpty());
@@ -111,7 +111,7 @@ class TicketServiceTest {
         Long userId = 1L;
         when(ticketRepository.findByIdCustomer(userId)).thenReturn(Collections.emptyList());
 
-        List<Ticket> result = ticketService.getTicketByUser(userId);
+        List<Ticket> result = ticketService.getByUser(userId);
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
@@ -132,7 +132,7 @@ class TicketServiceTest {
         when(ticketRepository.save(Mockito.any(Ticket.class))).thenAnswer(i -> i.getArguments()[0]);
         when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Ticket result = ticketService.createTicket(event, customer);
+        Ticket result = ticketService.create(event, customer);
 
         assertNotNull(result);
         assertEquals(event.getId(), result.getEventId());
@@ -187,7 +187,7 @@ class TicketServiceTest {
         when(ticketRepository.findById(ticket1.getId())).thenReturn(Optional.of(ticket1));
         when(ticketRepository.save(Mockito.any(Ticket.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Ticket result = ticketService.updateTicket(ticket1.getId(), updatedTicket);
+        Ticket result = ticketService.update(ticket1.getId(), updatedTicket);
 
         assertNotNull(result);
         assertTicketsEquality(updatedTicket,result);
@@ -202,7 +202,7 @@ class TicketServiceTest {
         Ticket updatedTicket = new Ticket();
         when(ticketRepository.findById(ticketId)).thenReturn(Optional.empty());
 
-        Ticket result = ticketService.updateTicket(ticketId, updatedTicket);
+        Ticket result = ticketService.update(ticketId, updatedTicket);
 
         assertNull(result);
     }
@@ -231,7 +231,7 @@ class TicketServiceTest {
         when(ticketRepository.existsById(ticketId)).thenReturn(true);
         Mockito.doNothing().when(ticketRepository).deleteById(ticketId);
 
-        boolean result = ticketService.deleteTicket(ticketId);
+        boolean result = ticketService.delete(ticketId);
 
         assertTrue(result);
         verify(ticketRepository).existsById(ticketId);
@@ -243,7 +243,7 @@ class TicketServiceTest {
         Long ticketId = 1L;
         when(ticketRepository.existsById(ticketId)).thenReturn(false);
 
-        boolean result = ticketService.deleteTicket(ticketId);
+        boolean result = ticketService.delete(ticketId);
 
         assertFalse(result);
         verify(ticketRepository, never()).deleteById(ticketId);

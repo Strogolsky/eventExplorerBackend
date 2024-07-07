@@ -21,14 +21,14 @@ public class TicketService {
         this.ticketRepository = ticketRepository;
         this.userRepository = userRepository;
     }
-    public Ticket getTicketById(Long ticketId){
+    public Ticket getById(Long ticketId){
         return ticketRepository.findById(ticketId).orElse(null);
     }
-    public List<Ticket> getTicketByUser(Long userId){
+    public List<Ticket> getByUser(Long userId){
         return ticketRepository.findByIdCustomer(userId);
     }
 
-    public Ticket createTicket(Event event, User customer){
+    public Ticket create(Event event, User customer){
         Ticket ticket = new Ticket();
         ticket.setEventId(event.getId());
         ticket.setIdCustomer(customer.getId());
@@ -70,7 +70,7 @@ public class TicketService {
         return ticketDTOs;
     }
 
-    public Ticket updateTicket(Long ticketId, Ticket updatedTicket) {
+    public Ticket update(Long ticketId, Ticket updatedTicket) {
         Ticket existingTicket = ticketRepository.findById(ticketId).orElse(null);
         if (existingTicket == null) {
             log.warn("Ticket with id {} not found for update", ticketId);
@@ -86,7 +86,7 @@ public class TicketService {
         ticket.setDetails(details);
     }
 
-    public boolean deleteTicket(Long ticketId){
+    public boolean delete(Long ticketId){
         if(!ticketRepository.existsById(ticketId)){
             return false;
         }

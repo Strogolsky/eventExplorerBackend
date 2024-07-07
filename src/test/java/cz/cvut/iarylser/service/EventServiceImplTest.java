@@ -92,7 +92,7 @@ class EventServiceImplTest {
         userRepository.save(user);
 
         // When
-        boolean liked = eventService.likeEvent(event.getId(), user.getId());
+        boolean liked = eventService.like(event.getId(), user.getId());
 
         // Then
         Assertions.assertTrue(liked);
@@ -111,7 +111,7 @@ class EventServiceImplTest {
         Long nonExistentUserId = 999L;
 
         // When
-        boolean liked = eventService.likeEvent(event.getId(), nonExistentUserId);
+        boolean liked = eventService.like(event.getId(), nonExistentUserId);
 
         // Then
         Assertions.assertFalse(liked);

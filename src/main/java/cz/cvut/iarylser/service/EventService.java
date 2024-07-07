@@ -62,7 +62,7 @@ public class EventService implements CrudService<Event,Long> {
             }
             List<Ticket> tickets = new ArrayList<>();
             for(int i = 0; i < request.getQuantity(); i++){
-                Ticket ticket = ticketService.createTicket(event, customer);
+                Ticket ticket = ticketService.create(event, customer);
                 tickets.add(ticket);
                 event.setSoldTickets(event.getSoldTickets() + 1);
 
@@ -74,7 +74,7 @@ public class EventService implements CrudService<Event,Long> {
         return null;
     }
 
-    public List<Event> getEventsByUserId(Long userId) {
+    public List<Event> getByUserId(Long userId) {
         return eventRepository.findByIdOrganizer(userId);
     }
     @Override
@@ -168,10 +168,10 @@ public class EventService implements CrudService<Event,Long> {
         Ticket updatedTicket = new Ticket();
         updatedTicket.setDetails(event.getDescription());
         for( Ticket ticket : event.getTickets()){
-            ticketService.updateTicket(ticket.getId(),updatedTicket);
+            ticketService.update(ticket.getId(),updatedTicket);
         }
     }
-    public boolean likeEvent(Long eventId, Long userId){
+    public boolean like(Long eventId, Long userId){
         User user = userRepository.findById(userId).orElse(null);
         Event event = eventRepository.findById(eventId).orElse(null);
         if (user == null || event == null) {
@@ -184,7 +184,7 @@ public class EventService implements CrudService<Event,Long> {
         eventRepository.save(event);
         return true;
     }
-    public boolean unlikeEvent(Long eventId, Long userId){
+    public boolean unlike(Long eventId, Long userId){
         User user = userRepository.findById(userId).orElse(null);
         Event event = eventRepository.findById(eventId).orElse(null);
         if (user == null || event == null) {

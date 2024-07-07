@@ -99,7 +99,7 @@ public class EventController {
     public ResponseEntity<List<EventDTO>> getEventsByUserId(
             @Parameter(description = "User ID to retrieve events for", required = true)
             @PathVariable Long userId) {
-        List<Event> events = eventService.getEventsByUserId(userId);
+        List<Event> events = eventService.getByUserId(userId);
 
         List<EventDTO> eventDTOs = eventService.convertToDTOList(events);
 
@@ -150,7 +150,7 @@ public class EventController {
             @PathVariable Long eventId,
             @Parameter(description = "ID of the user who is liking the event", required = true)
             @PathVariable Long userId) {
-        boolean result = eventService.likeEvent(eventId, userId);
+        boolean result = eventService.like(eventId, userId);
         if (!result) {
             return ResponseEntity.notFound().build();
         }
@@ -167,7 +167,7 @@ public class EventController {
             @PathVariable Long eventId,
             @Parameter(description = "ID of the user who is unliking the event", required = true)
             @PathVariable Long userId) {
-        boolean result = eventService.unlikeEvent(eventId, userId);
+        boolean result = eventService.unlike(eventId, userId);
         if (!result) {
             return ResponseEntity.notFound().build();
         }

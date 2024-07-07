@@ -310,7 +310,7 @@ class EventControllerTest {
         Long eventId = 1L;
         Long userId = 2L;
 
-        when(eventService.likeEvent(eventId,userId)).thenReturn(true);
+        when(eventService.like(eventId,userId)).thenReturn(true);
 
         mockMvc.perform(put("/event/{eventId}/like/{userId}", eventId, userId)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -321,7 +321,7 @@ class EventControllerTest {
     void likeEventFailure() throws Exception {
         Long eventId = 1L;
         Long userId = 1L;
-        when(eventService.likeEvent(eventId, userId)).thenReturn(false);
+        when(eventService.like(eventId, userId)).thenReturn(false);
 
         mockMvc.perform(put("/event/{eventId}/like/{userId}", eventId, userId))
                 .andExpect(status().isNotFound());
@@ -333,7 +333,7 @@ class EventControllerTest {
         Long eventId = 1L;
         Long userId = 2L;
 
-        when(eventService.unlikeEvent(eventId,userId)).thenReturn(true);
+        when(eventService.unlike(eventId,userId)).thenReturn(true);
 
         mockMvc.perform(put("/event/{eventId}/unlike/{userId}", eventId, userId)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -344,7 +344,7 @@ class EventControllerTest {
     void unlikeEventFailure() throws Exception {
         Long eventId = 1L;
         Long userId = 1L;
-        when(eventService.unlikeEvent(eventId, userId)).thenReturn(false);
+        when(eventService.unlike(eventId, userId)).thenReturn(false);
 
         mockMvc.perform(put("/event/{eventId}/unlike/{userId}", eventId, userId))
                 .andExpect(status().isNotFound());

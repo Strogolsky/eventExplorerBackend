@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.044s</div>
+<div class="counter">0.045s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,12 +79,12 @@
 </thead>
 <tr>
 <td class="success">getAllEvents()</td>
-<td class="success">0.011s</td>
+<td class="success">0.012s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getEventByIdFailure()</td>
-<td class="success">0.005s</td>
+<td class="success">0.006s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -94,12 +94,12 @@
 </tr>
 <tr>
 <td class="success">likeEventFailure()</td>
-<td class="success">0.016s</td>
+<td class="success">0.014s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">likeEventSuccessful()</td>
-<td class="success">0.007s</td>
+<td class="success">0.008s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -107,8 +107,8 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2024-07-07T16:20:44.971+02:00  INFO 19352 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.service.EventServiceImplTest]: EventServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-07-07T16:20:44.983+02:00  INFO 19352 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.service.EventServiceImplTest
+<pre>2024-07-07T16:46:58.712+02:00  INFO 16176 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.service.EventServiceImplTest]: EventServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-07-07T16:46:58.722+02:00  INFO 16176 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.service.EventServiceImplTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -118,21 +118,21 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.5)
 
-2024-07-07T16:20:45.009+02:00  INFO 19352 --- [    Test worker] c.c.i.service.EventServiceImplTest       : Starting EventServiceImplTest using Java 17.0.9 with PID 19352 (started by 1 in D:\Project\eventExplorerBackend)
-2024-07-07T16:20:45.009+02:00  INFO 19352 --- [    Test worker] c.c.i.service.EventServiceImplTest       : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2024-07-07T16:20:45.378+02:00  INFO 19352 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-07-07T16:20:45.389+02:00  INFO 19352 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 3 JPA repository interfaces.
-2024-07-07T16:20:45.543+02:00  INFO 19352 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-07-07T16:20:45.550+02:00  INFO 19352 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-07-07T16:20:45.552+02:00  INFO 19352 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-07-07T16:20:45.577+02:00  INFO 19352 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn13: url=jdbc:h2:mem:test user=IARYLSER
-2024-07-07T16:20:45.579+02:00  INFO 19352 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-07-07T16:20:45.586+02:00  WARN 19352 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-07-07T16:20:45.691+02:00  INFO 19352 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-07-07T16:20:45.705+02:00  INFO 19352 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-07-07T16:20:46.079+02:00  WARN 19352 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-07-07T16:20:46.307+02:00  INFO 19352 --- [    Test worker] c.c.i.service.EventServiceImplTest       : Started EventServiceImplTest in 1.317 seconds (process running for 11.066)
-2024-07-07T16:20:46.324+02:00  WARN 19352 --- [    Test worker] cz.cvut.iarylser.service.EventService    : User or Event not found for like operation
+2024-07-07T16:46:58.749+02:00  INFO 16176 --- [    Test worker] c.c.i.service.EventServiceImplTest       : Starting EventServiceImplTest using Java 17.0.9 with PID 16176 (started by 1 in D:\Project\eventExplorerBackend)
+2024-07-07T16:46:58.750+02:00  INFO 16176 --- [    Test worker] c.c.i.service.EventServiceImplTest       : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-07-07T16:46:59.120+02:00  INFO 16176 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-07-07T16:46:59.133+02:00  INFO 16176 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 3 JPA repository interfaces.
+2024-07-07T16:46:59.275+02:00  INFO 16176 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-07-07T16:46:59.283+02:00  INFO 16176 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-07-07T16:46:59.285+02:00  INFO 16176 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-07-07T16:46:59.306+02:00  INFO 16176 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn13: url=jdbc:h2:mem:test user=IARYLSER
+2024-07-07T16:46:59.308+02:00  INFO 16176 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-07-07T16:46:59.315+02:00  WARN 16176 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-07-07T16:46:59.413+02:00  INFO 16176 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-07-07T16:46:59.427+02:00  INFO 16176 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-07-07T16:46:59.709+02:00  WARN 16176 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-07-07T16:46:59.931+02:00  INFO 16176 --- [    Test worker] c.c.i.service.EventServiceImplTest       : Started EventServiceImplTest in 1.202 seconds (process running for 11.367)
+2024-07-07T16:46:59.946+02:00  WARN 16176 --- [    Test worker] cz.cvut.iarylser.service.EventService    : User or Event not found for like operation
 </pre>
 </span>
 </div>
@@ -144,7 +144,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.2</a> at 7 июл. 2024 г., 16:20:49</p>
+<a href="http://www.gradle.org">Gradle 8.2</a> at 7 июл. 2024 г., 16:47:02</p>
 </div>
 </div>
 </body>

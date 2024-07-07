@@ -47,7 +47,7 @@ class TicketControllerTest {
         Ticket ticket = new Ticket();
         ticket.setId(ticketId);
 
-        Mockito.when(ticketService.getTicketById(ticketId)).thenReturn(ticket);
+        Mockito.when(ticketService.getById(ticketId)).thenReturn(ticket);
         Mockito.when(ticketService.convertToDto(Mockito.any(Ticket.class))).thenReturn(mockTicket);
 
         mockMvc.perform(get("/ticket/" + ticketId))
@@ -58,7 +58,7 @@ class TicketControllerTest {
     @Test
     void getTicketByIdFailure() throws Exception {
         Long ticketId = 1L;
-        when(ticketService.getTicketById(ticketId)).thenReturn(null);
+        when(ticketService.getById(ticketId)).thenReturn(null);
 
         mockMvc.perform(get("/ticket/{ticketId}", ticketId))
                 .andExpect(status().isNotFound());
@@ -73,7 +73,7 @@ class TicketControllerTest {
         Ticket ticket = new Ticket();
         ticket.setIdCustomer(userId);
 
-        Mockito.when(ticketService.getTicketByUser(userId)).thenReturn(List.of(ticket));
+        Mockito.when(ticketService.getByUser(userId)).thenReturn(List.of(ticket));
         Mockito.when(ticketService.convertTicketsToDTOs(Mockito.anyList())).thenReturn(List.of(mockTicket));
 
         mockMvc.perform(get("/ticket/user/" + userId))
@@ -86,7 +86,7 @@ class TicketControllerTest {
     @Test
     void getTicketByUserFailure() throws Exception {
         Long userId = 1L;
-        when(ticketService.getTicketByUser(userId)).thenReturn(new ArrayList<>());
+        when(ticketService.getByUser(userId)).thenReturn(new ArrayList<>());
 
         mockMvc.perform(get("/ticket/user/{userId}", userId))
                 .andExpect(status().isOk())

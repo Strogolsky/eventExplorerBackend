@@ -217,7 +217,7 @@ class EventServiceTest {
 
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
         when(userRepository.findByNickname(customerNickname)).thenReturn(customer);
-        when(ticketService.createTicket(Mockito.any(), Mockito.any())).thenReturn(ticket1, ticket2);
+        when(ticketService.create(Mockito.any(), Mockito.any())).thenReturn(ticket1, ticket2);
         when(ticketService.convertTicketsToDTOs(tickets)).thenReturn(ticketDTOs);
 
         List<TicketDTO> result = eventService.purchaseTicket(eventId,request);
@@ -227,7 +227,7 @@ class EventServiceTest {
         assertEquals(2, result.size());
         Mockito.verify(eventRepository).findById(eventId);
         Mockito.verify(userRepository).findByNickname(customerNickname);
-        Mockito.verify(ticketService, Mockito.times(quantity)).createTicket(Mockito.any(Event.class), Mockito.any(User.class));
+        Mockito.verify(ticketService, Mockito.times(quantity)).create(Mockito.any(Event.class), Mockito.any(User.class));
         Mockito.verify(eventRepository).save(event);
         Mockito.verify(userRepository).save(customer);
         assertEquals(5, event.getSoldTickets());
@@ -415,7 +415,7 @@ class EventServiceTest {
         when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
         when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        boolean result = eventService.likeEvent(event.getId(), user.getId());
+        boolean result = eventService.like(event.getId(), user.getId());
 
         assertTrue(result);
         assertTrue(user.getLikeByMe().stream().anyMatch(e -> e.getId().equals(event.getId())));
@@ -442,7 +442,7 @@ class EventServiceTest {
         when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
         when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        boolean result = eventService.unlikeEvent(event.getId(), user.getId());
+        boolean result = eventService.unlike(event.getId(), user.getId());
 
         assertTrue(result);
         assertTrue(user.getLikeByMe().isEmpty());
@@ -458,7 +458,7 @@ class EventServiceTest {
         when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        boolean result = eventService.likeEvent(eventId, userId);
+        boolean result = eventService.like(eventId, userId);
 
         assertFalse(result);
     }
@@ -470,7 +470,7 @@ class EventServiceTest {
         when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        boolean result = eventService.unlikeEvent(eventId, userId);
+        boolean result = eventService.unlike(eventId, userId);
 
         assertFalse(result);
     }
