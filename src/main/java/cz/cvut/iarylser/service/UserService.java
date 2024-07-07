@@ -20,14 +20,16 @@ public class UserService implements CrudService<User,Long>{
         this.userRepository = repository;
         this.eventService = eventService;
     }
+    @Override
     public List<User> getAll(){
         return userRepository.findAll();
 
     }
-
+    @Override
     public User getById(Long userId){
         return userRepository.findById(userId).orElse(null);
     }
+    @Override
     public User create(User newUser){
         if(userRepository.existsByNickname(newUser.getNickname())){
             throw new IllegalArgumentException();
@@ -35,7 +37,7 @@ public class UserService implements CrudService<User,Long>{
         return userRepository.save(newUser);
     }
 
-
+    @Override
     public User update(Long userId, User updatedUser) {
         User existingUser = getById(userId);
         if (existingUser == null) {
@@ -70,6 +72,7 @@ public class UserService implements CrudService<User,Long>{
             eventService.updateForOrgChange(event, updatedUser);
         }
     }
+    @Override
     public boolean delete(Long userId) {
         if (!userRepository.existsById(userId)) {
             log.warn("User with id {} not found for deletion", userId);

@@ -114,7 +114,7 @@ class EventServiceTest {
         List<Event> events = Arrays.asList(event1, event2);
         when(eventRepository.findAll()).thenReturn(events);
 
-        List<Event> result = eventService.getAllEvents();
+        List<Event> result = eventService.getAll();
 
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -132,7 +132,7 @@ class EventServiceTest {
         Long eventId = 1L;
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(event1));
 
-        Event result = eventService.getEventById(eventId);
+        Event result = eventService.getById(eventId);
 
         assertNotNull(result);
         assertEventsEqual(event1,result);
@@ -161,7 +161,7 @@ class EventServiceTest {
         when(userRepository.findByNickname("OrganizerName")).thenReturn(organizer);
         when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Event createdEvent = eventService.createEvent(newEvent);
+        Event createdEvent = eventService.create(newEvent);
 
         assertEventsEqual(newEvent, createdEvent);
         assertTrue(organizer.getCreatedEvents().contains(createdEvent));
@@ -177,7 +177,7 @@ class EventServiceTest {
         newEvent.setOrganizer("nonexistent_organizer");
         when(userRepository.findByNickname(anyString())).thenReturn(null);
 
-        Event result = eventService.createEvent(newEvent);
+        Event result = eventService.create(newEvent);
         assertNull(result);
     }
 
@@ -250,7 +250,7 @@ class EventServiceTest {
         Event updatedEvent = new Event();
         when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
 
-        Event result = eventService.updateEvent(eventId, updatedEvent);
+        Event result = eventService.update(eventId, updatedEvent);
 
         assertNull(result);
     }
@@ -265,7 +265,7 @@ class EventServiceTest {
         updatedEvent.setCapacity(5);
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(existingEvent));
 
-        Event result = eventService.updateEvent(eventId, updatedEvent);
+        Event result = eventService.update(eventId, updatedEvent);
 
         assertNull(result);
     }
@@ -300,7 +300,7 @@ class EventServiceTest {
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(existingEvent));
         when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Event updatedEvent = eventService.updateEvent(eventId, updatedEventData);
+        Event updatedEvent = eventService.update(eventId, updatedEventData);
 
         assertNotNull(updatedEvent);
         assertEventsEqual(existingEvent,updatedEvent);
@@ -346,7 +346,7 @@ class EventServiceTest {
         when(userRepository.findById(organizerId)).thenReturn(Optional.of(organizer));
         Mockito.doNothing().when(eventRepository).deleteById(eventId);
 
-        boolean result = eventService.deleteEvent(eventId);
+        boolean result = eventService.delete(eventId);
 
         assertTrue(result);
         assertFalse(organizer.getCreatedEvents().contains(eventToDelete));
@@ -361,7 +361,7 @@ class EventServiceTest {
         Long eventId = 1L;
         when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
 
-        boolean result = eventService.deleteEvent(eventId);
+        boolean result = eventService.delete(eventId);
 
         assertFalse(result);
     }
@@ -374,7 +374,7 @@ class EventServiceTest {
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
         when(userRepository.findById(event.getIdOrganizer())).thenReturn(Optional.empty());
 
-        boolean result = eventService.deleteEvent(eventId);
+        boolean result = eventService.delete(eventId);
 
         assertFalse(result);
     }

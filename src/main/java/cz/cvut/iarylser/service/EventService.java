@@ -18,7 +18,7 @@ import java.util.Objects;
 
 @Service
 @Slf4j
-public class EventService {
+public class EventService implements CrudService<Event,Long> {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final TicketService ticketService;
@@ -28,16 +28,16 @@ public class EventService {
         this.userRepository = userRepository;
         this.ticketService = ticketService;
     }
-
-    public List<Event> getAllEvents(){
+    @Override
+    public List<Event> getAll(){
         return eventRepository.findAll();
     }
-
-    public Event getEventById(Long eventId){
+    @Override
+    public Event getById(Long eventId){
         return eventRepository.findById(eventId).orElse(null);
     }
-
-    public Event createEvent(Event newEvent){
+    @Override
+    public Event create(Event newEvent){
         User organizer = userRepository.findByNickname(newEvent.getOrganizer());
         if (organizer == null) {
             return null;
@@ -77,8 +77,9 @@ public class EventService {
     public List<Event> getEventsByUserId(Long userId) {
         return eventRepository.findByIdOrganizer(userId);
     }
-    public Event updateEvent(Long eventId, Event updatedEvent){
-        Event existingEvent = getEventById(eventId);
+    @Override
+    public Event update(Long eventId, Event updatedEvent){
+        Event existingEvent = getById(eventId);
         if (existingEvent == null) {
             log.warn("Event with id {} not found for update", eventId);
             return null;
@@ -118,7 +119,8 @@ public class EventService {
 
         eventRepository.save(event);
     }
-    public boolean deleteEvent(Long eventId) {
+    @Override
+    public boolean delete(Long eventId) {
         Event event = eventRepository.findById(eventId).orElse(null);
         if (event == null) {
             log.warn("Event with id {} not found for deletion", eventId);

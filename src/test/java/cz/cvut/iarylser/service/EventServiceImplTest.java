@@ -49,7 +49,7 @@ class EventServiceImplTest {
         eventRepository.save(event2);
 
         // When
-        List<Event> events = eventService.getAllEvents();
+        List<Event> events = eventService.getAll();
 
         // Then
         Assertions.assertEquals(2, events.size());
@@ -62,7 +62,7 @@ class EventServiceImplTest {
         eventRepository.save(event);
 
         // When
-        Event retrievedEvent = eventService.getEventById(event.getId());
+        Event retrievedEvent = eventService.getById(event.getId());
 
         // Then
         Assertions.assertNotNull(retrievedEvent);
@@ -76,7 +76,7 @@ class EventServiceImplTest {
         Long eventId = 999L;
 
         // When
-        Event retrievedEvent = eventService.getEventById(eventId);
+        Event retrievedEvent = eventService.getById(eventId);
 
         // Then
         Assertions.assertNull(retrievedEvent);

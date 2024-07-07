@@ -38,7 +38,7 @@ public class EventController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = EventDTO.class)))
     public ResponseEntity<List<EventDTO>> getAllEvents(){
-        List<Event> result = eventService.getAllEvents();
+        List<Event> result = eventService.getAll();
         return ResponseEntity.ok(eventService.convertToDTOList(result));
     }
     @GetMapping("/{eventId}")
@@ -51,7 +51,7 @@ public class EventController {
     public ResponseEntity<?>getEventById(
             @Parameter(description = "ID of the event to retrieve", required = true)
             @PathVariable Long eventId){
-        Event event = eventService.getEventById(eventId);
+        Event event = eventService.getById(eventId);
         if (event == null) {
             return ResponseEntity.notFound().build();
         }
@@ -66,7 +66,7 @@ public class EventController {
     public ResponseEntity<?> createEvent(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Event data to create a new event", required = true)
             @RequestBody Event newEvent) {
-            Event event = eventService.createEvent(newEvent);
+            Event event = eventService.create(newEvent);
             if (event == null){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
@@ -84,7 +84,7 @@ public class EventController {
             @PathVariable Long eventId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated event data", required = true)
             @RequestBody Event updatedEvent){
-        Event event = eventService.updateEvent(eventId, updatedEvent);
+        Event event = eventService.update(eventId, updatedEvent);
         if (event == null) {
             return ResponseEntity.notFound().build();
         }
@@ -133,7 +133,7 @@ public class EventController {
     public ResponseEntity<?> deleteEvent(
             @Parameter(description = "ID of the event to be deleted", required = true)
             @PathVariable Long eventId){
-        boolean isDeleted = eventService.deleteEvent(eventId);
+        boolean isDeleted = eventService.delete(eventId);
         if (!isDeleted) {
             return ResponseEntity.notFound().build();
         }

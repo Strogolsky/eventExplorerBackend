@@ -57,7 +57,7 @@ class EventControllerTest {
         EventDTO event2 = new EventDTO(2L, "Title 2", LocalDateTime.now(), 20, 200, "Location 2", 300, "Organizer 2", 150, "Description 2", Topics.PARTY, true);
         List<EventDTO> allEvents = Arrays.asList(event1, event2);
 
-        when(eventService.getAllEvents()).thenReturn(Arrays.asList(new Event(), new Event()));
+        when(eventService.getAll()).thenReturn(Arrays.asList(new Event(), new Event()));
         when(eventService.convertToDTOList(anyList())).thenReturn(allEvents);
 
         mockMvc.perform(get("/event")
@@ -92,7 +92,7 @@ class EventControllerTest {
     @Test
     void getEventByIdFailure() throws Exception {
         Long eventId = 1L;
-        when(eventService.getEventById(eventId)).thenReturn(null);
+        when(eventService.getById(eventId)).thenReturn(null);
 
         mockMvc.perform(get("/event/{eventId}", eventId))
                 .andExpect(status().isNotFound());
@@ -117,7 +117,7 @@ class EventControllerTest {
                 false
         );
 
-        when(eventService.getEventById(eventId)).thenReturn(new Event());
+        when(eventService.getById(eventId)).thenReturn(new Event());
         when(eventService.convertToDto(any(Event.class))).thenReturn(eventDTO);
 
         mockMvc.perform(get("/event/{eventId}", eventId)
@@ -154,7 +154,7 @@ class EventControllerTest {
                 false
         );
 
-        when(eventService.createEvent(any(Event.class))).thenReturn(newEvent);
+        when(eventService.create(any(Event.class))).thenReturn(newEvent);
         when(eventService.convertToDto(any(Event.class))).thenReturn(eventDTO);
 
         mockMvc.perform(post("/event")
@@ -177,7 +177,7 @@ class EventControllerTest {
     @Test
     void createEventFailure() throws Exception {
         Event newEvent = new Event();
-        when(eventService.createEvent(newEvent)).thenReturn(null);
+        when(eventService.create(newEvent)).thenReturn(null);
 
         mockMvc.perform(post("/event")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -205,7 +205,7 @@ class EventControllerTest {
                 false
         );
 
-        when(eventService.updateEvent(eq(eventId), any(Event.class))).thenReturn(updatedEvent);
+        when(eventService.update(eq(eventId), any(Event.class))).thenReturn(updatedEvent);
         when(eventService.convertToDto(any(Event.class))).thenReturn(eventDTO);
 
         mockMvc.perform(put("/event/{eventId}", eventId)
@@ -229,7 +229,7 @@ class EventControllerTest {
     void updateEventFailure() throws Exception {
         Long eventId = 1L;
         Event updatedEvent = new Event();
-        when(eventService.updateEvent(eventId, updatedEvent)).thenReturn(null);
+        when(eventService.update(eventId, updatedEvent)).thenReturn(null);
 
         mockMvc.perform(put("/event/{eventId}", eventId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -286,7 +286,7 @@ class EventControllerTest {
     void deleteEventSucceeded() throws Exception {
         Long eventId = 1L;
 
-        when(eventService.deleteEvent(eventId)).thenReturn(true);
+        when(eventService.delete(eventId)).thenReturn(true);
 
         mockMvc.perform(delete("/event/{eventId}", eventId)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -296,7 +296,7 @@ class EventControllerTest {
     @Test
     void deleteEventFailure() throws Exception {
         Long eventId = 1L;
-        when(eventService.deleteEvent(eventId)).thenReturn(false);
+        when(eventService.delete(eventId)).thenReturn(false);
 
         mockMvc.perform(delete("/event/{eventId}", eventId))
                 .andExpect(status().isNotFound());
