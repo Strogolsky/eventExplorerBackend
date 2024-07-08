@@ -8,6 +8,7 @@ import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.TicketStatus;
 import cz.cvut.iarylser.dao.entity.Topics;
+import cz.cvut.iarylser.dao.mappersDTO.EventMapperDTO;
 import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import cz.cvut.iarylser.service.EventService;
@@ -44,6 +45,8 @@ class EventControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private EventService eventService;
+    @MockBean
+    private EventMapperDTO eventMapperDTO;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -58,7 +61,7 @@ class EventControllerTest {
         List<EventDTO> allEvents = Arrays.asList(event1, event2);
 
         when(eventService.getAll()).thenReturn(Arrays.asList(new Event(), new Event()));
-        when(eventService.convertToDTOList(anyList())).thenReturn(allEvents);
+        when(eventMapperDTO.toDTOList(anyList())).thenReturn(allEvents);
 
         mockMvc.perform(get("/event")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -118,7 +121,7 @@ class EventControllerTest {
         );
 
         when(eventService.getById(eventId)).thenReturn(new Event());
-        when(eventService.convertToDto(any(Event.class))).thenReturn(eventDTO);
+        when(eventMapperDTO.toDTO(any(Event.class))).thenReturn(eventDTO);
 
         mockMvc.perform(get("/event/{eventId}", eventId)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -155,7 +158,7 @@ class EventControllerTest {
         );
 
         when(eventService.create(any(Event.class))).thenReturn(newEvent);
-        when(eventService.convertToDto(any(Event.class))).thenReturn(eventDTO);
+        when(eventMapperDTO.toDTO(any(Event.class))).thenReturn(eventDTO);
 
         mockMvc.perform(post("/event")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -206,7 +209,7 @@ class EventControllerTest {
         );
 
         when(eventService.update(eq(eventId), any(Event.class))).thenReturn(updatedEvent);
-        when(eventService.convertToDto(any(Event.class))).thenReturn(eventDTO);
+        when(eventMapperDTO.toDTO(any(Event.class))).thenReturn(eventDTO);
 
         mockMvc.perform(put("/event/{eventId}", eventId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -380,7 +383,7 @@ class EventControllerTest {
         dtoList.add(eventDTO2);
 
         when(eventService.getByLikedGreaterThan(likes)).thenReturn(Arrays.asList(event1,event2));
-        when(eventService.convertToDTOList(any())).thenReturn(dtoList);
+        when(eventMapperDTO.toDTOList(any())).thenReturn(dtoList);
 
         mockMvc.perform(get("/event/likes/{likes}", likes))
                 .andExpect(status().isOk())
@@ -391,7 +394,7 @@ class EventControllerTest {
     void getByLikedGreaterThanNoEventsFound() throws Exception {
         int likes = 10;
         when(eventService.getByLikedGreaterThan(likes)).thenReturn(new ArrayList<>());
-        when(eventService.convertToDTOList(any())).thenReturn(new ArrayList<>());
+        when(eventMapperDTO.toDTOList(any())).thenReturn(new ArrayList<>());
 
         mockMvc.perform(get("/event/likes/{likes}", likes))
                 .andExpect(status().isOk())

@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">21</div>
+<div class="counter">19</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.113s</div>
+<div class="counter">0.117s</div>
 <p>duration</p>
 </div>
 </td>
@@ -78,23 +78,13 @@
 </tr>
 </thead>
 <tr>
-<td class="success">convertToDTOList()</td>
-<td class="success">0.004s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">convertToDto()</td>
-<td class="success">0.002s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
 <td class="success">createEventFailure()</td>
 <td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">createEventSucceeded()</td>
-<td class="success">0.005s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -104,27 +94,27 @@
 </tr>
 <tr>
 <td class="success">deleteEventFailureOrganizerNotFound()</td>
-<td class="success">0.004s</td>
+<td class="success">0.006s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">deleteEventSucceeded()</td>
-<td class="success">0.007s</td>
+<td class="success">0.008s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getAllEvents()</td>
-<td class="success">0.015s</td>
+<td class="success">0.023s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getByLikedGreaterThanFailure()</td>
-<td class="success">0.004s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getByLikedGreaterThanSuccessful()</td>
-<td class="success">0.005s</td>
+<td class="success">0.006s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -139,7 +129,7 @@
 </tr>
 <tr>
 <td class="success">likeEventSucceeded()</td>
-<td class="success">0.009s</td>
+<td class="success">0.007s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -159,27 +149,27 @@
 </tr>
 <tr>
 <td class="success">unlikeEventSucceeded()</td>
-<td class="success">0.005s</td>
+<td class="success">0.006s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateEventFailureCapacity()</td>
-<td class="success">0.004s</td>
+<td class="success">0.006s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateEventFailureNotFound()</td>
-<td class="success">0.005s</td>
+<td class="success">0.006s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateEventSucceeded()</td>
-<td class="success">0.005s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateForOrgChange()</td>
-<td class="success">0.005s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -187,8 +177,8 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2024-07-07T16:46:59.989+02:00  INFO 16176 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.service.EventServiceTest]: EventServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-07-07T16:46:59.991+02:00  INFO 16176 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.service.EventServiceTest
+<pre>2024-07-08T15:07:26.633+02:00  INFO 18608 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.service.EventServiceTest]: EventServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-07-08T15:07:26.636+02:00  INFO 18608 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.service.EventServiceTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -198,27 +188,27 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.5)
 
-2024-07-07T16:47:00.015+02:00  INFO 16176 --- [    Test worker] c.c.iarylser.service.EventServiceTest    : Starting EventServiceTest using Java 17.0.9 with PID 16176 (started by 1 in D:\Project\eventExplorerBackend)
-2024-07-07T16:47:00.015+02:00  INFO 16176 --- [    Test worker] c.c.iarylser.service.EventServiceTest    : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2024-07-07T16:47:00.214+02:00  INFO 16176 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-07-07T16:47:00.228+02:00  INFO 16176 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 14 ms. Found 3 JPA repository interfaces.
-2024-07-07T16:47:00.363+02:00  INFO 16176 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-07-07T16:47:00.371+02:00  INFO 16176 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-07-07T16:47:00.372+02:00  INFO 16176 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
-2024-07-07T16:47:00.374+02:00  INFO 16176 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn23: url=jdbc:h2:mem:test user=IARYLSER
-2024-07-07T16:47:00.374+02:00  INFO 16176 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
-2024-07-07T16:47:00.375+02:00  WARN 16176 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-07-07T16:47:00.451+02:00  INFO 16176 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-07-07T16:47:00.466+02:00  INFO 16176 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-07-07T16:47:00.515+02:00  WARN 16176 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-07-07T16:47:00.667+02:00  INFO 16176 --- [    Test worker] c.c.iarylser.service.EventServiceTest    : Started EventServiceTest in 0.672 seconds (process running for 12.103)
-2024-07-07T16:47:00.681+02:00  WARN 16176 --- [    Test worker] cz.cvut.iarylser.service.EventService    : User or Event not found for like operation
-2024-07-07T16:47:00.692+02:00  WARN 16176 --- [    Test worker] cz.cvut.iarylser.service.EventService    : Event with id 1 not found for update
-2024-07-07T16:47:00.735+02:00  WARN 16176 --- [    Test worker] cz.cvut.iarylser.service.EventService    : User or Event not found for unlike operation
-2024-07-07T16:47:00.788+02:00  WARN 16176 --- [    Test worker] cz.cvut.iarylser.service.EventService    : Author with nickname null not found when deleting event 1
-2024-07-07T16:47:00.793+02:00  WARN 16176 --- [    Test worker] cz.cvut.iarylser.service.EventService    : Attempted to set capacity to 5, but there are 0 sold tickets
-2024-07-07T16:47:00.797+02:00  WARN 16176 --- [    Test worker] cz.cvut.iarylser.service.EventService    : Event with id 1 not found for deletion
-2024-07-07T16:47:00.809+02:00  WARN 16176 --- [    Test worker] cz.cvut.iarylser.service.EventService    : User or event with nickname null not found
+2024-07-08T15:07:26.667+02:00  INFO 18608 --- [    Test worker] c.c.iarylser.service.EventServiceTest    : Starting EventServiceTest using Java 17.0.9 with PID 18608 (started by 1 in D:\Project\eventExplorerBackend)
+2024-07-08T15:07:26.667+02:00  INFO 18608 --- [    Test worker] c.c.iarylser.service.EventServiceTest    : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-07-08T15:07:26.965+02:00  INFO 18608 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-07-08T15:07:26.984+02:00  INFO 18608 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 18 ms. Found 3 JPA repository interfaces.
+2024-07-08T15:07:27.219+02:00  INFO 18608 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-07-08T15:07:27.229+02:00  INFO 18608 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-07-08T15:07:27.230+02:00  INFO 18608 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2024-07-08T15:07:27.232+02:00  INFO 18608 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn23: url=jdbc:h2:mem:test user=IARYLSER
+2024-07-08T15:07:27.232+02:00  INFO 18608 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2024-07-08T15:07:27.233+02:00  WARN 18608 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-07-08T15:07:27.324+02:00  INFO 18608 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-07-08T15:07:27.343+02:00  INFO 18608 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-07-08T15:07:27.399+02:00  WARN 18608 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-07-08T15:07:27.562+02:00  INFO 18608 --- [    Test worker] c.c.iarylser.service.EventServiceTest    : Started EventServiceTest in 0.921 seconds (process running for 12.161)
+2024-07-08T15:07:27.576+02:00  WARN 18608 --- [    Test worker] cz.cvut.iarylser.service.EventService    : User or Event not found for like operation
+2024-07-08T15:07:27.583+02:00  WARN 18608 --- [    Test worker] cz.cvut.iarylser.service.EventService    : Event with id 1 not found for update
+2024-07-08T15:07:27.634+02:00  WARN 18608 --- [    Test worker] cz.cvut.iarylser.service.EventService    : User or Event not found for unlike operation
+2024-07-08T15:07:27.681+02:00  WARN 18608 --- [    Test worker] cz.cvut.iarylser.service.EventService    : Author with nickname null not found when deleting event 1
+2024-07-08T15:07:27.688+02:00  WARN 18608 --- [    Test worker] cz.cvut.iarylser.service.EventService    : Attempted to set capacity to 5, but there are 0 sold tickets
+2024-07-08T15:07:27.693+02:00  WARN 18608 --- [    Test worker] cz.cvut.iarylser.service.EventService    : Event with id 1 not found for deletion
+2024-07-08T15:07:27.705+02:00  WARN 18608 --- [    Test worker] cz.cvut.iarylser.service.EventService    : User or event with nickname null not found
 </pre>
 </span>
 </div>
@@ -230,7 +220,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.2</a> at 7 июл. 2024 г., 16:47:02</p>
+<a href="http://www.gradle.org">Gradle 8.2</a> at 8 июл. 2024 г., 15:07:29</p>
 </div>
 </div>
 </body>

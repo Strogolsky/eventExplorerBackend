@@ -5,6 +5,7 @@ import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.entity.TicketStatus;
 import cz.cvut.iarylser.dao.entity.User;
+import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
 import cz.cvut.iarylser.dao.repository.TicketRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import cz.cvut.iarylser.service.TicketService;
@@ -32,6 +33,8 @@ class TicketServiceTest {
     private UserRepository userRepository;
     @Autowired
     private TicketService ticketService;
+    @MockBean
+    private TicketMapperDTO ticketMapperDTO;
 
     Ticket ticket1, ticket2;
 
@@ -146,32 +149,6 @@ class TicketServiceTest {
 
         verify(ticketRepository).save(result);
         verify(userRepository).save(customer);
-    }
-
-    @Test
-    void convertToDto() {
-
-        TicketDTO ticketDTO = ticketService.convertToDto(ticket1);
-
-        assertNotNull(ticketDTO);
-        assertTicketAndDtoEquality(ticket1,ticketDTO);
-    }
-
-    @Test
-    void convertTicketsToDTOs() {
-
-        List<Ticket> tickets = Arrays.asList(ticket1, ticket2);
-
-        List<TicketDTO> ticketDTOs = ticketService.convertTicketsToDTOs(tickets);
-
-        assertNotNull(ticketDTOs);
-        assertEquals(2, ticketDTOs.size());
-
-        TicketDTO dto1 = ticketDTOs.get(0);
-        assertTicketAndDtoEquality(ticket1,dto1);
-
-        TicketDTO dto2 = ticketDTOs.get(1);
-        assertTicketAndDtoEquality(ticket2,dto2);
     }
 
     @Test

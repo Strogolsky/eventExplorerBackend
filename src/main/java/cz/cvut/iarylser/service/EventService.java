@@ -4,6 +4,7 @@ import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
 import cz.cvut.iarylser.dao.entity.*;
+import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
 import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +24,13 @@ public class EventService implements CrudService<Event,Long> {
     private final UserRepository userRepository;
     private final TicketService ticketService;
 
-    public EventService(EventRepository eventRepository, UserRepository userRepository, TicketService ticketService) {
+    private final TicketMapperDTO ticketMapperDTO;
+
+    public EventService(EventRepository eventRepository, UserRepository userRepository, TicketService ticketService, TicketMapperDTO ticketMapperDTO) {
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
         this.ticketService = ticketService;
+        this.ticketMapperDTO = ticketMapperDTO;
     }
     @Override
     public List<Event> getAll(){
@@ -69,7 +73,8 @@ public class EventService implements CrudService<Event,Long> {
             }
             userRepository.save(customer);
             eventRepository.save(event);
-            return ticketService.convertTicketsToDTOs(tickets);
+
+            return ticketMapperDTO.toDTOList(tickets);
         }
         return null;
     }
@@ -138,31 +143,6 @@ public class EventService implements CrudService<Event,Long> {
         }
         eventRepository.deleteById(eventId);
         return true;
-    }
-
-    public EventDTO convertToDto(Event event) {
-        EventDTO dto = new EventDTO();
-        dto.setId(event.getId());
-        dto.setTitle(event.getTitle());
-        dto.setDateAndTime(event.getDateAndTime());
-        dto.setTicketPrice(event.getTicketPrice());
-        dto.setLocation(event.getLocation());
-        dto.setLikes(event.getLikeBy().size());
-        dto.setCapacity(event.getCapacity());
-        dto.setSoldTickets(event.getSoldTickets());
-        dto.setDescription(event.getDescription());
-        dto.setTopic(event.getTopic());
-        dto.setAgeRestriction(event.isAgeRestriction());
-        dto.setOrganizer(event.getOrganizer());
-
-        return dto;
-    }
-    public List<EventDTO> convertToDTOList(List<Event> events) {
-        List<EventDTO> dtos = new ArrayList<>();
-        for (Event event : events) {
-            dtos.add(convertToDto(event));
-        }
-        return dtos;
     }
     private void updateRelatedTickets(Event event){
         Ticket updatedTicket = new Ticket();

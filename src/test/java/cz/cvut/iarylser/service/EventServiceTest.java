@@ -8,6 +8,7 @@ import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.entity.Topics;
 import cz.cvut.iarylser.dao.entity.User;
+import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
 import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import cz.cvut.iarylser.service.EventService;
@@ -37,6 +38,9 @@ class EventServiceTest {
     private UserRepository userRepository;
     @MockBean
     private TicketService ticketService;
+
+    @MockBean
+    private TicketMapperDTO ticketMapperDTO;
 
     @Autowired
     private EventService eventService;
@@ -218,7 +222,7 @@ class EventServiceTest {
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
         when(userRepository.findByNickname(customerNickname)).thenReturn(customer);
         when(ticketService.create(Mockito.any(), Mockito.any())).thenReturn(ticket1, ticket2);
-        when(ticketService.convertTicketsToDTOs(tickets)).thenReturn(ticketDTOs);
+        when(ticketMapperDTO.toDTOList(tickets)).thenReturn(ticketDTOs);
 
         List<TicketDTO> result = eventService.purchaseTicket(eventId,request);
 
@@ -379,26 +383,6 @@ class EventServiceTest {
         assertFalse(result);
     }
 
-    @Test
-    void convertToDto() {
-
-        EventDTO eventDTO = eventService.convertToDto(event1);
-
-        assertEventAndDtoEqual(event1, eventDTO);
-    }
-
-    @Test
-    void convertToDTOList() {
-        List<Event> events = Arrays.asList(event1,event2);
-
-        List<EventDTO> eventDTOs = eventService.convertToDTOList(events);
-
-        assertNotNull(eventDTOs);
-        assertEquals(events.size(), eventDTOs.size());
-        for (int i = 0; i < events.size(); i++) {
-            assertEventAndDtoEqual(events.get(i), eventDTOs.get(i));
-        }
-    }
 
     @Test
     void likeEventSucceeded() {

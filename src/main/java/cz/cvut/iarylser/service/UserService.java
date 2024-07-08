@@ -94,23 +94,4 @@ public class UserService implements CrudService<User,Long>{
         }
         return user;
     }
-
-    public UserDTO convertToDTO(User user){
-        UserDTO dto = new UserDTO();
-        dto.setId(user.getId());
-        dto.setNickname(user.getNickname());
-        dto.setAge(user.getAge());
-        dto.setEmail(user.getEmail());
-        dto.setFirstName(user.getFirstName());
-        dto.setLastName(user.getLastName());
-        dto.setDescription(user.getDescription());
-        return dto;
-    }
-    public List<UserDTO> convertToDTOList(List<User> users) {
-        List<UserDTO> dtos = new ArrayList<>();
-        for (User user : users) {
-            dtos.add(convertToDTO(user));
-        }
-        return dtos;
-    }
 }

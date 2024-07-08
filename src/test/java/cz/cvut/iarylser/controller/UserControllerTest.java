@@ -5,6 +5,7 @@ import cz.cvut.iarylser.controller.UserController;
 import cz.cvut.iarylser.dao.DTO.LoginRequest;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
+import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
 import cz.cvut.iarylser.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,6 +39,8 @@ class UserControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private UserService userService;
+    @MockBean
+    private UserMapperDTO userMapperDTO;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -61,7 +64,7 @@ class UserControllerTest {
         List<UserDTO> userDTOs = Arrays.asList(userDTO1, userDTO2);
 
         when(userService.getAll()).thenReturn(users);
-        when(userService.convertToDTOList(users)).thenReturn(userDTOs);
+        when(userMapperDTO.toDTOList(users)).thenReturn(userDTOs);
 
         mockMvc.perform(get("/user"))
                 .andExpect(status().isOk())
@@ -83,7 +86,7 @@ class UserControllerTest {
         userDTO.setNickname(userNickname);
 
         when(userService.getById(userId)).thenReturn(user);
-        when(userService.convertToDTO(user)).thenReturn(userDTO);
+        when(userMapperDTO.toDTO(user)).thenReturn(userDTO);
 
         mockMvc.perform(get("/user/" + userId))
                 .andExpect(status().isOk())
@@ -117,7 +120,7 @@ class UserControllerTest {
         userDTO.setDescription(user.getDescription());
 
         when(userService.create(any(User.class))).thenReturn(user);
-        when(userService.convertToDTO(any(User.class))).thenReturn(userDTO);
+        when(userMapperDTO.toDTO(any(User.class))).thenReturn(userDTO);
 
         String userJson = new ObjectMapper().writeValueAsString(user);
 
@@ -167,7 +170,7 @@ class UserControllerTest {
         updatedUserDTO.setAge(updatedUser.getAge());
 
         Mockito.when(userService.update(userId, updatedUser)).thenReturn(updatedUser);
-        Mockito.when(userService.convertToDTO(updatedUser)).thenReturn(updatedUserDTO);
+        Mockito.when(userMapperDTO.toDTO(updatedUser)).thenReturn(updatedUserDTO);
 
         String updatedUserJson = new ObjectMapper().writeValueAsString(updatedUser);
 
@@ -236,7 +239,7 @@ class UserControllerTest {
         UserDTO userDTO = new UserDTO(1L, "testUser", 25, "test@example.com", "FirstName", "LastName", "Description");
 
         when(userService.authenticateUser(anyString(), anyString())).thenReturn(new User());
-        when(userService.convertToDTO(any(User.class))).thenReturn(userDTO);
+        when(userMapperDTO.toDTO(any(User.class))).thenReturn(userDTO);
 
 
         mockMvc.perform(post("/user/login")

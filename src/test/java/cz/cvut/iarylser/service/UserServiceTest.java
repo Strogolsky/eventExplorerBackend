@@ -2,6 +2,7 @@ package cz.cvut.iarylser.service;
 
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
+import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import cz.cvut.iarylser.service.EventService;
 import cz.cvut.iarylser.service.UserService;
@@ -31,6 +32,7 @@ class UserServiceTest {
 
     @MockBean
     private UserRepository userRepository;
+    private UserMapperDTO userMapperDTO;
 
     @MockBean
     private EventService eventService;
@@ -153,66 +155,6 @@ class UserServiceTest {
 
         assertFalse(result);
     }
-
-    @Test
-    void convertToDTO() {
-        User user = new User();
-        user.setNickname("TestUser");
-        user.setAge(30);
-        user.setEmail("test@example.com");
-        user.setFirstName("Test");
-        user.setLastName("User");
-        user.setDescription("Test Description");
-
-        UserDTO dto = userService.convertToDTO(user);
-
-        assertNotNull(dto);
-        assertEquals("TestUser", dto.getNickname());
-        assertEquals(30, dto.getAge());
-        assertEquals("test@example.com", dto.getEmail());
-        assertEquals("Test", dto.getFirstName());
-        assertEquals("User", dto.getLastName());
-        assertEquals("Test Description", dto.getDescription());
-    }
-
-    @Test
-    void convertToDTOList() {
-        user1.setAge(25);
-        user1.setEmail("user1@example.com");
-        user1.setFirstName("FirstName1");
-        user1.setLastName("LastName1");
-        user1.setDescription("Description1");
-
-        user2.setAge(30);
-        user2.setEmail("user2@example.com");
-        user2.setFirstName("FirstName2");
-        user2.setLastName("LastName2");
-        user2.setDescription("Description2");
-
-        List<User> users = Arrays.asList(user1, user2);
-
-        List<UserDTO> dtos = userService.convertToDTOList(users);
-
-        assertNotNull(dtos);
-        assertEquals(2, dtos.size());
-
-        UserDTO dto1 = dtos.get(0);
-        assertEquals("user1", dto1.getNickname());
-        assertEquals(25, dto1.getAge());
-        assertEquals("user1@example.com", dto1.getEmail());
-        assertEquals("FirstName1", dto1.getFirstName());
-        assertEquals("LastName1", dto1.getLastName());
-        assertEquals("Description1", dto1.getDescription());
-
-        UserDTO dto2 = dtos.get(1);
-        assertEquals("user2", dto2.getNickname());
-        assertEquals(30, dto2.getAge());
-        assertEquals("user2@example.com", dto2.getEmail());
-        assertEquals("FirstName2", dto2.getFirstName());
-        assertEquals("LastName2", dto2.getLastName());
-        assertEquals("Description2", dto2.getDescription());
-    }
-
     @Test
     public void authenticateUserSucceeds() throws AuthenticationException {
         String nickname = "testUser";

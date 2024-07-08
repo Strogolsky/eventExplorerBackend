@@ -2,6 +2,7 @@ package cz.cvut.iarylser.controller;
 import cz.cvut.iarylser.dao.DTO.LoginRequest;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
+import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
 import cz.cvut.iarylser.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,10 +25,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapperDTO userMapperDTO;
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserMapperDTO userMapperDTO) {
         this.userService = userService;
+        this.userMapperDTO = userMapperDTO;
     }
 
     @GetMapping
@@ -38,7 +41,7 @@ public class UserController {
                     schema = @Schema(implementation = UserDTO.class)))
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<User> result = userService.getAll();
-        return ResponseEntity.ok(userService.convertToDTOList(result));
+        return ResponseEntity.ok(userMapperDTO.toDTOList(result));
     }
 
     @GetMapping("/{userId}")
@@ -58,7 +61,7 @@ public class UserController {
             log.info("User with id {} not found.", userId);
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(userService.convertToDTO(user));
+        return ResponseEntity.ok(userMapperDTO.toDTO(user));
     }
 
     @PostMapping
@@ -78,7 +81,7 @@ public class UserController {
             return ResponseEntity.badRequest().body("User is not added" + e.getMessage());
         }
 
-        return ResponseEntity.ok(userService.convertToDTO(user));
+        return ResponseEntity.ok(userMapperDTO.toDTO(user));
     }
     @PostMapping("/login")
     @Operation(summary = "User login",
@@ -95,8 +98,7 @@ public class UserController {
 
         try {
             User user = userService.authenticateUser(username, password);
-            UserDTO userDTO = userService.convertToDTO(user);
-            return ResponseEntity.ok(userDTO);
+            return ResponseEntity.ok(userMapperDTO.toDTO(user));
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -120,7 +122,7 @@ public class UserController {
                 log.info("Unable to update. User with id {} not found.", userId);
                 return ResponseEntity.notFound().build();
             }
-            return ResponseEntity.ok(userService.convertToDTO(user));
+            return ResponseEntity.ok(userMapperDTO.toDTO(user));
         } catch (IllegalArgumentException e) {
             log.info("Error updating user: {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());

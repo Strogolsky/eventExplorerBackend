@@ -3,6 +3,7 @@ package cz.cvut.iarylser.controller;
 import ch.qos.logback.classic.Logger;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Ticket;
+import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
 import cz.cvut.iarylser.service.TicketService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,8 +22,10 @@ import java.util.List;
 @CrossOrigin("*")
 public class TicketController {
     private final TicketService ticketService;
-    public TicketController(TicketService ticketService){
+    private final TicketMapperDTO ticketMapperDTO;
+    public TicketController(TicketService ticketService, TicketMapperDTO ticketMapperDTO){
         this.ticketService = ticketService;
+        this.ticketMapperDTO = ticketMapperDTO;
     }
     @GetMapping("/{ticketId}")
     @Operation(summary = "Get Ticket by ID",
@@ -38,8 +41,7 @@ public class TicketController {
         if (ticket == null) {
             return ResponseEntity.notFound().build();
         }
-        TicketDTO ticketDTO = ticketService.convertToDto(ticket);
-        return ResponseEntity.ok(ticketDTO);
+        return ResponseEntity.ok(ticketMapperDTO.toDTO(ticket));
     }
 
     @GetMapping("/user/{userId}")
@@ -49,7 +51,7 @@ public class TicketController {
             content = @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = TicketDTO.class))))
     public ResponseEntity<List<TicketDTO>> getTicketByUser(@PathVariable Long userId){
-        List<TicketDTO> result = ticketService.convertTicketsToDTOs(ticketService.getByUser(userId));
-        return ResponseEntity.ok(result);
+        List<Ticket> result = ticketService.getByUser(userId);
+        return ResponseEntity.ok(ticketMapperDTO.toDTOList(result));
     }
 }

@@ -3,6 +3,7 @@ package cz.cvut.iarylser.controller;
 import cz.cvut.iarylser.controller.TicketController;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Ticket;
+import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
 import cz.cvut.iarylser.service.TicketService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,8 @@ class TicketControllerTest {
 
     @MockBean
     private TicketService ticketService;
+    @MockBean
+    private TicketMapperDTO ticketMapperDTO;
 
     @BeforeEach
     void setUp() {
@@ -48,7 +51,7 @@ class TicketControllerTest {
         ticket.setId(ticketId);
 
         Mockito.when(ticketService.getById(ticketId)).thenReturn(ticket);
-        Mockito.when(ticketService.convertToDto(Mockito.any(Ticket.class))).thenReturn(mockTicket);
+        Mockito.when(ticketMapperDTO.toDTO(Mockito.any(Ticket.class))).thenReturn(mockTicket);
 
         mockMvc.perform(get("/ticket/" + ticketId))
                 .andExpect(status().isOk())
@@ -74,7 +77,7 @@ class TicketControllerTest {
         ticket.setIdCustomer(userId);
 
         Mockito.when(ticketService.getByUser(userId)).thenReturn(List.of(ticket));
-        Mockito.when(ticketService.convertTicketsToDTOs(Mockito.anyList())).thenReturn(List.of(mockTicket));
+        Mockito.when(ticketMapperDTO.toDTOList(Mockito.anyList())).thenReturn(List.of(mockTicket));
 
         mockMvc.perform(get("/ticket/user/" + userId))
                 .andExpect(status().isOk())

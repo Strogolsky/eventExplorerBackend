@@ -5,6 +5,7 @@ import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
 import cz.cvut.iarylser.dao.entity.*;
+import cz.cvut.iarylser.dao.mappersDTO.EventMapperDTO;
 import cz.cvut.iarylser.service.EventService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,10 +27,12 @@ import java.util.List;
 @RequestMapping(value = "/event")
 public class EventController {
     private final EventService eventService;
+    private final EventMapperDTO eventMapperDTO;
 
     @Autowired
-    public EventController(EventService eventService) {
+    public EventController(EventService eventService, EventMapperDTO eventMapperDTO) {
         this.eventService = eventService;
+        this.eventMapperDTO = eventMapperDTO;
     }
     @GetMapping
     @Operation(summary = "Get all events",
@@ -39,7 +42,7 @@ public class EventController {
                     schema = @Schema(implementation = EventDTO.class)))
     public ResponseEntity<List<EventDTO>> getAllEvents(){
         List<Event> result = eventService.getAll();
-        return ResponseEntity.ok(eventService.convertToDTOList(result));
+        return ResponseEntity.ok(eventMapperDTO.toDTOList(result));
     }
     @GetMapping("/{eventId}")
     @Operation(summary = "Get event by ID",
@@ -55,7 +58,7 @@ public class EventController {
         if (event == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(eventService.convertToDto(event));
+        return ResponseEntity.ok(eventMapperDTO.toDTO(event));
     }
     @PostMapping
     @Operation(summary = "Create new event",
@@ -70,7 +73,7 @@ public class EventController {
             if (event == null){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
-            return ResponseEntity.ok(eventService.convertToDto(event));
+            return ResponseEntity.ok(eventMapperDTO.toDTO(event));
     }
     @PutMapping("/{eventId}")
     @Operation(summary = "Update event",
@@ -88,7 +91,7 @@ public class EventController {
         if (event == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(eventService.convertToDto(event));
+        return ResponseEntity.ok(eventMapperDTO.toDTO(event));
     }
     @GetMapping("/user/{userId}")
     @Operation(summary = "Get events by user ID",
@@ -101,9 +104,7 @@ public class EventController {
             @PathVariable Long userId) {
         List<Event> events = eventService.getByUserId(userId);
 
-        List<EventDTO> eventDTOs = eventService.convertToDTOList(events);
-
-        return ResponseEntity.ok(eventDTOs);
+        return ResponseEntity.ok(eventMapperDTO.toDTOList(events));
     }
 
     @PostMapping("/{eventId}/purchase")
@@ -183,8 +184,7 @@ public class EventController {
             @Parameter(description = "The minimum number of likes for events to be retrieved", required = true)
             @PathVariable int likes){
         List<Event> result = eventService.getByLikedGreaterThan(likes);
-        List<EventDTO> dtoList = eventService.convertToDTOList(result);
-        return ResponseEntity.ok(dtoList);
+        return ResponseEntity.ok(eventMapperDTO.toDTOList(result));
     }
 
 }

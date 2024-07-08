@@ -2,6 +2,7 @@ package cz.cvut.iarylser.service;
 
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.*;
+import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
 import cz.cvut.iarylser.dao.repository.TicketRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -41,33 +42,6 @@ public class TicketService {
         event.getTickets().add(ticket);
         userRepository.save(customer);
         return ticketRepository.save(ticket);
-    }
-    public TicketDTO convertToDto(Ticket ticket) {
-        if (ticket == null) {
-            return null;
-        }
-
-        TicketDTO ticketDTO = new TicketDTO();
-        ticketDTO.setId(ticket.getId());
-        ticketDTO.setEventId(ticket.getEventId());
-        ticketDTO.setIdCustomer(ticket.getIdCustomer());
-        ticketDTO.setIdOrganizer(ticket.getIdOrganizer());
-        ticketDTO.setDetails(ticket.getDetails());
-        ticketDTO.setTicketStatus(ticket.getTicketStatus());
-
-
-        return ticketDTO;
-    }
-    public List<TicketDTO> convertTicketsToDTOs(List<Ticket> tickets) {
-        if (tickets == null) {
-            return new ArrayList<>();
-        }
-
-        List<TicketDTO> ticketDTOs = new ArrayList<>();
-        for (Ticket ticket : tickets) {
-            ticketDTOs.add(convertToDto(ticket));
-        }
-        return ticketDTOs;
     }
 
     public Ticket update(Long ticketId, Ticket updatedTicket) {
