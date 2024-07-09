@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.controller.UserControllerTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2024-07-08T13:07:20" hostname="MACHINE" time="0.118">
+<testsuite name="cz.cvut.iarylser.controller.UserControllerTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2024-07-09T10:45:37" hostname="MACHINE" time="0.143">
   <properties/>
-  <testcase name="updateUserFailureNotFound()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.016"/>
-  <testcase name="deleteUserSucceeded()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.006"/>
-  <testcase name="updateUserSucceeded()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.012"/>
-  <testcase name="deleteUserFailure()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.005"/>
-  <testcase name="getUserByIdFailure()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.007"/>
-  <testcase name="getAllUsers()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.006"/>
+  <testcase name="updateUserFailureNotFound()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.017"/>
+  <testcase name="deleteUserSucceeded()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.007"/>
+  <testcase name="updateUserSucceeded()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.011"/>
+  <testcase name="deleteUserFailure()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.008"/>
+  <testcase name="getUserByIdFailure()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.014"/>
+  <testcase name="getAllUsers()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.009"/>
   <testcase name="createUserSuccesful()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.009"/>
-  <testcase name="createUserFail()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.009"/>
-  <testcase name="updateUserFailureNickname()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.007"/>
-  <testcase name="loginUserFailure()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.008"/>
-  <testcase name="getUserByIdSucceeded()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.007"/>
-  <testcase name="loginUserSucceeds()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.007"/>
-  <system-out><![CDATA[2024-07-08T15:07:20.518+02:00  INFO 18608 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.UserControllerTest]: UserControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-07-08T15:07:20.525+02:00  INFO 18608 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.UserControllerTest
+  <testcase name="createUserFail()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.011"/>
+  <testcase name="updateUserFailureNickname()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.009"/>
+  <testcase name="loginUserFailure()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.009"/>
+  <testcase name="getUserByIdSucceeded()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.006"/>
+  <testcase name="loginUserSucceeds()" classname="cz.cvut.iarylser.controller.UserControllerTest" time="0.008"/>
+  <system-out><![CDATA[2024-07-09T12:45:37.207+02:00  INFO 38056 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.UserControllerTest]: UserControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-07-09T12:45:37.213+02:00  INFO 38056 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.UserControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -24,16 +24,16 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.5)
 
-2024-07-08T15:07:20.551+02:00  INFO 18608 --- [    Test worker] c.c.i.controller.UserControllerTest      : Starting UserControllerTest using Java 17.0.9 with PID 18608 (started by 1 in D:\Project\eventExplorerBackend)
-2024-07-08T15:07:20.551+02:00  INFO 18608 --- [    Test worker] c.c.i.controller.UserControllerTest      : No active profile set, falling back to 1 default profile: "default"
-2024-07-08T15:07:20.815+02:00  INFO 18608 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-07-08T15:07:20.815+02:00  INFO 18608 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-07-08T15:07:20.816+02:00  INFO 18608 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2024-07-08T15:07:20.822+02:00  INFO 18608 --- [    Test worker] c.c.i.controller.UserControllerTest      : Started UserControllerTest in 0.293 seconds (process running for 5.42)
-2024-07-08T15:07:20.836+02:00  INFO 18608 --- [    Test worker] c.c.iarylser.controller.UserController   : Unable to update. User with id 1 not found.
-2024-07-08T15:07:20.867+02:00  INFO 18608 --- [    Test worker] c.c.iarylser.controller.UserController   : Unable to delete. User with id 1 not found.
-2024-07-08T15:07:20.876+02:00  INFO 18608 --- [    Test worker] c.c.iarylser.controller.UserController   : User with id 1 not found.
-2024-07-08T15:07:20.915+02:00  INFO 18608 --- [    Test worker] c.c.iarylser.controller.UserController   : Error updating user: null
+2024-07-09T12:45:37.236+02:00  INFO 38056 --- [    Test worker] c.c.i.controller.UserControllerTest      : Starting UserControllerTest using Java 17.0.9 with PID 38056 (started by 1 in D:\Project\eventExplorerBackend)
+2024-07-09T12:45:37.236+02:00  INFO 38056 --- [    Test worker] c.c.i.controller.UserControllerTest      : No active profile set, falling back to 1 default profile: "default"
+2024-07-09T12:45:37.485+02:00  INFO 38056 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-07-09T12:45:37.485+02:00  INFO 38056 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-07-09T12:45:37.486+02:00  INFO 38056 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2024-07-09T12:45:37.491+02:00  INFO 38056 --- [    Test worker] c.c.i.controller.UserControllerTest      : Started UserControllerTest in 0.274 seconds (process running for 6.505)
+2024-07-09T12:45:37.506+02:00  INFO 38056 --- [    Test worker] c.c.iarylser.controller.UserController   : Unable to update. User with id 1 not found.
+2024-07-09T12:45:37.540+02:00  INFO 38056 --- [    Test worker] c.c.iarylser.controller.UserController   : Unable to delete. User with id 1 not found.
+2024-07-09T12:45:37.554+02:00  INFO 38056 --- [    Test worker] c.c.iarylser.controller.UserController   : User with id 1 not found.
+2024-07-09T12:45:37.606+02:00  INFO 38056 --- [    Test worker] c.c.iarylser.controller.UserController   : Error updating user: null
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

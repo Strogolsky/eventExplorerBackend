@@ -31,15 +31,20 @@ public class TicketService {
 
     public Ticket create(Event event, User customer){
         Ticket ticket = new Ticket();
+
         ticket.setEventId(event.getId());
         ticket.setIdCustomer(customer.getId());
         ticket.setIdOrganizer(event.getIdOrganizer());
+
         setDetailsFromEvent(event,ticket);
         ticket.setTicketStatus(TicketStatus.ACTIVE);
+
         ticket.setUser(customer);
         ticket.setEvent(event);
+
         customer.getTickets().add(ticket);
         event.getTickets().add(ticket);
+
         userRepository.save(customer);
         return ticketRepository.save(ticket);
     }

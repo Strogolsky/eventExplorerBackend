@@ -3,6 +3,7 @@ package cz.cvut.iarylser.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.cvut.iarylser.controller.EventController;
 import cz.cvut.iarylser.dao.DTO.EventDTO;
+import cz.cvut.iarylser.dao.DTO.LikeRequest;
 import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Event;
@@ -310,23 +311,24 @@ class EventControllerTest {
 
     @Test
     void likeEventSucceeded() throws Exception {
-        Long eventId = 1L;
-        Long userId = 2L;
+        LikeRequest request = new LikeRequest(1L,2L);
 
-        when(eventService.like(eventId,userId)).thenReturn(true);
+        when(eventService.like(anyLong(),anyLong())).thenReturn(true);
 
-        mockMvc.perform(put("/event/{eventId}/like/{userId}", eventId, userId)
-                        .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(put("/event/like")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
     }
 
     @Test
     void likeEventFailure() throws Exception {
-        Long eventId = 1L;
-        Long userId = 1L;
-        when(eventService.like(eventId, userId)).thenReturn(false);
+        LikeRequest request = new LikeRequest(1L,1L);
+        when(eventService.like(anyLong(),anyLong())).thenReturn(false);
 
-        mockMvc.perform(put("/event/{eventId}/like/{userId}", eventId, userId))
+        mockMvc.perform(put("/event/like")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
     }
 

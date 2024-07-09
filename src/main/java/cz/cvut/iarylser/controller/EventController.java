@@ -2,6 +2,7 @@ package cz.cvut.iarylser.controller;
 
 
 import cz.cvut.iarylser.dao.DTO.EventDTO;
+import cz.cvut.iarylser.dao.DTO.LikeRequest;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
 import cz.cvut.iarylser.dao.entity.*;
@@ -141,17 +142,13 @@ public class EventController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{eventId}/like/{userId}")
+    @PutMapping("/like")
     @Operation(summary = "Like an event",
             description = "Marks the event as liked by the user.")
     @ApiResponse(responseCode = "200", description = "Event liked successfully")
     @ApiResponse(responseCode = "404", description = "Event or user not found")
-    public ResponseEntity<?> likeEvent(
-            @Parameter(description = "ID of the event to like", required = true)
-            @PathVariable Long eventId,
-            @Parameter(description = "ID of the user who is liking the event", required = true)
-            @PathVariable Long userId) {
-        boolean result = eventService.like(eventId, userId);
+    public ResponseEntity<?> likeEvent(@RequestBody LikeRequest request) {
+        boolean result = eventService.like(request.getEventId(), request.getUserId());
         if (!result) {
             return ResponseEntity.notFound().build();
         }
