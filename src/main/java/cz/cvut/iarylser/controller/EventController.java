@@ -155,17 +155,14 @@ public class EventController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{eventId}/unlike/{userId}")
+    @PutMapping("/unlike")
     @Operation(summary = "Unlike an event",
             description = "Removes the like mark from the event by the user.")
     @ApiResponse(responseCode = "200", description = "Event unliked successfully")
     @ApiResponse(responseCode = "404", description = "Event or user not found")
     public ResponseEntity<?> unlikeEvent(
-            @Parameter(description = "ID of the event to unlike", required = true)
-            @PathVariable Long eventId,
-            @Parameter(description = "ID of the user who is unliking the event", required = true)
-            @PathVariable Long userId) {
-        boolean result = eventService.unlike(eventId, userId);
+            @RequestBody LikeRequest request) {
+        boolean result = eventService.unlike(request.getEventId(), request.getUserId());
         if (!result) {
             return ResponseEntity.notFound().build();
         }

@@ -335,23 +335,23 @@ class EventControllerTest {
 
     @Test
     void unlikeEventSucceeded() throws Exception {
-        Long eventId = 1L;
-        Long userId = 2L;
+        LikeRequest request = new LikeRequest(1L,2L);
+        when(eventService.unlike(anyLong(),anyLong())).thenReturn(true);
 
-        when(eventService.unlike(eventId,userId)).thenReturn(true);
-
-        mockMvc.perform(put("/event/{eventId}/unlike/{userId}", eventId, userId)
-                        .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(put("/event/unlike")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
     }
 
     @Test
     void unlikeEventFailure() throws Exception {
-        Long eventId = 1L;
-        Long userId = 1L;
-        when(eventService.unlike(eventId, userId)).thenReturn(false);
+        LikeRequest request = new LikeRequest(1L,1L);
+        when(eventService.like(anyLong(),anyLong())).thenReturn(false);
 
-        mockMvc.perform(put("/event/{eventId}/unlike/{userId}", eventId, userId))
+        mockMvc.perform(put("/event/unlike")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
     }
 
