@@ -79,21 +79,21 @@ class EventRepositoryTest {
         Long organizerId2 = 2L;
 
         Event event1 = new Event();
-        event1.setIdOrganizer(organizerId1);
+        event1.setOrganizerId(organizerId1);
         event1.setTitle("Event1");
         eventRepository.save(event1);
 
         Event event2 = new Event();
-        event2.setIdOrganizer(organizerId1);
+        event2.setOrganizerId(organizerId1);
         event2.setTitle("Event2");
         eventRepository.save(event2);
 
         Event event3 = new Event();
-        event3.setIdOrganizer(organizerId2);
+        event3.setOrganizerId(organizerId2);
         event3.setTitle("Event3");
         eventRepository.save(event3);
 
-        List<Event> eventsOfOrganizer1 = eventRepository.findByIdOrganizer(organizerId1);
+        List<Event> eventsOfOrganizer1 = eventRepository.findByOrganizerId(organizerId1);
 
         assertThat(eventsOfOrganizer1).contains(event1, event2);
         assertThat(eventsOfOrganizer1).doesNotContain(event3);

@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.043s</div>
+<div class="counter">0.048s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,22 +79,22 @@
 </thead>
 <tr>
 <td class="success">authenticateUserFailure()</td>
-<td class="success">0.007s</td>
+<td class="success">0.009s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">authenticateUserSucceeds()</td>
-<td class="success">0.003s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">createUserFailure()</td>
-<td class="success">0.004s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">createUserSucceeded()</td>
-<td class="success">0.004s</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -109,22 +109,22 @@
 </tr>
 <tr>
 <td class="success">getAllUsers()</td>
-<td class="success">0.004s</td>
+<td class="success">0.006s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getUserById()</td>
-<td class="success">0.002s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">updateUserFailure()</td>
 <td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">updateUserFailureNicknameExist()</td>
+<td class="success">updateUserFailure()</td>
 <td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">updateUserFailureNicknameExist()</td>
+<td class="success">0.005s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -137,8 +137,8 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2024-07-10T13:35:05.959+02:00  INFO 38236 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.service.UserServiceTest]: UserServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-07-10T13:35:05.962+02:00  INFO 38236 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.service.UserServiceTest
+<pre>2024-07-10T14:23:56.577+02:00  INFO 26740 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.service.UserServiceTest]: UserServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-07-10T14:23:56.580+02:00  INFO 26740 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.service.UserServiceTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -148,22 +148,22 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.5)
 
-2024-07-10T13:35:05.981+02:00  INFO 38236 --- [    Test worker] c.cvut.iarylser.service.UserServiceTest  : Starting UserServiceTest using Java 17.0.9 with PID 38236 (started by 1 in D:\Project\eventExplorerBackend)
-2024-07-10T13:35:05.981+02:00  INFO 38236 --- [    Test worker] c.cvut.iarylser.service.UserServiceTest  : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2024-07-10T13:35:06.141+02:00  INFO 38236 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-07-10T13:35:06.154+02:00  INFO 38236 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 3 JPA repository interfaces.
-2024-07-10T13:35:06.214+02:00  INFO 38236 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-07-10T13:35:06.221+02:00  INFO 38236 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-07-10T13:35:06.222+02:00  INFO 38236 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
-2024-07-10T13:35:06.223+02:00  INFO 38236 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection conn43: url=jdbc:h2:mem:test user=IARYLSER
-2024-07-10T13:35:06.224+02:00  INFO 38236 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
-2024-07-10T13:35:06.225+02:00  WARN 38236 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-07-10T13:35:06.295+02:00  INFO 38236 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-07-10T13:35:06.306+02:00  INFO 38236 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-07-10T13:35:06.373+02:00  WARN 38236 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-07-10T13:35:06.495+02:00  INFO 38236 --- [    Test worker] c.cvut.iarylser.service.UserServiceTest  : Started UserServiceTest in 0.53 seconds (process running for 13.493)
-2024-07-10T13:35:06.520+02:00  WARN 38236 --- [    Test worker] cz.cvut.iarylser.service.UserService     : User with id 1 not found for deletion
-2024-07-10T13:35:06.543+02:00  WARN 38236 --- [    Test worker] cz.cvut.iarylser.service.UserService     : User with id 1 not found for update
+2024-07-10T14:23:56.601+02:00  INFO 26740 --- [    Test worker] c.cvut.iarylser.service.UserServiceTest  : Starting UserServiceTest using Java 17.0.9 with PID 26740 (started by 1 in D:\Project\eventExplorerBackend)
+2024-07-10T14:23:56.601+02:00  INFO 26740 --- [    Test worker] c.cvut.iarylser.service.UserServiceTest  : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-07-10T14:23:56.777+02:00  INFO 26740 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-07-10T14:23:56.787+02:00  INFO 26740 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 3 JPA repository interfaces.
+2024-07-10T14:23:56.845+02:00  INFO 26740 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-07-10T14:23:56.852+02:00  INFO 26740 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-07-10T14:23:56.853+02:00  INFO 26740 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2024-07-10T14:23:56.855+02:00  INFO 26740 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection conn43: url=jdbc:h2:mem:test user=IARYLSER
+2024-07-10T14:23:56.855+02:00  INFO 26740 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2024-07-10T14:23:56.856+02:00  WARN 26740 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-07-10T14:23:56.925+02:00  INFO 26740 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-07-10T14:23:56.937+02:00  INFO 26740 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-07-10T14:23:57.009+02:00  WARN 26740 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-07-10T14:23:57.129+02:00  INFO 26740 --- [    Test worker] c.cvut.iarylser.service.UserServiceTest  : Started UserServiceTest in 0.546 seconds (process running for 11.665)
+2024-07-10T14:23:57.153+02:00  WARN 26740 --- [    Test worker] cz.cvut.iarylser.service.UserService     : User with id 1 not found for deletion
+2024-07-10T14:23:57.178+02:00  WARN 26740 --- [    Test worker] cz.cvut.iarylser.service.UserService     : User with id 1 not found for update
 </pre>
 </span>
 </div>
@@ -175,7 +175,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.2</a> at 10 июл. 2024 г., 13:35:06</p>
+<a href="http://www.gradle.org">Gradle 8.2</a> at 10 июл. 2024 г., 14:23:57</p>
 </div>
 </div>
 </body>

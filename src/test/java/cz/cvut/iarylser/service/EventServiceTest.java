@@ -56,7 +56,7 @@ class EventServiceTest {
 
         event1 = new Event();
         event1.setId(1L);
-        event1.setIdOrganizer(10L);
+        event1.setOrganizerId(10L);
         event1.setTitle("Concert 1");
         event1.setOrganizer("Organizer 1");
         event1.setDateAndTime(eventDateTime);
@@ -70,7 +70,7 @@ class EventServiceTest {
 
         event2 = new Event();
         event2.setId(2L);
-        event2.setIdOrganizer(20L);
+        event2.setOrganizerId(20L);
         event2.setTitle("Concert 2");
         event2.setOrganizer("Organizer 2");
         event2.setDateAndTime(eventDateTime.plusDays(1));
@@ -85,7 +85,7 @@ class EventServiceTest {
     }
     public static void assertEventsEqual(Event expected, Event actual) {
         assertEquals(expected.getId(), actual.getId());
-        assertEquals(expected.getIdOrganizer(), actual.getIdOrganizer());
+        assertEquals(expected.getOrganizerId(), actual.getOrganizerId());
         assertEquals(expected.getTitle(), actual.getTitle());
         assertEquals(expected.getOrganizer(), actual.getOrganizer());
         assertEquals(expected.getDateAndTime(), actual.getDateAndTime());
@@ -341,7 +341,7 @@ class EventServiceTest {
 
         Event eventToDelete = new Event();
         eventToDelete.setId(eventId);
-        eventToDelete.setIdOrganizer(organizerId);
+        eventToDelete.setOrganizerId(organizerId);
         eventToDelete.setUser(organizer);
 
         organizer.getCreatedEvents().add(eventToDelete);
@@ -374,9 +374,9 @@ class EventServiceTest {
     void deleteEventFailureOrganizerNotFound() {
         Long eventId = 1L;
         Event event = new Event();
-        event.setIdOrganizer(1L);
+        event.setOrganizerId(1L);
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
-        when(userRepository.findById(event.getIdOrganizer())).thenReturn(Optional.empty());
+        when(userRepository.findById(event.getOrganizerId())).thenReturn(Optional.empty());
 
         boolean result = eventService.delete(eventId);
 

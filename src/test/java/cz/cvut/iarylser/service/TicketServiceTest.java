@@ -124,7 +124,7 @@ class TicketServiceTest {
     void createTicket() {
         Event event = new Event();
         event.setId(1L);
-        event.setIdOrganizer(2L);
+        event.setOrganizerId(2L);
         event.setTickets(new ArrayList<>());
         event.setDateAndTime(LocalDateTime.now());
 
@@ -140,7 +140,7 @@ class TicketServiceTest {
         assertNotNull(result);
         assertEquals(event.getId(), result.getEventId());
         assertEquals(customer.getId(), result.getIdCustomer());
-        assertEquals(event.getIdOrganizer(), result.getIdOrganizer());
+        assertEquals(event.getOrganizerId(), result.getIdOrganizer());
         assertEquals(TicketStatus.ACTIVE, result.getTicketStatus());
         assertEquals(customer, result.getUser());
         assertEquals(event, result.getEvent());

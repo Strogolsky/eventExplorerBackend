@@ -46,7 +46,7 @@ public class EventService implements CrudService<Event,Long> {
         if (organizer == null) {
             return null;
         }
-        newEvent.setIdOrganizer(organizer.getId());
+        newEvent.setOrganizerId(organizer.getId());
         newEvent.setUser(organizer);
         organizer.getCreatedEvents().add(newEvent);
         userRepository.save(organizer);
@@ -80,7 +80,7 @@ public class EventService implements CrudService<Event,Long> {
     }
 
     public List<Event> getByUserId(Long userId) {
-        return eventRepository.findByIdOrganizer(userId);
+        return eventRepository.findByOrganizerId(userId);
     }
     @Override
     public Event update(Long eventId, Event updatedEvent){
@@ -132,7 +132,7 @@ public class EventService implements CrudService<Event,Long> {
             return false;
         }
 
-        Long idOrganizer = event.getIdOrganizer();
+        Long idOrganizer = event.getOrganizerId();
         User author = userRepository.findById(idOrganizer).orElse(null);
         if (author != null) {
             author.getCreatedEvents().remove(event);

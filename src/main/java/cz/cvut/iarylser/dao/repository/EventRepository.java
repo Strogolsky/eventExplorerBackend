@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
-    public List<Event> findByIdOrganizer(Long userId);
+    public List<Event> findByOrganizerId(Long userId);
 
     @Query(value = "SELECT e FROM Event e WHERE size(e.likeBy) > :likes")
     Collection<Event> findByLikedGreaterThan(int likes);

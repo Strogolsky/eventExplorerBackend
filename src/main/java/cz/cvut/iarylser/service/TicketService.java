@@ -34,7 +34,7 @@ public class TicketService {
 
         ticket.setEventId(event.getId());
         ticket.setIdCustomer(customer.getId());
-        ticket.setIdOrganizer(event.getIdOrganizer());
+        ticket.setIdOrganizer(event.getOrganizerId());
 
         setDetailsFromEvent(event,ticket);
         ticket.setTicketStatus(TicketStatus.ACTIVE);

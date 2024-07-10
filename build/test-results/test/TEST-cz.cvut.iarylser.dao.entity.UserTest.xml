@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.dao.entity.UserTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-07-10T11:34:58" hostname="MACHINE" time="0.003">
+<testsuite name="cz.cvut.iarylser.dao.entity.UserTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-07-10T12:23:50" hostname="MACHINE" time="0.003">
   <properties/>
   <testcase name="likeEventSucceeded()" classname="cz.cvut.iarylser.dao.entity.UserTest" time="0.001"/>
   <testcase name="unlikeEventSucceeded()" classname="cz.cvut.iarylser.dao.entity.UserTest" time="0.001"/>
