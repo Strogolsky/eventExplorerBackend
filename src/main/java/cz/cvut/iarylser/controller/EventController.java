@@ -25,7 +25,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping(value = "/event")
+@RequestMapping(value = "/events")
 public class EventController {
     private final EventService eventService;
     private final EventMapperDTO eventMapperDTO;

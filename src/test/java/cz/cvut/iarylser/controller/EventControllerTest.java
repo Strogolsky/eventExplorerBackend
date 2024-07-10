@@ -64,7 +64,7 @@ class EventControllerTest {
         when(eventService.getAll()).thenReturn(Arrays.asList(new Event(), new Event()));
         when(eventMapperDTO.toDTOList(anyList())).thenReturn(allEvents);
 
-        mockMvc.perform(get("/event")
+        mockMvc.perform(get("/events")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -98,7 +98,7 @@ class EventControllerTest {
         Long eventId = 1L;
         when(eventService.getById(eventId)).thenReturn(null);
 
-        mockMvc.perform(get("/event/{eventId}", eventId))
+        mockMvc.perform(get("/events/{eventId}", eventId))
                 .andExpect(status().isNotFound());
     }
 
@@ -124,7 +124,7 @@ class EventControllerTest {
         when(eventService.getById(eventId)).thenReturn(new Event());
         when(eventMapperDTO.toDTO(any(Event.class))).thenReturn(eventDTO);
 
-        mockMvc.perform(get("/event/{eventId}", eventId)
+        mockMvc.perform(get("/events/{eventId}", eventId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(eventDTO.getId()))
@@ -161,7 +161,7 @@ class EventControllerTest {
         when(eventService.create(any(Event.class))).thenReturn(newEvent);
         when(eventMapperDTO.toDTO(any(Event.class))).thenReturn(eventDTO);
 
-        mockMvc.perform(post("/event")
+        mockMvc.perform(post("/events")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newEvent)))
                 .andExpect(status().isOk())
@@ -183,7 +183,7 @@ class EventControllerTest {
         Event newEvent = new Event();
         when(eventService.create(newEvent)).thenReturn(null);
 
-        mockMvc.perform(post("/event")
+        mockMvc.perform(post("/events")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(newEvent)))
                 .andExpect(status().isNotFound());
@@ -212,7 +212,7 @@ class EventControllerTest {
         when(eventService.update(eq(eventId), any(Event.class))).thenReturn(updatedEvent);
         when(eventMapperDTO.toDTO(any(Event.class))).thenReturn(eventDTO);
 
-        mockMvc.perform(put("/event/{eventId}", eventId)
+        mockMvc.perform(put("/events/{eventId}", eventId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updatedEvent)))
                 .andExpect(status().isOk())
@@ -235,7 +235,7 @@ class EventControllerTest {
         Event updatedEvent = new Event();
         when(eventService.update(eventId, updatedEvent)).thenReturn(null);
 
-        mockMvc.perform(put("/event/{eventId}", eventId)
+        mockMvc.perform(put("/events/{eventId}", eventId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(updatedEvent)))
                 .andExpect(status().isNotFound());
@@ -253,7 +253,7 @@ class EventControllerTest {
 
         when(eventService.purchaseTicket(eq(eventId), any(PurchaseRequest.class))).thenReturn(tickets);
 
-        mockMvc.perform(post("/event/{eventId}/purchase", eventId)
+        mockMvc.perform(post("/events/{eventId}/purchase", eventId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -279,7 +279,7 @@ class EventControllerTest {
         PurchaseRequest request = new PurchaseRequest(/* set request properties */);
         when(eventService.purchaseTicket(anyLong(), any(PurchaseRequest.class))).thenReturn(null);
 
-        mockMvc.perform(post("/event/{eventId}/purchase", eventId)
+        mockMvc.perform(post("/events/{eventId}/purchase", eventId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -292,7 +292,7 @@ class EventControllerTest {
 
         when(eventService.delete(eventId)).thenReturn(true);
 
-        mockMvc.perform(delete("/event/{eventId}", eventId)
+        mockMvc.perform(delete("/events/{eventId}", eventId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
@@ -302,7 +302,7 @@ class EventControllerTest {
         Long eventId = 1L;
         when(eventService.delete(eventId)).thenReturn(false);
 
-        mockMvc.perform(delete("/event/{eventId}", eventId))
+        mockMvc.perform(delete("/events/{eventId}", eventId))
                 .andExpect(status().isNotFound());
     }
 
@@ -315,7 +315,7 @@ class EventControllerTest {
 
         when(eventService.like(anyLong(),anyLong())).thenReturn(true);
 
-        mockMvc.perform(put("/event/like")
+        mockMvc.perform(put("/events/like")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
@@ -326,7 +326,7 @@ class EventControllerTest {
         LikeRequest request = new LikeRequest(1L,1L);
         when(eventService.like(anyLong(),anyLong())).thenReturn(false);
 
-        mockMvc.perform(put("/event/like")
+        mockMvc.perform(put("/events/like")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
@@ -338,7 +338,7 @@ class EventControllerTest {
         LikeRequest request = new LikeRequest(1L,2L);
         when(eventService.unlike(anyLong(),anyLong())).thenReturn(true);
 
-        mockMvc.perform(put("/event/unlike")
+        mockMvc.perform(put("/events/unlike")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
@@ -349,7 +349,7 @@ class EventControllerTest {
         LikeRequest request = new LikeRequest(1L,1L);
         when(eventService.like(anyLong(),anyLong())).thenReturn(false);
 
-        mockMvc.perform(put("/event/unlike")
+        mockMvc.perform(put("/events/unlike")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
@@ -387,7 +387,7 @@ class EventControllerTest {
         when(eventService.getByLikedGreaterThan(likes)).thenReturn(Arrays.asList(event1,event2));
         when(eventMapperDTO.toDTOList(any())).thenReturn(dtoList);
 
-        mockMvc.perform(get("/event/likes/{likes}", likes))
+        mockMvc.perform(get("/events/likes/{likes}", likes))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(dtoList.size())));
@@ -398,7 +398,7 @@ class EventControllerTest {
         when(eventService.getByLikedGreaterThan(likes)).thenReturn(new ArrayList<>());
         when(eventMapperDTO.toDTOList(any())).thenReturn(new ArrayList<>());
 
-        mockMvc.perform(get("/event/likes/{likes}", likes))
+        mockMvc.perform(get("/events/likes/{likes}", likes))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(0)));

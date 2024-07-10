@@ -66,7 +66,7 @@ class UserControllerTest {
         when(userService.getAll()).thenReturn(users);
         when(userMapperDTO.toDTOList(users)).thenReturn(userDTOs);
 
-        mockMvc.perform(get("/user"))
+        mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].nickname").value(user1.getNickname()))
@@ -88,7 +88,7 @@ class UserControllerTest {
         when(userService.getById(userId)).thenReturn(user);
         when(userMapperDTO.toDTO(user)).thenReturn(userDTO);
 
-        mockMvc.perform(get("/user/" + userId))
+        mockMvc.perform(get("/users/" + userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nickname").value(user.getNickname()));
     }
@@ -97,7 +97,7 @@ class UserControllerTest {
         Long userId = 1L;
         when(userService.getById(userId)).thenReturn(null);
 
-        mockMvc.perform(get("/user/{userId}", userId))
+        mockMvc.perform(get("/users/{userId}", userId))
                 .andExpect(status().isNotFound());
     }
 
@@ -124,7 +124,7 @@ class UserControllerTest {
 
         String userJson = new ObjectMapper().writeValueAsString(user);
 
-        mockMvc.perform(post("/user")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
                 .andExpect(status().isOk())
@@ -143,7 +143,7 @@ class UserControllerTest {
 
         String userJson = new ObjectMapper().writeValueAsString(user);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
                 .andExpect(status().isBadRequest());
@@ -174,7 +174,7 @@ class UserControllerTest {
 
         String updatedUserJson = new ObjectMapper().writeValueAsString(updatedUser);
 
-        mockMvc.perform(put("/user/" + userId)
+        mockMvc.perform(put("/users/" + userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(updatedUserJson)
                 )
@@ -194,7 +194,7 @@ class UserControllerTest {
         User updatedUser = new User();
         given(userService.update(eq(userId), any(User.class))).willThrow(new IllegalArgumentException());
 
-        mockMvc.perform(put("/user/{userId}", userId)
+        mockMvc.perform(put("/users/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(updatedUser)))
                 .andExpect(status().isBadRequest());
@@ -206,7 +206,7 @@ class UserControllerTest {
         User updatedUser = new User();
         given(userService.update(eq(userId), any(User.class))).willReturn(null);
 
-        mockMvc.perform(put("/user/{userId}", userId)
+        mockMvc.perform(put("/users/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(updatedUser)))
                 .andExpect(status().isNotFound());
@@ -217,7 +217,7 @@ class UserControllerTest {
         Long userId = 1L;
         Mockito.when(userService.delete(userId)).thenReturn(true);
 
-        mockMvc.perform(delete("/user/" + userId))
+        mockMvc.perform(delete("/users/" + userId))
                 .andExpect(status().isNoContent());
     }
 
@@ -226,7 +226,7 @@ class UserControllerTest {
         Long userId = 1L;
         given(userService.delete(userId)).willReturn(false);
 
-        mockMvc.perform(delete("/user/{userId}", userId)
+        mockMvc.perform(delete("/users/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
@@ -242,7 +242,7 @@ class UserControllerTest {
         when(userMapperDTO.toDTO(any(User.class))).thenReturn(userDTO);
 
 
-        mockMvc.perform(post("/user/login")
+        mockMvc.perform(post("/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
@@ -261,7 +261,7 @@ class UserControllerTest {
         when(userService.authenticateUser(anyString(), anyString())).thenThrow(new AuthenticationException());
 
 
-        mockMvc.perform(post("/user/login")
+        mockMvc.perform(post("/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isUnauthorized());

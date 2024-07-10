@@ -53,7 +53,7 @@ class TicketControllerTest {
         Mockito.when(ticketService.getById(ticketId)).thenReturn(ticket);
         Mockito.when(ticketMapperDTO.toDTO(Mockito.any(Ticket.class))).thenReturn(mockTicket);
 
-        mockMvc.perform(get("/ticket/" + ticketId))
+        mockMvc.perform(get("/tickets/" + ticketId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(ticketId));
 
@@ -63,7 +63,7 @@ class TicketControllerTest {
         Long ticketId = 1L;
         when(ticketService.getById(ticketId)).thenReturn(null);
 
-        mockMvc.perform(get("/ticket/{ticketId}", ticketId))
+        mockMvc.perform(get("/tickets/{ticketId}", ticketId))
                 .andExpect(status().isNotFound());
     }
 
@@ -79,7 +79,7 @@ class TicketControllerTest {
         Mockito.when(ticketService.getByUser(userId)).thenReturn(List.of(ticket));
         Mockito.when(ticketMapperDTO.toDTOList(Mockito.anyList())).thenReturn(List.of(mockTicket));
 
-        mockMvc.perform(get("/ticket/user/" + userId))
+        mockMvc.perform(get("/tickets/user/" + userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].idCustomer").value(userId));
@@ -91,7 +91,7 @@ class TicketControllerTest {
         Long userId = 1L;
         when(ticketService.getByUser(userId)).thenReturn(new ArrayList<>());
 
-        mockMvc.perform(get("/ticket/user/{userId}", userId))
+        mockMvc.perform(get("/tickets/user/{userId}", userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }
