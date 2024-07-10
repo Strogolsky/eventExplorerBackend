@@ -26,15 +26,15 @@ public class TicketService {
         return ticketRepository.findById(ticketId).orElse(null);
     }
     public List<Ticket> getByUser(Long userId){
-        return ticketRepository.findByIdCustomer(userId);
+        return ticketRepository.findByCustomerId(userId);
     }
 
     public Ticket create(Event event, User customer){
         Ticket ticket = new Ticket();
 
         ticket.setEventId(event.getId());
-        ticket.setIdCustomer(customer.getId());
-        ticket.setIdOrganizer(event.getOrganizerId());
+        ticket.setCustomerId(customer.getId());
+        ticket.setOrganizerId(event.getOrganizerId());
 
         setDetailsFromEvent(event,ticket);
         ticket.setTicketStatus(TicketStatus.ACTIVE);

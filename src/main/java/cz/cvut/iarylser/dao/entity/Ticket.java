@@ -16,9 +16,9 @@ public class Ticket {
     @Column(name = "event_id")
     private Long eventId;
     @Column(name = "id_customer")
-    private Long idCustomer;
+    private Long customerId;
     @Column(name = "id_organizer")
-    private Long idOrganizer;
+    private Long organizerId;
     @Column(name = "details", columnDefinition = "text")
     private String details;
     @Column(name = "ticket_status")

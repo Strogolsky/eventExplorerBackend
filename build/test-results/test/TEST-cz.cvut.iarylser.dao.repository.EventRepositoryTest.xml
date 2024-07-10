@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.dao.repository.EventRepositoryTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-07-10T12:23:53" hostname="MACHINE" time="0.369">
+<testsuite name="cz.cvut.iarylser.dao.repository.EventRepositoryTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-07-10T12:38:36" hostname="MACHINE" time="0.38">
   <properties/>
-  <testcase name="FindByLikedGreaterThanExist()" classname="cz.cvut.iarylser.dao.repository.EventRepositoryTest" time="0.306"/>
-  <testcase name="testFindByIdOrganizer()" classname="cz.cvut.iarylser.dao.repository.EventRepositoryTest" time="0.033"/>
-  <testcase name="FindByLikedGreaterThanNotExist()" classname="cz.cvut.iarylser.dao.repository.EventRepositoryTest" time="0.02"/>
-  <testcase name="findByIdOrganizer()" classname="cz.cvut.iarylser.dao.repository.EventRepositoryTest" time="0.004"/>
-  <system-out><![CDATA[2024-07-10T14:23:50.432+02:00  INFO 26740 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.dao.repository.EventRepositoryTest]: EventRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-07-10T14:23:50.452+02:00  INFO 26740 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.dao.repository.EventRepositoryTest
+  <testcase name="FindByLikedGreaterThanExist()" classname="cz.cvut.iarylser.dao.repository.EventRepositoryTest" time="0.324"/>
+  <testcase name="testFindByIdOrganizer()" classname="cz.cvut.iarylser.dao.repository.EventRepositoryTest" time="0.034"/>
+  <testcase name="FindByLikedGreaterThanNotExist()" classname="cz.cvut.iarylser.dao.repository.EventRepositoryTest" time="0.016"/>
+  <testcase name="findByIdOrganizer()" classname="cz.cvut.iarylser.dao.repository.EventRepositoryTest" time="0.003"/>
+  <system-out><![CDATA[2024-07-10T14:38:33.671+02:00  INFO 17320 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.dao.repository.EventRepositoryTest]: EventRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-07-10T14:38:33.690+02:00  INFO 17320 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.dao.repository.EventRepositoryTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -16,18 +16,18 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.5)
 
-2024-07-10T14:23:50.476+02:00  INFO 26740 --- [    Test worker] c.c.i.d.repository.EventRepositoryTest   : Starting EventRepositoryTest using Java 17.0.9 with PID 26740 (started by 1 in D:\Project\eventExplorerBackend)
-2024-07-10T14:23:50.477+02:00  INFO 26740 --- [    Test worker] c.c.i.d.repository.EventRepositoryTest   : No active profile set, falling back to 1 default profile: "default"
-2024-07-10T14:23:50.649+02:00  INFO 26740 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-07-10T14:23:50.731+02:00  INFO 26740 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 70 ms. Found 3 JPA repository interfaces.
-2024-07-10T14:23:50.790+02:00  INFO 26740 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
-2024-07-10T14:23:50.854+02:00  INFO 26740 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:ba054d51-8609-4c16-b5ae-a2d285be151c;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
-2024-07-10T14:23:51.147+02:00  INFO 26740 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-07-10T14:23:51.217+02:00  INFO 26740 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.13.Final
-2024-07-10T14:23:51.221+02:00  INFO 26740 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
-2024-07-10T14:23:51.440+02:00  INFO 26740 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-07-10T14:23:51.512+02:00  WARN 26740 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-07-10T14:23:52.440+02:00  INFO 26740 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-07-10T14:38:33.714+02:00  INFO 17320 --- [    Test worker] c.c.i.d.repository.EventRepositoryTest   : Starting EventRepositoryTest using Java 17.0.9 with PID 17320 (started by 1 in D:\Project\eventExplorerBackend)
+2024-07-10T14:38:33.715+02:00  INFO 17320 --- [    Test worker] c.c.i.d.repository.EventRepositoryTest   : No active profile set, falling back to 1 default profile: "default"
+2024-07-10T14:38:33.897+02:00  INFO 17320 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-07-10T14:38:33.961+02:00  INFO 17320 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 53 ms. Found 3 JPA repository interfaces.
+2024-07-10T14:38:34.023+02:00  INFO 17320 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2024-07-10T14:38:34.101+02:00  INFO 17320 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:4b9e0d69-56e5-4d61-bb91-91edecf030d5;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2024-07-10T14:38:34.407+02:00  INFO 17320 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-07-10T14:38:34.478+02:00  INFO 17320 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.13.Final
+2024-07-10T14:38:34.481+02:00  INFO 17320 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2024-07-10T14:38:34.687+02:00  INFO 17320 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-07-10T14:38:34.750+02:00  WARN 17320 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-07-10T14:38:35.705+02:00  INFO 17320 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 Hibernate: drop table if exists public.event cascade 
 Hibernate: drop table if exists public.ticket cascade 
 Hibernate: drop table if exists event_likes cascade 
@@ -47,9 +47,9 @@ Hibernate: alter table if exists public.ticket add constraint FKh5r4ua2h63akkkia
 Hibernate: alter table if exists public.ticket add constraint FKmlniiijfm8ihk6w6dcnog7vrh foreign key (id_user) references users
 Hibernate: alter table if exists event_likes add constraint FKrp1c5614p8wmelko5fonis1f4 foreign key (id_user) references users
 Hibernate: alter table if exists event_likes add constraint FKqpm9tffl8xuh7wac7s2xj951l foreign key (id_event) references public.event
-2024-07-10T14:23:52.504+02:00  INFO 26740 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-07-10T14:23:52.932+02:00  INFO 26740 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2024-07-10T14:23:53.373+02:00  INFO 26740 --- [    Test worker] c.c.i.d.repository.EventRepositoryTest   : Started EventRepositoryTest in 2.917 seconds (process running for 7.909)
+2024-07-10T14:38:35.760+02:00  INFO 17320 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-07-10T14:38:36.267+02:00  INFO 17320 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-07-10T14:38:36.692+02:00  INFO 17320 --- [    Test worker] c.c.i.d.repository.EventRepositoryTest   : Started EventRepositoryTest in 2.998 seconds (process running for 8.001)
 Hibernate: select next value for users_seq
 Hibernate: select next value for users_seq
 Hibernate: select next value for event_seq

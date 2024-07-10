@@ -19,8 +19,8 @@ class TicketRepositoryTest {
     void setUp() {
         ticket = new Ticket();
         ticket.setEventId(1L);
-        ticket.setIdCustomer(2L);
-        ticket.setIdOrganizer(3L);
+        ticket.setCustomerId(2L);
+        ticket.setOrganizerId(3L);
         ticket.setId(4L);
     }
 
@@ -30,11 +30,11 @@ class TicketRepositoryTest {
         ticketRepository.save(ticket);
         Long idCustomer = 2L;
         // when
-        List<Ticket> found = ticketRepository.findByIdCustomer(idCustomer);
+        List<Ticket> found = ticketRepository.findByCustomerId(idCustomer);
         // then
         assertFalse(found.isEmpty());
         for(Ticket ticket: found){
-            assertEquals(ticket.getIdCustomer(), idCustomer);
+            assertEquals(ticket.getCustomerId(), idCustomer);
         }
 
     }
@@ -44,7 +44,7 @@ class TicketRepositoryTest {
         ticketRepository.save(ticket);
         Long idCustomer = 4L;
         // when
-        List<Ticket> found = ticketRepository.findByIdCustomer(idCustomer);
+        List<Ticket> found = ticketRepository.findByCustomerId(idCustomer);
         // then
         assertTrue(found.isEmpty());
     }

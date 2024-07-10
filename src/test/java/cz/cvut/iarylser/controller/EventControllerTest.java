@@ -260,15 +260,15 @@ class EventControllerTest {
                 .andExpect(jsonPath("$", hasSize(tickets.size())))
                 .andExpect(jsonPath("$[0].id").value(tickets.get(0).getId()))
                 .andExpect(jsonPath("$[0].eventId").value(tickets.get(0).getEventId()))
-                .andExpect(jsonPath("$[0].idCustomer").value(tickets.get(0).getIdCustomer()))
-                .andExpect(jsonPath("$[0].idOrganizer").value(tickets.get(0).getIdOrganizer()))
+                .andExpect(jsonPath("$[0].customerId").value(tickets.get(0).getCustomerId()))
+                .andExpect(jsonPath("$[0].organizerId").value(tickets.get(0).getOrganizerId()))
                 .andExpect(jsonPath("$[0].details").value(tickets.get(0).getDetails()))
                 .andExpect(jsonPath("$[0].ticketStatus").value(tickets.get(0).getTicketStatus().toString()))
 
                 .andExpect(jsonPath("$[1].id").value(tickets.get(1).getId()))
                 .andExpect(jsonPath("$[1].eventId").value(tickets.get(1).getEventId()))
-                .andExpect(jsonPath("$[1].idCustomer").value(tickets.get(1).getIdCustomer()))
-                .andExpect(jsonPath("$[1].idOrganizer").value(tickets.get(1).getIdOrganizer()))
+                .andExpect(jsonPath("$[1].customerId").value(tickets.get(1).getCustomerId()))
+                .andExpect(jsonPath("$[1].organizerId").value(tickets.get(1).getOrganizerId()))
                 .andExpect(jsonPath("$[1].details").value(tickets.get(1).getDetails()))
                 .andExpect(jsonPath("$[1].ticketStatus").value(tickets.get(1).getTicketStatus().toString()));
     }

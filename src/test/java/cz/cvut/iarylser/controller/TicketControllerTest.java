@@ -71,10 +71,10 @@ class TicketControllerTest {
     void getTicketByUserSucceeded() throws Exception{
         Long userId = 1L;
         TicketDTO mockTicket = new TicketDTO();
-        mockTicket.setIdCustomer(userId);
+        mockTicket.setCustomerId(userId);
 
         Ticket ticket = new Ticket();
-        ticket.setIdCustomer(userId);
+        ticket.setCustomerId(userId);
 
         Mockito.when(ticketService.getByUser(userId)).thenReturn(List.of(ticket));
         Mockito.when(ticketMapperDTO.toDTOList(Mockito.anyList())).thenReturn(List.of(mockTicket));
@@ -82,7 +82,7 @@ class TicketControllerTest {
         mockMvc.perform(get("/tickets/user/" + userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].idCustomer").value(userId));
+                .andExpect(jsonPath("$[0].customerId").value(userId));
 
     }
 

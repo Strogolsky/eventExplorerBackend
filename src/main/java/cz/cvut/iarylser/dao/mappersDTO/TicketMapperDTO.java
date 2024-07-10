@@ -18,8 +18,8 @@ public class TicketMapperDTO implements MapperDTO<TicketDTO, Ticket> {
         TicketDTO dto = new TicketDTO();
         dto.setId(entity.getId());
         dto.setEventId(entity.getEventId());
-        dto.setIdCustomer(entity.getIdCustomer());
-        dto.setIdOrganizer(entity.getIdOrganizer());
+        dto.setCustomerId(entity.getCustomerId());
+        dto.setOrganizerId(entity.getOrganizerId());
         dto.setDetails(entity.getDetails());
         dto.setTicketStatus(entity.getTicketStatus());
 
