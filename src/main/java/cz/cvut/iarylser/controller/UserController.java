@@ -3,7 +3,7 @@ import cz.cvut.iarylser.dao.DTO.LoginRequest;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
-import cz.cvut.iarylser.service.UserService;
+import cz.cvut.iarylser.service.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.naming.AuthenticationException;
 import java.util.List;
@@ -24,12 +23,12 @@ import java.util.List;
 @RequestMapping(value = "/users")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private final UserMapperDTO userMapperDTO;
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    public UserController(UserService userService, UserMapperDTO userMapperDTO) {
-        this.userService = userService;
+    public UserController(UserServiceImpl userServiceImpl, UserMapperDTO userMapperDTO) {
+        this.userServiceImpl = userServiceImpl;
         this.userMapperDTO = userMapperDTO;
     }
 
@@ -40,7 +39,7 @@ public class UserController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = UserDTO.class)))
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<User> result = userService.getAll();
+        List<User> result = userServiceImpl.getAll();
         return ResponseEntity.ok(userMapperDTO.toDTOList(result));
     }
 
@@ -56,7 +55,7 @@ public class UserController {
     public ResponseEntity<UserDTO> getUserById(
             @Parameter(description = "Unique identifier of the user to be retrieved")
             @PathVariable Long userId) {
-        User user = userService.getById(userId);
+        User user = userServiceImpl.getById(userId);
         if (user == null) {
             log.info("User with id {} not found.", userId);
             return ResponseEntity.notFound().build();
@@ -76,7 +75,7 @@ public class UserController {
             @RequestBody User newUser) {
         User user;
         try {
-            user = userService.create(newUser);
+            user = userServiceImpl.create(newUser);
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body("User is not added" + e.getMessage());
         }
@@ -97,7 +96,7 @@ public class UserController {
         String password = loginRequest.getPassword();
 
         try {
-            User user = userService.authenticateUser(username, password);
+            User user = userServiceImpl.authenticateUser(username, password);
             return ResponseEntity.ok(userMapperDTO.toDTO(user));
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -117,7 +116,7 @@ public class UserController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated user object", required = true)
             @RequestBody User updatedUser) {
         try {
-            User user = userService.update(userId, updatedUser);
+            User user = userServiceImpl.update(userId, updatedUser);
             if (user == null) {
                 log.info("Unable to update. User with id {} not found.", userId);
                 return ResponseEntity.notFound().build();
@@ -137,7 +136,7 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(
             @Parameter(description = "Unique identifier of the user to be retrieved")
             @PathVariable Long userId) {
-        if (!userService.delete(userId)) {
+        if (!userServiceImpl.delete(userId)) {
             log.info("Unable to delete. User with id {} not found.", userId);
             return ResponseEntity.notFound().build();
         }

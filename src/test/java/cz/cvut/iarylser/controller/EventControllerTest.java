@@ -1,7 +1,6 @@
 package cz.cvut.iarylser.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cz.cvut.iarylser.controller.EventController;
 import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.DTO.LikeRequest;
 import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
@@ -10,19 +9,13 @@ import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.TicketStatus;
 import cz.cvut.iarylser.dao.entity.Topics;
 import cz.cvut.iarylser.dao.mappersDTO.EventMapperDTO;
-import cz.cvut.iarylser.dao.repository.EventRepository;
-import cz.cvut.iarylser.dao.repository.UserRepository;
-import cz.cvut.iarylser.service.EventService;
-import cz.cvut.iarylser.service.TicketService;
+import cz.cvut.iarylser.service.EventServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
@@ -31,7 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -45,7 +37,7 @@ class EventControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private EventService eventService;
+    private EventServiceImpl eventServiceImpl;
     @MockBean
     private EventMapperDTO eventMapperDTO;
 
@@ -61,7 +53,7 @@ class EventControllerTest {
         EventDTO event2 = new EventDTO(2L, "Title 2", LocalDateTime.now(), 20, 200, "Location 2", 300, "Organizer 2", 150, "Description 2", Topics.PARTY, true);
         List<EventDTO> allEvents = Arrays.asList(event1, event2);
 
-        when(eventService.getAll()).thenReturn(Arrays.asList(new Event(), new Event()));
+        when(eventServiceImpl.getAll()).thenReturn(Arrays.asList(new Event(), new Event()));
         when(eventMapperDTO.toDTOList(anyList())).thenReturn(allEvents);
 
         mockMvc.perform(get("/events")
@@ -96,7 +88,7 @@ class EventControllerTest {
     @Test
     void getEventByIdFailure() throws Exception {
         Long eventId = 1L;
-        when(eventService.getById(eventId)).thenReturn(null);
+        when(eventServiceImpl.getById(eventId)).thenReturn(null);
 
         mockMvc.perform(get("/events/{eventId}", eventId))
                 .andExpect(status().isNotFound());
@@ -121,7 +113,7 @@ class EventControllerTest {
                 false
         );
 
-        when(eventService.getById(eventId)).thenReturn(new Event());
+        when(eventServiceImpl.getById(eventId)).thenReturn(new Event());
         when(eventMapperDTO.toDTO(any(Event.class))).thenReturn(eventDTO);
 
         mockMvc.perform(get("/events/{eventId}", eventId)
@@ -158,7 +150,7 @@ class EventControllerTest {
                 false
         );
 
-        when(eventService.create(any(Event.class))).thenReturn(newEvent);
+        when(eventServiceImpl.create(any(Event.class))).thenReturn(newEvent);
         when(eventMapperDTO.toDTO(any(Event.class))).thenReturn(eventDTO);
 
         mockMvc.perform(post("/events")
@@ -181,7 +173,7 @@ class EventControllerTest {
     @Test
     void createEventFailure() throws Exception {
         Event newEvent = new Event();
-        when(eventService.create(newEvent)).thenReturn(null);
+        when(eventServiceImpl.create(newEvent)).thenReturn(null);
 
         mockMvc.perform(post("/events")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -209,7 +201,7 @@ class EventControllerTest {
                 false
         );
 
-        when(eventService.update(eq(eventId), any(Event.class))).thenReturn(updatedEvent);
+        when(eventServiceImpl.update(eq(eventId), any(Event.class))).thenReturn(updatedEvent);
         when(eventMapperDTO.toDTO(any(Event.class))).thenReturn(eventDTO);
 
         mockMvc.perform(put("/events/{eventId}", eventId)
@@ -233,7 +225,7 @@ class EventControllerTest {
     void updateEventFailure() throws Exception {
         Long eventId = 1L;
         Event updatedEvent = new Event();
-        when(eventService.update(eventId, updatedEvent)).thenReturn(null);
+        when(eventServiceImpl.update(eventId, updatedEvent)).thenReturn(null);
 
         mockMvc.perform(put("/events/{eventId}", eventId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -251,7 +243,7 @@ class EventControllerTest {
                 new TicketDTO(2L, eventId, 3L, 4L, "Details 2", TicketStatus.ACTIVE)
         );
 
-        when(eventService.purchaseTicket(eq(eventId), any(PurchaseRequest.class))).thenReturn(tickets);
+        when(eventServiceImpl.purchaseTicket(eq(eventId), any(PurchaseRequest.class))).thenReturn(tickets);
 
         mockMvc.perform(post("/events/{eventId}/purchase", eventId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -277,7 +269,7 @@ class EventControllerTest {
     void purchaseTicketFailure() throws Exception {
         Long eventId = 1L;
         PurchaseRequest request = new PurchaseRequest(/* set request properties */);
-        when(eventService.purchaseTicket(anyLong(), any(PurchaseRequest.class))).thenReturn(null);
+        when(eventServiceImpl.purchaseTicket(anyLong(), any(PurchaseRequest.class))).thenReturn(null);
 
         mockMvc.perform(post("/events/{eventId}/purchase", eventId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -290,7 +282,7 @@ class EventControllerTest {
     void deleteEventSucceeded() throws Exception {
         Long eventId = 1L;
 
-        when(eventService.delete(eventId)).thenReturn(true);
+        when(eventServiceImpl.delete(eventId)).thenReturn(true);
 
         mockMvc.perform(delete("/events/{eventId}", eventId)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -300,7 +292,7 @@ class EventControllerTest {
     @Test
     void deleteEventFailure() throws Exception {
         Long eventId = 1L;
-        when(eventService.delete(eventId)).thenReturn(false);
+        when(eventServiceImpl.delete(eventId)).thenReturn(false);
 
         mockMvc.perform(delete("/events/{eventId}", eventId))
                 .andExpect(status().isNotFound());
@@ -313,7 +305,7 @@ class EventControllerTest {
     void likeEventSucceeded() throws Exception {
         LikeRequest request = new LikeRequest(1L,2L);
 
-        when(eventService.like(anyLong(),anyLong())).thenReturn(true);
+        when(eventServiceImpl.like(anyLong(),anyLong())).thenReturn(true);
 
         mockMvc.perform(put("/events/like")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -324,7 +316,7 @@ class EventControllerTest {
     @Test
     void likeEventFailure() throws Exception {
         LikeRequest request = new LikeRequest(1L,1L);
-        when(eventService.like(anyLong(),anyLong())).thenReturn(false);
+        when(eventServiceImpl.like(anyLong(),anyLong())).thenReturn(false);
 
         mockMvc.perform(put("/events/like")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -336,7 +328,7 @@ class EventControllerTest {
     @Test
     void unlikeEventSucceeded() throws Exception {
         LikeRequest request = new LikeRequest(1L,2L);
-        when(eventService.unlike(anyLong(),anyLong())).thenReturn(true);
+        when(eventServiceImpl.unlike(anyLong(),anyLong())).thenReturn(true);
 
         mockMvc.perform(put("/events/unlike")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -347,7 +339,7 @@ class EventControllerTest {
     @Test
     void unlikeEventFailure() throws Exception {
         LikeRequest request = new LikeRequest(1L,1L);
-        when(eventService.like(anyLong(),anyLong())).thenReturn(false);
+        when(eventServiceImpl.like(anyLong(),anyLong())).thenReturn(false);
 
         mockMvc.perform(put("/events/unlike")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -384,7 +376,7 @@ class EventControllerTest {
         dtoList.add(eventDTO1);
         dtoList.add(eventDTO2);
 
-        when(eventService.getByLikedGreaterThan(likes)).thenReturn(Arrays.asList(event1,event2));
+        when(eventServiceImpl.getByLikedGreaterThan(likes)).thenReturn(Arrays.asList(event1,event2));
         when(eventMapperDTO.toDTOList(any())).thenReturn(dtoList);
 
         mockMvc.perform(get("/events/likes/{likes}", likes))
@@ -395,7 +387,7 @@ class EventControllerTest {
     @Test
     void getByLikedGreaterThanNoEventsFound() throws Exception {
         int likes = 10;
-        when(eventService.getByLikedGreaterThan(likes)).thenReturn(new ArrayList<>());
+        when(eventServiceImpl.getByLikedGreaterThan(likes)).thenReturn(new ArrayList<>());
         when(eventMapperDTO.toDTOList(any())).thenReturn(new ArrayList<>());
 
         mockMvc.perform(get("/events/likes/{likes}", likes))

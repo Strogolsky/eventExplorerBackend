@@ -1,10 +1,9 @@
 package cz.cvut.iarylser.controller;
 
-import ch.qos.logback.classic.Logger;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
-import cz.cvut.iarylser.service.TicketService;
+import cz.cvut.iarylser.service.TicketServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -21,10 +20,10 @@ import java.util.List;
 @RequestMapping("/tickets")
 @CrossOrigin("*")
 public class TicketController {
-    private final TicketService ticketService;
+    private final TicketServiceImpl ticketServiceImpl;
     private final TicketMapperDTO ticketMapperDTO;
-    public TicketController(TicketService ticketService, TicketMapperDTO ticketMapperDTO){
-        this.ticketService = ticketService;
+    public TicketController(TicketServiceImpl ticketServiceImpl, TicketMapperDTO ticketMapperDTO){
+        this.ticketServiceImpl = ticketServiceImpl;
         this.ticketMapperDTO = ticketMapperDTO;
     }
     @GetMapping("/{ticketId}")
@@ -37,7 +36,7 @@ public class TicketController {
     public ResponseEntity<TicketDTO> getTicketById(
             @Parameter(description = "Unique identifier of the ticket to be retrieved", required = true)
             @PathVariable Long ticketId){
-        Ticket ticket = ticketService.getById(ticketId);
+        Ticket ticket = ticketServiceImpl.getById(ticketId);
         if (ticket == null) {
             return ResponseEntity.notFound().build();
         }
@@ -51,7 +50,7 @@ public class TicketController {
             content = @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = TicketDTO.class))))
     public ResponseEntity<List<TicketDTO>> getTicketByUser(@PathVariable Long userId){
-        List<Ticket> result = ticketService.getByUser(userId);
+        List<Ticket> result = ticketServiceImpl.getByUser(userId);
         return ResponseEntity.ok(ticketMapperDTO.toDTOList(result));
     }
 }

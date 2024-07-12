@@ -1,12 +1,11 @@
 package cz.cvut.iarylser.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cz.cvut.iarylser.controller.UserController;
 import cz.cvut.iarylser.dao.DTO.LoginRequest;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
-import cz.cvut.iarylser.service.UserService;
+import cz.cvut.iarylser.service.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -22,14 +21,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.naming.AuthenticationException;
 @WebMvcTest(UserController.class)
 class UserControllerTest {
@@ -38,7 +35,7 @@ class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
     @MockBean
     private UserMapperDTO userMapperDTO;
 
@@ -63,7 +60,7 @@ class UserControllerTest {
         userDTO2.setNickname("user2");
         List<UserDTO> userDTOs = Arrays.asList(userDTO1, userDTO2);
 
-        when(userService.getAll()).thenReturn(users);
+        when(userServiceImpl.getAll()).thenReturn(users);
         when(userMapperDTO.toDTOList(users)).thenReturn(userDTOs);
 
         mockMvc.perform(get("/users"))
@@ -85,7 +82,7 @@ class UserControllerTest {
         UserDTO userDTO = new UserDTO();
         userDTO.setNickname(userNickname);
 
-        when(userService.getById(userId)).thenReturn(user);
+        when(userServiceImpl.getById(userId)).thenReturn(user);
         when(userMapperDTO.toDTO(user)).thenReturn(userDTO);
 
         mockMvc.perform(get("/users/" + userId))
@@ -95,7 +92,7 @@ class UserControllerTest {
     @Test
     void getUserByIdFailure() throws Exception {
         Long userId = 1L;
-        when(userService.getById(userId)).thenReturn(null);
+        when(userServiceImpl.getById(userId)).thenReturn(null);
 
         mockMvc.perform(get("/users/{userId}", userId))
                 .andExpect(status().isNotFound());
@@ -119,7 +116,7 @@ class UserControllerTest {
         userDTO.setLastName(user.getLastName());
         userDTO.setDescription(user.getDescription());
 
-        when(userService.create(any(User.class))).thenReturn(user);
+        when(userServiceImpl.create(any(User.class))).thenReturn(user);
         when(userMapperDTO.toDTO(any(User.class))).thenReturn(userDTO);
 
         String userJson = new ObjectMapper().writeValueAsString(user);
@@ -139,7 +136,7 @@ class UserControllerTest {
     @Test
     public void createUserFail() throws Exception {
         User user = new User();
-        when(userService.create(any(User.class))).thenThrow(new IllegalArgumentException());
+        when(userServiceImpl.create(any(User.class))).thenThrow(new IllegalArgumentException());
 
         String userJson = new ObjectMapper().writeValueAsString(user);
 
@@ -169,7 +166,7 @@ class UserControllerTest {
         updatedUserDTO.setDescription(updatedUser.getDescription());
         updatedUserDTO.setAge(updatedUser.getAge());
 
-        Mockito.when(userService.update(userId, updatedUser)).thenReturn(updatedUser);
+        Mockito.when(userServiceImpl.update(userId, updatedUser)).thenReturn(updatedUser);
         Mockito.when(userMapperDTO.toDTO(updatedUser)).thenReturn(updatedUserDTO);
 
         String updatedUserJson = new ObjectMapper().writeValueAsString(updatedUser);
@@ -192,7 +189,7 @@ class UserControllerTest {
     void updateUserFailureNickname() throws Exception {
         Long userId = 1L;
         User updatedUser = new User();
-        given(userService.update(eq(userId), any(User.class))).willThrow(new IllegalArgumentException());
+        given(userServiceImpl.update(eq(userId), any(User.class))).willThrow(new IllegalArgumentException());
 
         mockMvc.perform(put("/users/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -204,7 +201,7 @@ class UserControllerTest {
     void updateUserFailureNotFound() throws Exception {
         Long userId = 1L;
         User updatedUser = new User();
-        given(userService.update(eq(userId), any(User.class))).willReturn(null);
+        given(userServiceImpl.update(eq(userId), any(User.class))).willReturn(null);
 
         mockMvc.perform(put("/users/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -215,7 +212,7 @@ class UserControllerTest {
     @Test
     void deleteUserSucceeded() throws Exception {
         Long userId = 1L;
-        Mockito.when(userService.delete(userId)).thenReturn(true);
+        Mockito.when(userServiceImpl.delete(userId)).thenReturn(true);
 
         mockMvc.perform(delete("/users/" + userId))
                 .andExpect(status().isNoContent());
@@ -224,7 +221,7 @@ class UserControllerTest {
     @Test
     void deleteUserFailure() throws Exception {
         Long userId = 1L;
-        given(userService.delete(userId)).willReturn(false);
+        given(userServiceImpl.delete(userId)).willReturn(false);
 
         mockMvc.perform(delete("/users/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -238,7 +235,7 @@ class UserControllerTest {
         LoginRequest loginRequest = new LoginRequest("testUser", "testPassword");
         UserDTO userDTO = new UserDTO(1L, "testUser", 25, "test@example.com", "FirstName", "LastName", "Description");
 
-        when(userService.authenticateUser(anyString(), anyString())).thenReturn(new User());
+        when(userServiceImpl.authenticateUser(anyString(), anyString())).thenReturn(new User());
         when(userMapperDTO.toDTO(any(User.class))).thenReturn(userDTO);
 
 
@@ -258,7 +255,7 @@ class UserControllerTest {
     @Test
     void loginUserFailure() throws Exception {
         LoginRequest loginRequest = new LoginRequest("username", "password");
-        when(userService.authenticateUser(anyString(), anyString())).thenThrow(new AuthenticationException());
+        when(userServiceImpl.authenticateUser(anyString(), anyString())).thenThrow(new AuthenticationException());
 
 
         mockMvc.perform(post("/users/login")

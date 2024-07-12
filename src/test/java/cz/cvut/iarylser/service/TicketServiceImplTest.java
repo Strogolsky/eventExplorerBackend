@@ -8,11 +8,8 @@ import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
 import cz.cvut.iarylser.dao.repository.TicketRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
-import cz.cvut.iarylser.service.TicketService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +22,14 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 @SpringBootTest
-class TicketServiceTest {
+class TicketServiceImplTest {
 
     @MockBean
     private TicketRepository ticketRepository;
     @MockBean
     private UserRepository userRepository;
     @Autowired
-    private TicketService ticketService;
+    private TicketServiceImpl ticketServiceImpl;
     @MockBean
     private TicketMapperDTO ticketMapperDTO;
 
@@ -67,7 +64,7 @@ class TicketServiceTest {
         Long ticketId = 1L;
         when(ticketRepository.findById(ticketId)).thenReturn(Optional.of(ticket1));
 
-        Ticket result = ticketService.getById(ticketId);
+        Ticket result = ticketServiceImpl.getById(ticketId);
 
         assertNotNull(result);
         assertEquals(ticket1.getId(), result.getId());
@@ -85,7 +82,7 @@ class TicketServiceTest {
         Long ticketId = 1L;
         when(ticketRepository.findById(ticketId)).thenReturn(Optional.empty());
 
-        Ticket result = ticketService.getById(ticketId);
+        Ticket result = ticketServiceImpl.getById(ticketId);
 
         assertNull(result);
     }
@@ -95,7 +92,7 @@ class TicketServiceTest {
         Long customerId = 3L;
         when(ticketRepository.findByCustomerId(customerId)).thenReturn(Arrays.asList(ticket1));
 
-        List<Ticket> results = ticketService.getByUser(customerId);
+        List<Ticket> results = ticketServiceImpl.getByUser(customerId);
 
         assertNotNull(results);
         assertFalse(results.isEmpty());
@@ -114,7 +111,7 @@ class TicketServiceTest {
         Long userId = 1L;
         when(ticketRepository.findByCustomerId(userId)).thenReturn(Collections.emptyList());
 
-        List<Ticket> result = ticketService.getByUser(userId);
+        List<Ticket> result = ticketServiceImpl.getByUser(userId);
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
@@ -135,7 +132,7 @@ class TicketServiceTest {
         when(ticketRepository.save(Mockito.any(Ticket.class))).thenAnswer(i -> i.getArguments()[0]);
         when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Ticket result = ticketService.create(event, customer);
+        Ticket result = ticketServiceImpl.create(event, customer);
 
         assertNotNull(result);
         assertEquals(event.getId(), result.getEventId());
@@ -164,7 +161,7 @@ class TicketServiceTest {
         when(ticketRepository.findById(ticket1.getId())).thenReturn(Optional.of(ticket1));
         when(ticketRepository.save(Mockito.any(Ticket.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Ticket result = ticketService.update(ticket1.getId(), updatedTicket);
+        Ticket result = ticketServiceImpl.update(ticket1.getId(), updatedTicket);
 
         assertNotNull(result);
         assertTicketsEquality(updatedTicket,result);
@@ -179,7 +176,7 @@ class TicketServiceTest {
         Ticket updatedTicket = new Ticket();
         when(ticketRepository.findById(ticketId)).thenReturn(Optional.empty());
 
-        Ticket result = ticketService.update(ticketId, updatedTicket);
+        Ticket result = ticketServiceImpl.update(ticketId, updatedTicket);
 
         assertNull(result);
     }
@@ -196,7 +193,7 @@ class TicketServiceTest {
 
         String expectedDetails = "Event: Concert, Date: 2024-01-15T20:00, Location: Main Arena";
 
-        ticketService.setDetailsFromEvent(event, ticket);
+        ticketServiceImpl.setDetailsFromEvent(event, ticket);
 
         assertEquals(expectedDetails, ticket.getDetails());
     }
@@ -208,7 +205,7 @@ class TicketServiceTest {
         when(ticketRepository.existsById(ticketId)).thenReturn(true);
         Mockito.doNothing().when(ticketRepository).deleteById(ticketId);
 
-        boolean result = ticketService.delete(ticketId);
+        boolean result = ticketServiceImpl.delete(ticketId);
 
         assertTrue(result);
         verify(ticketRepository).existsById(ticketId);
@@ -220,7 +217,7 @@ class TicketServiceTest {
         Long ticketId = 1L;
         when(ticketRepository.existsById(ticketId)).thenReturn(false);
 
-        boolean result = ticketService.delete(ticketId);
+        boolean result = ticketServiceImpl.delete(ticketId);
 
         assertFalse(result);
         verify(ticketRepository, never()).deleteById(ticketId);

@@ -1,10 +1,9 @@
 package cz.cvut.iarylser.controller;
 
-import cz.cvut.iarylser.controller.TicketController;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
-import cz.cvut.iarylser.service.TicketService;
+import cz.cvut.iarylser.service.TicketServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,13 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -32,7 +29,7 @@ class TicketControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private TicketService ticketService;
+    private TicketServiceImpl ticketServiceImpl;
     @MockBean
     private TicketMapperDTO ticketMapperDTO;
 
@@ -50,7 +47,7 @@ class TicketControllerTest {
         Ticket ticket = new Ticket();
         ticket.setId(ticketId);
 
-        Mockito.when(ticketService.getById(ticketId)).thenReturn(ticket);
+        Mockito.when(ticketServiceImpl.getById(ticketId)).thenReturn(ticket);
         Mockito.when(ticketMapperDTO.toDTO(Mockito.any(Ticket.class))).thenReturn(mockTicket);
 
         mockMvc.perform(get("/tickets/" + ticketId))
@@ -61,7 +58,7 @@ class TicketControllerTest {
     @Test
     void getTicketByIdFailure() throws Exception {
         Long ticketId = 1L;
-        when(ticketService.getById(ticketId)).thenReturn(null);
+        when(ticketServiceImpl.getById(ticketId)).thenReturn(null);
 
         mockMvc.perform(get("/tickets/{ticketId}", ticketId))
                 .andExpect(status().isNotFound());
@@ -76,7 +73,7 @@ class TicketControllerTest {
         Ticket ticket = new Ticket();
         ticket.setCustomerId(userId);
 
-        Mockito.when(ticketService.getByUser(userId)).thenReturn(List.of(ticket));
+        Mockito.when(ticketServiceImpl.getByUser(userId)).thenReturn(List.of(ticket));
         Mockito.when(ticketMapperDTO.toDTOList(Mockito.anyList())).thenReturn(List.of(mockTicket));
 
         mockMvc.perform(get("/tickets/user/" + userId))
@@ -89,7 +86,7 @@ class TicketControllerTest {
     @Test
     void getTicketByUserFailure() throws Exception {
         Long userId = 1L;
-        when(ticketService.getByUser(userId)).thenReturn(new ArrayList<>());
+        when(ticketServiceImpl.getByUser(userId)).thenReturn(new ArrayList<>());
 
         mockMvc.perform(get("/tickets/user/{userId}", userId))
                 .andExpect(status().isOk())

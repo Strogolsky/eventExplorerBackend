@@ -1,16 +1,11 @@
 package cz.cvut.iarylser.service;
 
-import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
 import cz.cvut.iarylser.dao.repository.UserRepository;
-import cz.cvut.iarylser.service.EventService;
-import cz.cvut.iarylser.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,21 +19,20 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @SpringBootTest
-class UserServiceTest {
+class UserServiceImplTest {
 
     @MockBean
     private UserRepository userRepository;
     private UserMapperDTO userMapperDTO;
 
     @MockBean
-    private EventService eventService;
+    private EventServiceImpl eventServiceImpl;
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     private User user1, user2;
 
@@ -59,7 +53,7 @@ class UserServiceTest {
 
         when(userRepository.findAll()).thenReturn(users);
 
-        List<User> result = userService.getAll();
+        List<User> result = userServiceImpl.getAll();
         assertFalse(result.isEmpty());
         assertEquals(2, result.size());
         assertEquals("user1", result.get(0).getNickname());
@@ -73,7 +67,7 @@ class UserServiceTest {
 
         //when
         when(userRepository.findById(id)).thenReturn(Optional.ofNullable(user1));
-        User found = userService.getById(id);
+        User found = userServiceImpl.getById(id);
 
         //then
         assertNotNull(found);
@@ -84,7 +78,7 @@ class UserServiceTest {
     void createUserSucceeded() {
         // when
         when(userRepository.save(any(User.class))).thenReturn(user1);
-        User result = userService.create(user1);
+        User result = userServiceImpl.create(user1);
         //then
         assertEquals(user1, result);
         Mockito.verify(userRepository).save(user1);
@@ -97,7 +91,7 @@ class UserServiceTest {
         when(userRepository.existsByNickname(anyString())).thenReturn(true);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            userService.create(newUser);
+            userServiceImpl.create(newUser);
         });
     }
     @Test
@@ -105,7 +99,7 @@ class UserServiceTest {
         Long userId = 1L;
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        User result = userService.update(userId, new User());
+        User result = userServiceImpl.update(userId, new User());
 
         assertNull(result);
     }
@@ -124,7 +118,7 @@ class UserServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
         when(userRepository.save(any(User.class))).thenReturn(updatedUser);
 
-        User result = userService.update(userId, updatedUser);
+        User result = userServiceImpl.update(userId, updatedUser);
 
         assertNotNull(result);
         assertEquals("NewNickname", result.getNickname());
@@ -139,7 +133,7 @@ class UserServiceTest {
         Mockito.when(userRepository.existsById(userId)).thenReturn(true);
 
         // when
-        boolean result = userService.delete(userId);
+        boolean result = userServiceImpl.delete(userId);
 
         //then
         assertTrue(result);
@@ -151,7 +145,7 @@ class UserServiceTest {
         Long userId = 1L;
         when(userRepository.existsById(userId)).thenReturn(false);
 
-        boolean result = userService.delete(userId);
+        boolean result = userServiceImpl.delete(userId);
 
         assertFalse(result);
     }
@@ -165,7 +159,7 @@ class UserServiceTest {
 
         when(userRepository.findByNickname(nickname)).thenReturn(mockUser);
 
-        User result = userService.authenticateUser(nickname, password);
+        User result = userServiceImpl.authenticateUser(nickname, password);
 
         assertNotNull(result);
         assertEquals(nickname, result.getNickname());
@@ -187,7 +181,7 @@ class UserServiceTest {
 
         IllegalArgumentException thrown = assertThrows(
                 IllegalArgumentException.class,
-                () -> userService.update(userId, updatedUser),
+                () -> userServiceImpl.update(userId, updatedUser),
                 "Expected updateUser to throw, but it didn't"
         );
 
@@ -198,7 +192,7 @@ class UserServiceTest {
         when(userRepository.findByNickname(nickname)).thenReturn(null);
 
         assertThrows(AuthenticationException.class, () -> {
-            userService.authenticateUser(nickname, "password");
+            userServiceImpl.authenticateUser(nickname, "password");
         });
     }
 

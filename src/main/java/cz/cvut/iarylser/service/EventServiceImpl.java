@@ -1,0 +1,189 @@
+package cz.cvut.iarylser.service;
+
+import cz.cvut.iarylser.dao.DTO.TicketDTO;
+import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
+import cz.cvut.iarylser.dao.entity.*;
+import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
+import cz.cvut.iarylser.dao.repository.EventRepository;
+import cz.cvut.iarylser.dao.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+@Service
+@Slf4j
+public class EventServiceImpl implements EventService {
+    private final EventRepository eventRepository;
+    private final UserRepository userRepository;
+    private final TicketServiceImpl ticketServiceImpl;
+
+    private final TicketMapperDTO ticketMapperDTO;
+
+    public EventServiceImpl(EventRepository eventRepository, UserRepository userRepository, TicketServiceImpl ticketServiceImpl, TicketMapperDTO ticketMapperDTO) {
+        this.eventRepository = eventRepository;
+        this.userRepository = userRepository;
+        this.ticketServiceImpl = ticketServiceImpl;
+        this.ticketMapperDTO = ticketMapperDTO;
+    }
+    @Override
+    public List<Event> getAll(){
+        return eventRepository.findAll();
+    }
+    @Override
+    public Event getById(Long eventId){
+        return eventRepository.findById(eventId).orElse(null);
+    }
+    @Override
+    public Event create(Event newEvent){
+        User organizer = userRepository.findByNickname(newEvent.getOrganizer());
+        if (organizer == null) {
+            return null;
+        }
+        newEvent.setOrganizerId(organizer.getId());
+        newEvent.setUser(organizer);
+        organizer.getCreatedEvents().add(newEvent);
+        userRepository.save(organizer);
+        return eventRepository.save(newEvent);
+    }
+
+    @Override
+    public List<TicketDTO> purchaseTicket(Long eventId, PurchaseRequest request){
+        Event event = eventRepository.findById(eventId).orElse(null);
+        User customer = userRepository.findByNickname(request.getCustomer());
+        if (customer == null || event == null) {
+            log.warn("User or event with nickname {} not found", request.getCustomer());
+            return null;
+        }
+        if(request.getQuantity() <= event.getAvailableSeat()){
+            if (event.isAgeRestriction() && customer.getAge() < 18) {
+                log.warn("User {} does not meet the age requirement for event {}", customer.getNickname(), eventId);
+                return null;
+            }
+            List<Ticket> tickets = new ArrayList<>();
+            for(int i = 0; i < request.getQuantity(); i++){
+                Ticket ticket = ticketServiceImpl.create(event, customer);
+                tickets.add(ticket);
+                event.setSoldTickets(event.getSoldTickets() + 1);
+
+            }
+            userRepository.save(customer);
+            eventRepository.save(event);
+
+            return ticketMapperDTO.toDTOList(tickets);
+        }
+        return null;
+    }
+    @Override
+    public List<Event> getByUserId(Long userId) {
+        return eventRepository.findByOrganizerId(userId);
+    }
+    @Override
+    public Event update(Long eventId, Event updatedEvent){
+        Event existingEvent = getById(eventId);
+        if (existingEvent == null) {
+            log.warn("Event with id {} not found for update", eventId);
+            return null;
+        }
+        if(!existingEvent.updateCapacity(updatedEvent.getCapacity())) {
+            log.warn("Attempted to set capacity to {}, but there are {} sold tickets", updatedEvent.getCapacity(), updatedEvent.getSoldTickets());
+            return null;
+        }
+        if (updatedEvent.getTitle() != null && !updatedEvent.getTitle().isEmpty()) {
+            existingEvent.setTitle(updatedEvent.getTitle());
+        }
+
+        if (updatedEvent.getDateAndTime() != null) {
+            existingEvent.setDateAndTime(updatedEvent.getDateAndTime());
+        }
+
+        if (updatedEvent.getDescription() != null && !updatedEvent.getDescription().isEmpty()) {
+            existingEvent.setDescription(updatedEvent.getDescription());
+        }
+
+        if (updatedEvent.getLocation() != null && !updatedEvent.getLocation().isEmpty()) {
+            existingEvent.setLocation(updatedEvent.getLocation());
+        }
+
+        if (updatedEvent.getTicketPrice() >= 0) {
+            existingEvent.setTicketPrice(updatedEvent.getTicketPrice());
+        }
+
+        existingEvent.setAgeRestriction(updatedEvent.isAgeRestriction());
+
+        updateRelatedTickets(existingEvent);
+        return eventRepository.save(existingEvent);
+    }
+    @Override
+    public void updateForOrgChange(Event event, User organizer){
+        event.setOrganizer(organizer.getNickname());
+
+        eventRepository.save(event);
+    }
+    @Override
+    public boolean delete(Long eventId) {
+        Event event = eventRepository.findById(eventId).orElse(null);
+        if (event == null) {
+            log.warn("Event with id {} not found for deletion", eventId);
+            return false;
+        }
+
+        Long idOrganizer = event.getOrganizerId();
+        User author = userRepository.findById(idOrganizer).orElse(null);
+        if (author != null) {
+            author.getCreatedEvents().remove(event);
+            userRepository.save(author);
+        } else {
+            log.warn("Author with nickname {} not found when deleting event {}", event.getOrganizer(), eventId);
+            return false;
+        }
+        eventRepository.deleteById(eventId);
+        return true;
+    }
+    private void updateRelatedTickets(Event event){
+        Ticket updatedTicket = new Ticket();
+        updatedTicket.setDetails(event.getDescription());
+        for( Ticket ticket : event.getTickets()){
+            ticketServiceImpl.update(ticket.getId(),updatedTicket);
+        }
+    }
+    @Override
+    public boolean like(Long eventId, Long userId){
+        User user = userRepository.findById(userId).orElse(null);
+        Event event = eventRepository.findById(eventId).orElse(null);
+        if (user == null || event == null) {
+            log.warn("User or Event not found for like operation");
+            return false;
+        }
+        user.getLikeByMe().add(event);
+        event.getLikeBy().add(user);
+        userRepository.save(user);
+        eventRepository.save(event);
+        return true;
+    }
+    @Override
+    public boolean unlike(Long eventId, Long userId){
+        User user = userRepository.findById(userId).orElse(null);
+        Event event = eventRepository.findById(eventId).orElse(null);
+        if (user == null || event == null) {
+            log.warn("User or Event not found for unlike operation");
+            return false;
+        }
+        user.getLikeByMe().remove(event);
+        event.getLikeBy().remove(user);
+        userRepository.save(user);
+        eventRepository.save(event);
+        return true;
+    }
+    @Override
+
+    public List<Event> getByLikedGreaterThan(int likes) {
+        Collection<Event> eventsCollection = eventRepository.findByLikedGreaterThan(likes);
+
+
+        return new ArrayList<>(eventsCollection);
+    }
+}

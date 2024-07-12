@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.service.EventServiceImplTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2024-07-10T12:38:38" hostname="MACHINE" time="0.052">
+<testsuite name="cz.cvut.iarylser.service.EventServiceImplTest" tests="19" skipped="0" failures="0" errors="0" timestamp="2024-07-12T11:57:13" hostname="MACHINE" time="0.16">
   <properties/>
-  <testcase name="likeEventFailure()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.016"/>
-  <testcase name="likeEventSuccessful()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.009"/>
-  <testcase name="getAllEvents()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.01"/>
-  <testcase name="getEventByIdFailure()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.008"/>
-  <testcase name="getEventByIdSuccessful()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.005"/>
-  <system-out><![CDATA[2024-07-10T14:38:37.177+02:00  INFO 17320 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.service.EventServiceImplTest]: EventServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-07-10T14:38:37.186+02:00  INFO 17320 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.service.EventServiceImplTest
+  <testcase name="getByLikedGreaterThanSuccessful()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.01"/>
+  <testcase name="likeEventFailure()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.008"/>
+  <testcase name="updateEventFailureNotFound()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.006"/>
+  <testcase name="getAllEvents()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.014"/>
+  <testcase name="updateForOrgChange()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.007"/>
+  <testcase name="likeEventSucceeded()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.011"/>
+  <testcase name="getEventById()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.006"/>
+  <testcase name="unlikeEventFailure()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.009"/>
+  <testcase name="updateEventSucceeded()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.007"/>
+  <testcase name="purchaseTicketSucceeded()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.01"/>
+  <testcase name="getByLikedGreaterThanFailure()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.005"/>
+  <testcase name="createEventSucceeded()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.004"/>
+  <testcase name="unlikeEventSucceeded()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.005"/>
+  <testcase name="deleteEventSucceeded()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.006"/>
+  <testcase name="deleteEventFailureOrganizerNotFound()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.005"/>
+  <testcase name="updateEventFailureCapacity()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.005"/>
+  <testcase name="deleteEventFailureEventNotFound()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.004"/>
+  <testcase name="createEventFailure()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.004"/>
+  <testcase name="purchaseTicketFailure()" classname="cz.cvut.iarylser.service.EventServiceImplTest" time="0.003"/>
+  <system-out><![CDATA[2024-07-12T13:57:12.179+02:00  INFO 15900 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.service.EventServiceImplTest]: EventServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-07-12T13:57:12.194+02:00  INFO 15900 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.service.EventServiceImplTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -17,21 +31,27 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.5)
 
-2024-07-10T14:38:37.213+02:00  INFO 17320 --- [    Test worker] c.c.i.service.EventServiceImplTest       : Starting EventServiceImplTest using Java 17.0.9 with PID 17320 (started by 1 in D:\Project\eventExplorerBackend)
-2024-07-10T14:38:37.213+02:00  INFO 17320 --- [    Test worker] c.c.i.service.EventServiceImplTest       : No active profile set, falling back to 1 default profile: "default"
-2024-07-10T14:38:37.555+02:00  INFO 17320 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-07-10T14:38:37.567+02:00  INFO 17320 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 3 JPA repository interfaces.
-2024-07-10T14:38:37.700+02:00  INFO 17320 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-07-10T14:38:37.707+02:00  INFO 17320 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-07-10T14:38:37.710+02:00  INFO 17320 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-07-10T14:38:37.733+02:00  INFO 17320 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn13: url=jdbc:h2:mem:test user=IARYLSER
-2024-07-10T14:38:37.735+02:00  INFO 17320 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-07-10T14:38:37.742+02:00  WARN 17320 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-07-10T14:38:37.841+02:00  INFO 17320 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-07-10T14:38:37.853+02:00  INFO 17320 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-07-10T14:38:38.153+02:00  WARN 17320 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-07-10T14:38:38.371+02:00  INFO 17320 --- [    Test worker] c.c.i.service.EventServiceImplTest       : Started EventServiceImplTest in 1.178 seconds (process running for 9.681)
-2024-07-10T14:38:38.387+02:00  WARN 17320 --- [    Test worker] cz.cvut.iarylser.service.EventService    : User or Event not found for like operation
+2024-07-12T13:57:12.226+02:00  INFO 15900 --- [    Test worker] c.c.i.service.EventServiceImplTest       : Starting EventServiceImplTest using Java 17.0.9 with PID 15900 (started by 1 in D:\Project\eventExplorerBackend)
+2024-07-12T13:57:12.227+02:00  INFO 15900 --- [    Test worker] c.c.i.service.EventServiceImplTest       : No active profile set, falling back to 1 default profile: "default"
+2024-07-12T13:57:12.697+02:00  INFO 15900 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-07-12T13:57:12.713+02:00  INFO 15900 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 15 ms. Found 3 JPA repository interfaces.
+2024-07-12T13:57:12.956+02:00  INFO 15900 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-07-12T13:57:12.964+02:00  INFO 15900 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-07-12T13:57:12.966+02:00  INFO 15900 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-07-12T13:57:12.990+02:00  INFO 15900 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn13: url=jdbc:h2:mem:test user=IARYLSER
+2024-07-12T13:57:12.993+02:00  INFO 15900 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-07-12T13:57:13.000+02:00  WARN 15900 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-07-12T13:57:13.134+02:00  INFO 15900 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-07-12T13:57:13.156+02:00  INFO 15900 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-07-12T13:57:13.379+02:00  WARN 15900 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-07-12T13:57:13.699+02:00  INFO 15900 --- [    Test worker] c.c.i.service.EventServiceImplTest       : Started EventServiceImplTest in 1.495 seconds (process running for 12.189)
+2024-07-12T13:57:13.718+02:00  WARN 15900 --- [    Test worker] c.c.iarylser.service.EventServiceImpl    : User or Event not found for like operation
+2024-07-12T13:57:13.726+02:00  WARN 15900 --- [    Test worker] c.c.iarylser.service.EventServiceImpl    : Event with id 1 not found for update
+2024-07-12T13:57:13.784+02:00  WARN 15900 --- [    Test worker] c.c.iarylser.service.EventServiceImpl    : User or Event not found for unlike operation
+2024-07-12T13:57:13.837+02:00  WARN 15900 --- [    Test worker] c.c.iarylser.service.EventServiceImpl    : Author with nickname null not found when deleting event 1
+2024-07-12T13:57:13.845+02:00  WARN 15900 --- [    Test worker] c.c.iarylser.service.EventServiceImpl    : Attempted to set capacity to 5, but there are 0 sold tickets
+2024-07-12T13:57:13.850+02:00  WARN 15900 --- [    Test worker] c.c.iarylser.service.EventServiceImpl    : Event with id 1 not found for deletion
+2024-07-12T13:57:13.861+02:00  WARN 15900 --- [    Test worker] c.c.iarylser.service.EventServiceImpl    : User or event with nickname null not found
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
