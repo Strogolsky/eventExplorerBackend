@@ -40,7 +40,7 @@ public class EventController {
     @ApiResponse(responseCode = "200", description = "Successfully retrieved all events",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = EventDTO.class)))
-    public ResponseEntity<List<EventDTO>> getAllEvents(){
+    public ResponseEntity<List<EventDTO>> getAll(){
         List<Event> result = eventServiceImpl.getAll();
         return ResponseEntity.ok(eventMapperDTO.toDTOList(result));
     }
@@ -51,7 +51,7 @@ public class EventController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = EventDTO.class)))
     @ApiResponse(responseCode = "404", description = "Event not found")
-    public ResponseEntity<?>getEventById(
+    public ResponseEntity<?>getById(
             @Parameter(description = "ID of the event to retrieve", required = true)
             @PathVariable Long eventId){
         Event event = eventServiceImpl.getById(eventId);
@@ -66,7 +66,7 @@ public class EventController {
     @ApiResponse(responseCode = "200", description = "Event created successfully",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = EventDTO.class)))
-    public ResponseEntity<?> createEvent(
+    public ResponseEntity<?> create(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Event data to create a new event", required = true)
             @RequestBody Event newEvent) {
             Event event = eventServiceImpl.create(newEvent);
@@ -82,7 +82,7 @@ public class EventController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = EventDTO.class)))
     @ApiResponse(responseCode = "404", description = "Event not found")
-    public ResponseEntity<EventDTO> updateEvent(
+    public ResponseEntity<EventDTO> update(
             @Parameter(description = "ID of the event to update", required = true)
             @PathVariable Long eventId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated event data", required = true)
@@ -99,7 +99,7 @@ public class EventController {
     @ApiResponse(responseCode = "200", description = "Successfully retrieved events for the user",
             content = @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = EventDTO.class))))
-    public ResponseEntity<List<EventDTO>> getEventsByUserId(
+    public ResponseEntity<List<EventDTO>> getByUserId(
             @Parameter(description = "User ID to retrieve events for", required = true)
             @PathVariable Long userId) {
         List<Event> events = eventServiceImpl.getByUserId(userId);
@@ -114,7 +114,7 @@ public class EventController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = TicketDTO.class)))
     @ApiResponse(responseCode = "400", description = "Purchase failed due to invalid data or other issues")
-    public ResponseEntity<?> purchaseTicket(
+    public ResponseEntity<?> purchase(
             @Parameter(description = "ID of the event to purchase tickets for", required = true)
             @PathVariable Long eventId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Purchase request details", required = true)
@@ -131,7 +131,7 @@ public class EventController {
             description = "Deletes the event with the specified ID.")
     @ApiResponse(responseCode = "204", description = "Event deleted successfully")
     @ApiResponse(responseCode = "404", description = "Event not found")
-    public ResponseEntity<?> deleteEvent(
+    public ResponseEntity<?> delete(
             @Parameter(description = "ID of the event to be deleted", required = true)
             @PathVariable Long eventId){
         boolean isDeleted = eventServiceImpl.delete(eventId);
@@ -146,7 +146,7 @@ public class EventController {
             description = "Marks the event as liked by the user.")
     @ApiResponse(responseCode = "200", description = "Event liked successfully")
     @ApiResponse(responseCode = "404", description = "Event or user not found")
-    public ResponseEntity<?> likeEvent(@RequestBody LikeRequest request) {
+    public ResponseEntity<?> like(@RequestBody LikeRequest request) {
         boolean result = eventServiceImpl.like(request.getEventId(), request.getUserId());
         if (!result) {
             return ResponseEntity.notFound().build();
@@ -159,7 +159,7 @@ public class EventController {
             description = "Removes the like mark from the event by the user.")
     @ApiResponse(responseCode = "200", description = "Event unliked successfully")
     @ApiResponse(responseCode = "404", description = "Event or user not found")
-    public ResponseEntity<?> unlikeEvent(
+    public ResponseEntity<?> unlike(
             @RequestBody LikeRequest request) {
         boolean result = eventServiceImpl.unlike(request.getEventId(), request.getUserId());
         if (!result) {

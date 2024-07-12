@@ -33,7 +33,7 @@ public class TicketController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = TicketDTO.class)))
     @ApiResponse(responseCode = "404", description = "Ticket not found for the provided ID")
-    public ResponseEntity<TicketDTO> getTicketById(
+    public ResponseEntity<TicketDTO> getById(
             @Parameter(description = "Unique identifier of the ticket to be retrieved", required = true)
             @PathVariable Long ticketId){
         Ticket ticket = ticketServiceImpl.getById(ticketId);
@@ -49,7 +49,7 @@ public class TicketController {
     @ApiResponse(responseCode = "200", description = "Tickets for the user found and returned",
             content = @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = TicketDTO.class))))
-    public ResponseEntity<List<TicketDTO>> getTicketByUser(@PathVariable Long userId){
+    public ResponseEntity<List<TicketDTO>> getByUser(@PathVariable Long userId){
         List<Ticket> result = ticketServiceImpl.getByUser(userId);
         return ResponseEntity.ok(ticketMapperDTO.toDTOList(result));
     }

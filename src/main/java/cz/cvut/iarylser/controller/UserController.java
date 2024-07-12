@@ -38,7 +38,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of users",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = UserDTO.class)))
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
+    public ResponseEntity<List<UserDTO>> getAll() {
         List<User> result = userServiceImpl.getAll();
         return ResponseEntity.ok(userMapperDTO.toDTOList(result));
     }
@@ -52,7 +52,7 @@ public class UserController {
                                     schema = @Schema(implementation = UserDTO.class))),
                     @ApiResponse(description = "User not found", responseCode = "404")
             })
-    public ResponseEntity<UserDTO> getUserById(
+    public ResponseEntity<UserDTO> getById(
             @Parameter(description = "Unique identifier of the user to be retrieved")
             @PathVariable Long userId) {
         User user = userServiceImpl.getById(userId);
@@ -70,7 +70,7 @@ public class UserController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = UserDTO.class)))
     @ApiResponse(responseCode = "400", description = "Invalid user data provided")
-    public ResponseEntity<?> createUser(
+    public ResponseEntity<?> create(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User object that needs to be added to the database", required = true)
             @RequestBody User newUser) {
         User user;
@@ -89,7 +89,7 @@ public class UserController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = UserDTO.class)))
     @ApiResponse(responseCode = "401", description = "Unauthorized - Invalid credentials")
-    public ResponseEntity<?> loginUser(
+    public ResponseEntity<?> login(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Login request with nickname and password", required = true)
             @RequestBody LoginRequest loginRequest) {
         String username = loginRequest.getNickname();
@@ -110,7 +110,7 @@ public class UserController {
                     schema = @Schema(implementation = UserDTO.class)))
     @ApiResponse(responseCode = "400", description = "Invalid user data provided for update")
     @ApiResponse(responseCode = "404", description = "User not found for the given ID")
-    public ResponseEntity<?> updateUser(
+    public ResponseEntity<?> update(
             @Parameter(description = "Unique identifier of the user to be retrieved")
             @PathVariable Long userId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated user object", required = true)
@@ -133,7 +133,7 @@ public class UserController {
             description = "Deletes a user with the specified user ID. If the user is not found, returns an error.")
     @ApiResponse(responseCode = "204", description = "User deleted successfully")
     @ApiResponse(responseCode = "404", description = "User not found for the given ID")
-    public ResponseEntity<Void> deleteUser(
+    public ResponseEntity<Void> delete(
             @Parameter(description = "Unique identifier of the user to be retrieved")
             @PathVariable Long userId) {
         if (!userServiceImpl.delete(userId)) {

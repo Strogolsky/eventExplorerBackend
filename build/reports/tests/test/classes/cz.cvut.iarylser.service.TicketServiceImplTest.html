@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.054s</div>
+<div class="counter">0.042s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,52 +79,52 @@
 </thead>
 <tr>
 <td class="success">createTicket()</td>
-<td class="success">0.007s</td>
+<td class="success">0.006s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">deleteTicketFailure()</td>
-<td class="success">0.005s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">deleteTicketSucceeded()</td>
-<td class="success">0.006s</td>
+<td class="success">0.005s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getTicketByIdFailure()</td>
-<td class="success">0.003s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getTicketByIdSucceeded()</td>
-<td class="success">0.005s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getTicketByUserFailure()</td>
-<td class="success">0.006s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getTicketByUserSucceeded()</td>
-<td class="success">0.005s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">setDetailsFromEvent()</td>
-<td class="success">0.005s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateTicketFailure()</td>
-<td class="success">0.005s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateTicketSucceeded()</td>
-<td class="success">0.007s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -132,8 +132,8 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2024-07-12T13:57:13.868+02:00  INFO 15900 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.service.TicketServiceImplTest]: TicketServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-07-12T13:57:13.871+02:00  INFO 15900 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.service.TicketServiceImplTest
+<pre>2024-07-12T14:12:23.699+02:00  INFO 31116 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [cz.cvut.iarylser.service.TicketServiceImplTest]: TicketServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-07-12T14:12:23.739+02:00  INFO 31116 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.service.TicketServiceImplTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -143,21 +143,21 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.5)
 
-2024-07-12T13:57:13.897+02:00  INFO 15900 --- [    Test worker] c.c.i.service.TicketServiceImplTest      : Starting TicketServiceImplTest using Java 17.0.9 with PID 15900 (started by 1 in D:\Project\eventExplorerBackend)
-2024-07-12T13:57:13.897+02:00  INFO 15900 --- [    Test worker] c.c.i.service.TicketServiceImplTest      : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2024-07-12T13:57:14.141+02:00  INFO 15900 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-07-12T13:57:14.157+02:00  INFO 15900 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 15 ms. Found 3 JPA repository interfaces.
-2024-07-12T13:57:14.278+02:00  INFO 15900 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-07-12T13:57:14.287+02:00  INFO 15900 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-07-12T13:57:14.288+02:00  INFO 15900 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
-2024-07-12T13:57:14.289+02:00  INFO 15900 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn23: url=jdbc:h2:mem:test user=IARYLSER
-2024-07-12T13:57:14.290+02:00  INFO 15900 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
-2024-07-12T13:57:14.291+02:00  WARN 15900 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-07-12T13:57:14.384+02:00  INFO 15900 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-07-12T13:57:14.408+02:00  INFO 15900 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-07-12T13:57:14.524+02:00  WARN 15900 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-07-12T13:57:14.683+02:00  INFO 15900 --- [    Test worker] c.c.i.service.TicketServiceImplTest      : Started TicketServiceImplTest in 0.808 seconds (process running for 13.174)
-2024-07-12T13:57:14.697+02:00  WARN 15900 --- [    Test worker] c.c.iarylser.service.TicketServiceImpl   : Ticket with id 1 not found for update
+2024-07-12T14:12:23.796+02:00  INFO 31116 --- [    Test worker] c.c.i.service.TicketServiceImplTest      : Starting TicketServiceImplTest using Java 17.0.9 with PID 31116 (started by 1 in D:\Project\eventExplorerBackend)
+2024-07-12T14:12:23.797+02:00  INFO 31116 --- [    Test worker] c.c.i.service.TicketServiceImplTest      : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-07-12T14:12:24.310+02:00  INFO 31116 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-07-12T14:12:24.328+02:00  INFO 31116 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17 ms. Found 3 JPA repository interfaces.
+2024-07-12T14:12:24.500+02:00  INFO 31116 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-07-12T14:12:24.511+02:00  INFO 31116 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-07-12T14:12:24.514+02:00  INFO 31116 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2024-07-12T14:12:24.516+02:00  INFO 31116 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn23: url=jdbc:h2:mem:test user=IARYLSER
+2024-07-12T14:12:24.516+02:00  INFO 31116 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2024-07-12T14:12:24.517+02:00  WARN 31116 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-07-12T14:12:24.637+02:00  INFO 31116 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-07-12T14:12:24.656+02:00  INFO 31116 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-07-12T14:12:24.759+02:00  WARN 31116 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-07-12T14:12:24.897+02:00  INFO 31116 --- [    Test worker] c.c.i.service.TicketServiceImplTest      : Started TicketServiceImplTest in 1.153 seconds (process running for 13.538)
+2024-07-12T14:12:24.908+02:00  WARN 31116 --- [    Test worker] c.c.iarylser.service.TicketServiceImpl   : Ticket with id 1 not found for update
 </pre>
 </span>
 </div>
@@ -169,7 +169,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.2</a> at 12 июл. 2024 г., 13:57:16</p>
+<a href="http://www.gradle.org">Gradle 8.2</a> at 12 июл. 2024 г., 14:12:26</p>
 </div>
 </div>
 </body>
