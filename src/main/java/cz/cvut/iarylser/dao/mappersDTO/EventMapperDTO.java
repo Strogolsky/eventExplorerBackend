@@ -10,6 +10,10 @@ import java.util.List;
 public class EventMapperDTO implements MapperDTO<EventDTO, Event> {
     @Override
     public EventDTO toDTO(Event entity) {
+        if(entity == null){
+            return null;
+        }
+
         EventDTO dto = new EventDTO();
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
@@ -33,5 +37,26 @@ public class EventMapperDTO implements MapperDTO<EventDTO, Event> {
             dtos.add(toDTO(event));
         }
         return dtos;
+    }
+
+    @Override
+    public Event toEntity(EventDTO dto) {
+        if(dto == null) {
+            return null;
+        }
+
+        Event entity = new Event();
+        entity.setId(dto.getId());
+        entity.setTitle(dto.getTitle());
+        entity.setDateAndTime(entity.getDateAndTime());
+        entity.setTicketPrice(entity.getTicketPrice());
+        entity.setLocation(entity.getLocation());
+        entity.setCapacity(entity.getCapacity());
+        entity.setSoldTickets(entity.getSoldTickets());
+        entity.setDescription(entity.getDescription());
+        entity.setTopic(entity.getTopic());
+        entity.setAgeRestriction(entity.isAgeRestriction());
+        entity.setOrganizer(entity.getOrganizer());
+        return entity;
     }
 }

@@ -39,4 +39,20 @@ public class TicketMapperDTO implements MapperDTO<TicketDTO, Ticket> {
         }
         return listDTO;
     }
+
+    @Override
+    public Ticket toEntity(TicketDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        Ticket entity = new Ticket();
+        entity.setId(dto.getId());
+        entity.setEventId(dto.getEventId());
+        entity.setCustomerId(dto.getCustomerId());
+        entity.setOrganizerId(dto.getOrganizerId());
+        entity.setDetails(dto.getDetails());
+        entity.setTicketStatus(dto.getTicketStatus());
+
+        return entity;
+    }
 }

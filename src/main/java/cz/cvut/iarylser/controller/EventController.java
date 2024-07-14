@@ -7,6 +7,8 @@ import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
 import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.dao.mappersDTO.EventMapperDTO;
+import cz.cvut.iarylser.facade.EventFacade;
+import cz.cvut.iarylser.facade.EventFacadeImpl;
 import cz.cvut.iarylser.service.EventServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,13 +28,11 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping(value = "/events")
 public class EventController {
-    private final EventServiceImpl eventServiceImpl;
-    private final EventMapperDTO eventMapperDTO;
+    private final EventFacadeImpl eventFacade;
 
     @Autowired
-    public EventController(EventServiceImpl eventServiceImpl, EventMapperDTO eventMapperDTO) {
-        this.eventServiceImpl = eventServiceImpl;
-        this.eventMapperDTO = eventMapperDTO;
+    public EventController(EventFacadeImpl eventFacade) {
+        this.eventFacade = eventFacade;
     }
     @GetMapping
     @Operation(summary = "Get all events",
@@ -41,8 +41,8 @@ public class EventController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = EventDTO.class)))
     public ResponseEntity<List<EventDTO>> getAll(){
-        List<Event> result = eventServiceImpl.getAll();
-        return ResponseEntity.ok(eventMapperDTO.toDTOList(result));
+        List<EventDTO> result = eventFacade.getAll();
+        return ResponseEntity.ok(result);
     }
     @GetMapping("/{eventId}")
     @Operation(summary = "Get event by ID",
@@ -54,11 +54,11 @@ public class EventController {
     public ResponseEntity<?>getById(
             @Parameter(description = "ID of the event to retrieve", required = true)
             @PathVariable Long eventId){
-        Event event = eventServiceImpl.getById(eventId);
-        if (event == null) {
+        EventDTO result = eventFacade.getById(eventId);
+        if (result == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(eventMapperDTO.toDTO(event));
+        return ResponseEntity.ok(result);
     }
     @PostMapping
     @Operation(summary = "Create new event",
@@ -68,12 +68,12 @@ public class EventController {
                     schema = @Schema(implementation = EventDTO.class)))
     public ResponseEntity<?> create(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Event data to create a new event", required = true)
-            @RequestBody Event newEvent) {
-            Event event = eventServiceImpl.create(newEvent);
-            if (event == null){
+            @RequestBody EventDTO newEvent) {
+            EventDTO result = eventFacade.create(newEvent);
+            if (result == null){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
-            return ResponseEntity.ok(eventMapperDTO.toDTO(event));
+            return ResponseEntity.ok(result);
     }
     @PutMapping("/{eventId}")
     @Operation(summary = "Update event",
@@ -86,12 +86,12 @@ public class EventController {
             @Parameter(description = "ID of the event to update", required = true)
             @PathVariable Long eventId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated event data", required = true)
-            @RequestBody Event updatedEvent){
-        Event event = eventServiceImpl.update(eventId, updatedEvent);
-        if (event == null) {
+            @RequestBody EventDTO updatedEvent){
+        EventDTO result = eventFacade.update(eventId, updatedEvent);
+        if (result == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(eventMapperDTO.toDTO(event));
+        return ResponseEntity.ok(result);
     }
     @GetMapping("/user/{userId}")
     @Operation(summary = "Get events by user ID",
@@ -102,9 +102,9 @@ public class EventController {
     public ResponseEntity<List<EventDTO>> getByUserId(
             @Parameter(description = "User ID to retrieve events for", required = true)
             @PathVariable Long userId) {
-        List<Event> events = eventServiceImpl.getByUserId(userId);
+        List<EventDTO> result = eventFacade.getByUserId(userId);
 
-        return ResponseEntity.ok(eventMapperDTO.toDTOList(events));
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/{eventId}/purchase")
@@ -119,11 +119,11 @@ public class EventController {
             @PathVariable Long eventId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Purchase request details", required = true)
             @RequestBody PurchaseRequest request) {
-        List<TicketDTO> tickets = eventServiceImpl.purchaseTicket(eventId, request);
-        if (tickets == null) {
+        List<TicketDTO> result = eventFacade.purchaseTicket(eventId, request);
+        if (result == null) {
             return ResponseEntity.badRequest().body("Purchase failed due to invalid data or other issues.");
         }
-        return ResponseEntity.ok(tickets);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/{eventId}")
@@ -134,8 +134,7 @@ public class EventController {
     public ResponseEntity<?> delete(
             @Parameter(description = "ID of the event to be deleted", required = true)
             @PathVariable Long eventId){
-        boolean isDeleted = eventServiceImpl.delete(eventId);
-        if (!isDeleted) {
+        if (!eventFacade.delete(eventId)) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.noContent().build();
@@ -147,8 +146,7 @@ public class EventController {
     @ApiResponse(responseCode = "200", description = "Event liked successfully")
     @ApiResponse(responseCode = "404", description = "Event or user not found")
     public ResponseEntity<?> like(@RequestBody LikeRequest request) {
-        boolean result = eventServiceImpl.like(request.getEventId(), request.getUserId());
-        if (!result) {
+        if (!eventFacade.like(request.getEventId(), request.getUserId())) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().build();
@@ -161,8 +159,7 @@ public class EventController {
     @ApiResponse(responseCode = "404", description = "Event or user not found")
     public ResponseEntity<?> unlike(
             @RequestBody LikeRequest request) {
-        boolean result = eventServiceImpl.unlike(request.getEventId(), request.getUserId());
-        if (!result) {
+        if (!eventFacade.unlike(request.getEventId(), request.getUserId())) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().build();
@@ -176,8 +173,8 @@ public class EventController {
     public ResponseEntity<List<EventDTO>> getByLikedGreaterThan(
             @Parameter(description = "The minimum number of likes for events to be retrieved", required = true)
             @PathVariable int likes){
-        List<Event> result = eventServiceImpl.getByLikedGreaterThan(likes);
-        return ResponseEntity.ok(eventMapperDTO.toDTOList(result));
+        List<EventDTO> result = eventFacade.getByLikedGreaterThan(likes);
+        return ResponseEntity.ok(result);
     }
 
 }

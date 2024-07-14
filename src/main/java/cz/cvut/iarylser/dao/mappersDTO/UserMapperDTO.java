@@ -10,6 +10,9 @@ import java.util.List;
 public class UserMapperDTO implements MapperDTO<UserDTO, User> {
     @Override
     public UserDTO toDTO(User entity) {
+        if (entity == null) {
+            return null;
+        }
         UserDTO dto = new UserDTO();
         dto.setId(entity.getId());
         dto.setNickname(entity.getNickname());
@@ -28,5 +31,21 @@ public class UserMapperDTO implements MapperDTO<UserDTO, User> {
             listDTO.add(toDTO(user));
         }
         return listDTO;
+    }
+
+    @Override
+    public User toEntity(UserDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        User entity = new User();
+        entity.setId(dto.getId());
+        entity.setNickname(dto.getNickname());
+        entity.setAge(dto.getAge());
+        entity.setEmail(dto.getEmail());
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
+        entity.setDescription(dto.getDescription());
+        return entity;
     }
 }

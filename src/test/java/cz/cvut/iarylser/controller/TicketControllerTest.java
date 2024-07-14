@@ -3,6 +3,8 @@ package cz.cvut.iarylser.controller;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
+import cz.cvut.iarylser.facade.TicketFacade;
+import cz.cvut.iarylser.facade.TicketFacadeImpl;
 import cz.cvut.iarylser.service.TicketServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,9 +31,7 @@ class TicketControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private TicketServiceImpl ticketServiceImpl;
-    @MockBean
-    private TicketMapperDTO ticketMapperDTO;
+    private TicketFacadeImpl ticketFacade;
 
     @BeforeEach
     void setUp() {
@@ -44,11 +44,7 @@ class TicketControllerTest {
         TicketDTO mockTicket = new TicketDTO();
         mockTicket.setId(ticketId);
 
-        Ticket ticket = new Ticket();
-        ticket.setId(ticketId);
-
-        Mockito.when(ticketServiceImpl.getById(ticketId)).thenReturn(ticket);
-        Mockito.when(ticketMapperDTO.toDTO(Mockito.any(Ticket.class))).thenReturn(mockTicket);
+        Mockito.when(ticketFacade.getById(ticketId)).thenReturn(mockTicket);
 
         mockMvc.perform(get("/tickets/" + ticketId))
                 .andExpect(status().isOk())
@@ -58,7 +54,7 @@ class TicketControllerTest {
     @Test
     void getTicketByIdFailure() throws Exception {
         Long ticketId = 1L;
-        when(ticketServiceImpl.getById(ticketId)).thenReturn(null);
+        when(ticketFacade.getById(ticketId)).thenReturn(null);
 
         mockMvc.perform(get("/tickets/{ticketId}", ticketId))
                 .andExpect(status().isNotFound());
@@ -73,8 +69,7 @@ class TicketControllerTest {
         Ticket ticket = new Ticket();
         ticket.setCustomerId(userId);
 
-        Mockito.when(ticketServiceImpl.getByUser(userId)).thenReturn(List.of(ticket));
-        Mockito.when(ticketMapperDTO.toDTOList(Mockito.anyList())).thenReturn(List.of(mockTicket));
+        Mockito.when(ticketFacade.getByUserId(userId)).thenReturn(List.of(mockTicket));
 
         mockMvc.perform(get("/tickets/user/" + userId))
                 .andExpect(status().isOk())
@@ -86,7 +81,7 @@ class TicketControllerTest {
     @Test
     void getTicketByUserFailure() throws Exception {
         Long userId = 1L;
-        when(ticketServiceImpl.getByUser(userId)).thenReturn(new ArrayList<>());
+        when(ticketFacade.getByUserId(userId)).thenReturn(new ArrayList<>());
 
         mockMvc.perform(get("/tickets/user/{userId}", userId))
                 .andExpect(status().isOk())

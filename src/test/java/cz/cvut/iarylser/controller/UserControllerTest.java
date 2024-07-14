@@ -5,6 +5,7 @@ import cz.cvut.iarylser.dao.DTO.LoginRequest;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
+import cz.cvut.iarylser.facade.UserFacadeImpl;
 import cz.cvut.iarylser.service.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,9 +36,7 @@ class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private UserServiceImpl userServiceImpl;
-    @MockBean
-    private UserMapperDTO userMapperDTO;
+    private UserFacadeImpl userFacade;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -48,11 +47,6 @@ class UserControllerTest {
 
     @Test
     void getAllUsers() throws Exception {
-        User user1 = new User();
-        User user2 = new User();
-        user1.setNickname("user1");
-        user2.setNickname("user2");
-        List<User> users = Arrays.asList(user1, user2);
 
         UserDTO userDTO1 = new UserDTO();
         UserDTO userDTO2 = new UserDTO();
@@ -60,14 +54,13 @@ class UserControllerTest {
         userDTO2.setNickname("user2");
         List<UserDTO> userDTOs = Arrays.asList(userDTO1, userDTO2);
 
-        when(userServiceImpl.getAll()).thenReturn(users);
-        when(userMapperDTO.toDTOList(users)).thenReturn(userDTOs);
+        when(userFacade.getAll()).thenReturn(userDTOs);
 
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].nickname").value(user1.getNickname()))
-                .andExpect(jsonPath("$[1].nickname").value(user2.getNickname()));
+                .andExpect(jsonPath("$[0].nickname").value(userDTO1.getNickname()))
+                .andExpect(jsonPath("$[1].nickname").value(userDTO2.getNickname()));
     }
 
     @Test
@@ -75,51 +68,40 @@ class UserControllerTest {
         Long userId = 1L;
         String userNickname = "user1";
 
-        User user = new User();
-        user.setId(userId);
-        user.setNickname(userNickname);
-
         UserDTO userDTO = new UserDTO();
+        userDTO.setId(userId);
         userDTO.setNickname(userNickname);
 
-        when(userServiceImpl.getById(userId)).thenReturn(user);
-        when(userMapperDTO.toDTO(user)).thenReturn(userDTO);
+        when(userFacade.getById(userId)).thenReturn(userDTO);
 
         mockMvc.perform(get("/users/" + userId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nickname").value(user.getNickname()));
+                .andExpect(jsonPath("$.id").value(userDTO.getId()))
+                .andExpect(jsonPath("$.nickname").value(userDTO.getNickname()));
     }
     @Test
     void getUserByIdFailure() throws Exception {
         Long userId = 1L;
-        when(userServiceImpl.getById(userId)).thenReturn(null);
+        when(userFacade.getById(userId)).thenReturn(null);
 
         mockMvc.perform(get("/users/{userId}", userId))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void createUserSuccesful() throws Exception{
-        User user = new User();
-        user.setNickname("testUser");
-        user.setAge(25);
-        user.setEmail("test@example.com");
-        user.setFirstName("John");
-        user.setLastName("Doe");
-        user.setDescription("Test description");
+    void createUserSuccesful() throws Exception {
 
         UserDTO userDTO = new UserDTO();
-        userDTO.setNickname(user.getNickname());
-        userDTO.setAge(user.getAge());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setLastName(user.getLastName());
-        userDTO.setDescription(user.getDescription());
+        userDTO.setNickname("testUser");
+        userDTO.setAge(25);
+        userDTO.setEmail("test@example.com");
+        userDTO.setFirstName("John");
+        userDTO.setLastName("Doe");
+        userDTO.setDescription("Test description");
 
-        when(userServiceImpl.create(any(User.class))).thenReturn(user);
-        when(userMapperDTO.toDTO(any(User.class))).thenReturn(userDTO);
+        when(userFacade.create(any(UserDTO.class))).thenReturn(userDTO);
 
-        String userJson = new ObjectMapper().writeValueAsString(user);
+        String userJson = new ObjectMapper().writeValueAsString(userDTO);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -135,10 +117,10 @@ class UserControllerTest {
 
     @Test
     public void createUserFail() throws Exception {
-        User user = new User();
-        when(userServiceImpl.create(any(User.class))).thenThrow(new IllegalArgumentException());
+        UserDTO userDTO = new UserDTO();
+        when(userFacade.create(any(UserDTO.class))).thenThrow(new IllegalArgumentException());
 
-        String userJson = new ObjectMapper().writeValueAsString(user);
+        String userJson = new ObjectMapper().writeValueAsString(userDTO);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -149,27 +131,19 @@ class UserControllerTest {
     @Test
     void updateUserSucceeded() throws Exception {
         Long userId = 1L;
-        User updatedUser = new User();
-        updatedUser.setId(userId);
-        updatedUser.setNickname("updatedTest");
-        updatedUser.setEmail("updated@example.com");
-        updatedUser.setFirstName("UpdatedFirstName");
-        updatedUser.setLastName("UpdatedLastName");
-        updatedUser.setDescription("Updated description");
-        updatedUser.setAge(30);
 
         UserDTO updatedUserDTO = new UserDTO();
-        updatedUserDTO.setNickname(updatedUser.getNickname());
-        updatedUserDTO.setEmail(updatedUser.getEmail());
-        updatedUserDTO.setFirstName(updatedUser.getFirstName());
-        updatedUserDTO.setLastName(updatedUser.getLastName());
-        updatedUserDTO.setDescription(updatedUser.getDescription());
-        updatedUserDTO.setAge(updatedUser.getAge());
+        updatedUserDTO.setId(userId);
+        updatedUserDTO.setNickname("updatedTest");
+        updatedUserDTO.setEmail("updated@example.com");
+        updatedUserDTO.setFirstName("UpdatedFirstName");
+        updatedUserDTO.setLastName("UpdatedLastName");
+        updatedUserDTO.setDescription("Updated description");
+        updatedUserDTO.setAge(30);
 
-        Mockito.when(userServiceImpl.update(userId, updatedUser)).thenReturn(updatedUser);
-        Mockito.when(userMapperDTO.toDTO(updatedUser)).thenReturn(updatedUserDTO);
+        Mockito.when(userFacade.update(userId, updatedUserDTO)).thenReturn(updatedUserDTO);
 
-        String updatedUserJson = new ObjectMapper().writeValueAsString(updatedUser);
+        String updatedUserJson = new ObjectMapper().writeValueAsString(updatedUserDTO);
 
         mockMvc.perform(put("/users/" + userId)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -188,31 +162,31 @@ class UserControllerTest {
     @Test
     void updateUserFailureNickname() throws Exception {
         Long userId = 1L;
-        User updatedUser = new User();
-        given(userServiceImpl.update(eq(userId), any(User.class))).willThrow(new IllegalArgumentException());
+        UserDTO updatedUserDTO = new UserDTO();
+        given(userFacade.update(eq(userId), any(UserDTO.class))).willThrow(new IllegalArgumentException());
 
         mockMvc.perform(put("/users/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(updatedUser)))
+                        .content(new ObjectMapper().writeValueAsString(updatedUserDTO)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void updateUserFailureNotFound() throws Exception {
         Long userId = 1L;
-        User updatedUser = new User();
-        given(userServiceImpl.update(eq(userId), any(User.class))).willReturn(null);
+        UserDTO updatedUserDTO = new UserDTO();
+        given(userFacade.update(eq(userId), any(UserDTO.class))).willReturn(null);
 
         mockMvc.perform(put("/users/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(updatedUser)))
+                        .content(new ObjectMapper().writeValueAsString(updatedUserDTO)))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void deleteUserSucceeded() throws Exception {
         Long userId = 1L;
-        Mockito.when(userServiceImpl.delete(userId)).thenReturn(true);
+        Mockito.when(userFacade.delete(userId)).thenReturn(true);
 
         mockMvc.perform(delete("/users/" + userId))
                 .andExpect(status().isNoContent());
@@ -221,7 +195,7 @@ class UserControllerTest {
     @Test
     void deleteUserFailure() throws Exception {
         Long userId = 1L;
-        given(userServiceImpl.delete(userId)).willReturn(false);
+        given(userFacade.delete(userId)).willReturn(false);
 
         mockMvc.perform(delete("/users/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -235,8 +209,7 @@ class UserControllerTest {
         LoginRequest loginRequest = new LoginRequest("testUser", "testPassword");
         UserDTO userDTO = new UserDTO(1L, "testUser", 25, "test@example.com", "FirstName", "LastName", "Description");
 
-        when(userServiceImpl.authenticateUser(anyString(), anyString())).thenReturn(new User());
-        when(userMapperDTO.toDTO(any(User.class))).thenReturn(userDTO);
+        when(userFacade.authenticateUser(anyString(), anyString())).thenReturn(userDTO);
 
 
         mockMvc.perform(post("/users/login")
@@ -255,7 +228,7 @@ class UserControllerTest {
     @Test
     void loginUserFailure() throws Exception {
         LoginRequest loginRequest = new LoginRequest("username", "password");
-        when(userServiceImpl.authenticateUser(anyString(), anyString())).thenThrow(new AuthenticationException());
+        when(userFacade.authenticateUser(anyString(), anyString())).thenThrow(new AuthenticationException());
 
 
         mockMvc.perform(post("/users/login")

@@ -3,6 +3,8 @@ import cz.cvut.iarylser.dao.DTO.LoginRequest;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
+import cz.cvut.iarylser.facade.UserFacade;
+import cz.cvut.iarylser.facade.UserFacadeImpl;
 import cz.cvut.iarylser.service.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -22,14 +24,12 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping(value = "/users")
 public class UserController {
+    private final UserFacadeImpl userFacade;
 
-    private final UserServiceImpl userServiceImpl;
-    private final UserMapperDTO userMapperDTO;
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    public UserController(UserServiceImpl userServiceImpl, UserMapperDTO userMapperDTO) {
-        this.userServiceImpl = userServiceImpl;
-        this.userMapperDTO = userMapperDTO;
+    public UserController(UserFacadeImpl userFacade) {
+        this.userFacade = userFacade;
     }
 
     @GetMapping
@@ -39,8 +39,8 @@ public class UserController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = UserDTO.class)))
     public ResponseEntity<List<UserDTO>> getAll() {
-        List<User> result = userServiceImpl.getAll();
-        return ResponseEntity.ok(userMapperDTO.toDTOList(result));
+        List<UserDTO> result = userFacade.getAll();
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{userId}")
@@ -55,12 +55,12 @@ public class UserController {
     public ResponseEntity<UserDTO> getById(
             @Parameter(description = "Unique identifier of the user to be retrieved")
             @PathVariable Long userId) {
-        User user = userServiceImpl.getById(userId);
-        if (user == null) {
+        UserDTO result = userFacade.getById(userId);
+        if (result == null) {
             log.info("User with id {} not found.", userId);
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(userMapperDTO.toDTO(user));
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping
@@ -72,15 +72,15 @@ public class UserController {
     @ApiResponse(responseCode = "400", description = "Invalid user data provided")
     public ResponseEntity<?> create(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User object that needs to be added to the database", required = true)
-            @RequestBody User newUser) {
-        User user;
+            @RequestBody UserDTO newUser) {
+        UserDTO result;
         try {
-            user = userServiceImpl.create(newUser);
+            result = userFacade.create(newUser);
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body("User is not added" + e.getMessage());
         }
 
-        return ResponseEntity.ok(userMapperDTO.toDTO(user));
+        return ResponseEntity.ok(result);
     }
     @PostMapping("/login")
     @Operation(summary = "User login",
@@ -96,8 +96,8 @@ public class UserController {
         String password = loginRequest.getPassword();
 
         try {
-            User user = userServiceImpl.authenticateUser(username, password);
-            return ResponseEntity.ok(userMapperDTO.toDTO(user));
+            UserDTO result = userFacade.authenticateUser(username, password);
+            return ResponseEntity.ok(result);
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -114,14 +114,14 @@ public class UserController {
             @Parameter(description = "Unique identifier of the user to be retrieved")
             @PathVariable Long userId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated user object", required = true)
-            @RequestBody User updatedUser) {
+            @RequestBody UserDTO updatedUser) {
         try {
-            User user = userServiceImpl.update(userId, updatedUser);
-            if (user == null) {
+            UserDTO result = userFacade.update(userId, updatedUser);
+            if (result == null) {
                 log.info("Unable to update. User with id {} not found.", userId);
                 return ResponseEntity.notFound().build();
             }
-            return ResponseEntity.ok(userMapperDTO.toDTO(user));
+            return ResponseEntity.ok(result);
         } catch (IllegalArgumentException e) {
             log.info("Error updating user: {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -136,7 +136,7 @@ public class UserController {
     public ResponseEntity<Void> delete(
             @Parameter(description = "Unique identifier of the user to be retrieved")
             @PathVariable Long userId) {
-        if (!userServiceImpl.delete(userId)) {
+        if (!userFacade.delete(userId)) {
             log.info("Unable to delete. User with id {} not found.", userId);
             return ResponseEntity.notFound().build();
         }

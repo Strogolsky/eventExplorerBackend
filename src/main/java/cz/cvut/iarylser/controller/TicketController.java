@@ -3,6 +3,8 @@ package cz.cvut.iarylser.controller;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
+import cz.cvut.iarylser.facade.TicketFacade;
+import cz.cvut.iarylser.facade.TicketFacadeImpl;
 import cz.cvut.iarylser.service.TicketServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,11 +22,9 @@ import java.util.List;
 @RequestMapping("/tickets")
 @CrossOrigin("*")
 public class TicketController {
-    private final TicketServiceImpl ticketServiceImpl;
-    private final TicketMapperDTO ticketMapperDTO;
-    public TicketController(TicketServiceImpl ticketServiceImpl, TicketMapperDTO ticketMapperDTO){
-        this.ticketServiceImpl = ticketServiceImpl;
-        this.ticketMapperDTO = ticketMapperDTO;
+    private final TicketFacade ticketFacade;
+    public TicketController(TicketFacadeImpl ticketFacade){
+        this.ticketFacade = ticketFacade;
     }
     @GetMapping("/{ticketId}")
     @Operation(summary = "Get Ticket by ID",
@@ -36,11 +36,11 @@ public class TicketController {
     public ResponseEntity<TicketDTO> getById(
             @Parameter(description = "Unique identifier of the ticket to be retrieved", required = true)
             @PathVariable Long ticketId){
-        Ticket ticket = ticketServiceImpl.getById(ticketId);
-        if (ticket == null) {
+        TicketDTO result = ticketFacade.getById(ticketId);
+        if (result == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(ticketMapperDTO.toDTO(ticket));
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/user/{userId}")
@@ -50,7 +50,7 @@ public class TicketController {
             content = @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = TicketDTO.class))))
     public ResponseEntity<List<TicketDTO>> getByUser(@PathVariable Long userId){
-        List<Ticket> result = ticketServiceImpl.getByUser(userId);
-        return ResponseEntity.ok(ticketMapperDTO.toDTOList(result));
+        List<TicketDTO> result = ticketFacade.getByUserId(userId);
+        return ResponseEntity.ok(result);
     }
 }

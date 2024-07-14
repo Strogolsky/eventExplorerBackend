@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.controller.EventControllerTest" tests="17" skipped="0" failures="0" errors="0" timestamp="2024-07-12T12:12:15" hostname="MACHINE" time="0.648">
+<testsuite name="cz.cvut.iarylser.controller.EventControllerTest" tests="17" skipped="0" failures="0" errors="0" timestamp="2024-07-14T18:14:44" hostname="MACHINE" time="0.499">
   <properties/>
-  <testcase name="getByLikedGreaterThanSuccessful()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.328"/>
-  <testcase name="likeEventFailure()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.064"/>
+  <testcase name="getByLikedGreaterThanSuccessful()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.255"/>
+  <testcase name="likeEventFailure()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.065"/>
   <testcase name="deleteEventFailure()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.008"/>
-  <testcase name="updateEventFailure()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.076"/>
-  <testcase name="likeEventSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.007"/>
+  <testcase name="updateEventFailure()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.025"/>
+  <testcase name="likeEventSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.006"/>
   <testcase name="getEventByIdFailure()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.007"/>
-  <testcase name="unlikeEventFailure()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.01"/>
-  <testcase name="updateEventSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.023"/>
-  <testcase name="purchaseTicketSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.018"/>
-  <testcase name="createEventSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.01"/>
+  <testcase name="unlikeEventFailure()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.007"/>
+  <testcase name="updateEventSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.016"/>
+  <testcase name="purchaseTicketSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.014"/>
+  <testcase name="createEventSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.008"/>
   <testcase name="unlikeEventSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.006"/>
   <testcase name="deleteEventSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.007"/>
-  <testcase name="getByLikedGreaterThanNoEventsFound()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.009"/>
+  <testcase name="getByLikedGreaterThanNoEventsFound()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.005"/>
   <testcase name="getAllEventsSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.01"/>
-  <testcase name="createEventFailure()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.012"/>
-  <testcase name="getEventByIdSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.007"/>
+  <testcase name="createEventFailure()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.007"/>
+  <testcase name="getEventByIdSucceeded()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.008"/>
   <testcase name="purchaseTicketFailure()" classname="cz.cvut.iarylser.controller.EventControllerTest" time="0.009"/>
-  <system-out><![CDATA[14:12:12.650 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.EventControllerTest]: EventControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-14:12:12.859 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.EventControllerTest
+  <system-out><![CDATA[20:14:42.346 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cz.cvut.iarylser.controller.EventControllerTest]: EventControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+20:14:42.549 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cz.cvut.iarylser.Application for test class cz.cvut.iarylser.controller.EventControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -29,12 +29,12 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.5)
 
-2024-07-12T14:12:13.386+02:00  INFO 31116 --- [    Test worker] c.c.i.controller.EventControllerTest     : Starting EventControllerTest using Java 17.0.9 with PID 31116 (started by 1 in D:\Project\eventExplorerBackend)
-2024-07-12T14:12:13.389+02:00  INFO 31116 --- [    Test worker] c.c.i.controller.EventControllerTest     : No active profile set, falling back to 1 default profile: "default"
-2024-07-12T14:12:15.298+02:00  INFO 31116 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-07-12T14:12:15.298+02:00  INFO 31116 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-07-12T14:12:15.303+02:00  INFO 31116 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
-2024-07-12T14:12:15.341+02:00  INFO 31116 --- [    Test worker] c.c.i.controller.EventControllerTest     : Started EventControllerTest in 2.372 seconds (process running for 3.981)
+2024-07-14T20:14:43.067+02:00  INFO 43508 --- [    Test worker] c.c.i.controller.EventControllerTest     : Starting EventControllerTest using Java 17.0.9 with PID 43508 (started by 1 in D:\Project\eventExplorerBackend)
+2024-07-14T20:14:43.069+02:00  INFO 43508 --- [    Test worker] c.c.i.controller.EventControllerTest     : No active profile set, falling back to 1 default profile: "default"
+2024-07-14T20:14:44.850+02:00  INFO 43508 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-07-14T20:14:44.851+02:00  INFO 43508 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-07-14T20:14:44.856+02:00  INFO 43508 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
+2024-07-14T20:14:44.893+02:00  INFO 43508 --- [    Test worker] c.c.i.controller.EventControllerTest     : Started EventControllerTest in 2.238 seconds (process running for 3.86)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
