@@ -28,7 +28,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping(value = "/events")
 public class EventController {
-    private final EventFacadeImpl eventFacade;
+    private final EventFacade eventFacade;
 
     @Autowired
     public EventController(EventFacadeImpl eventFacade) {

@@ -24,7 +24,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping(value = "/users")
 public class UserController {
-    private final UserFacadeImpl userFacade;
+    private final UserFacade userFacade;
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 

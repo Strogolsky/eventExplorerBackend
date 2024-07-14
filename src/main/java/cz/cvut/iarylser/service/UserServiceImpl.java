@@ -12,11 +12,11 @@ import java.util.List;
 @Slf4j
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
-    private final EventServiceImpl eventServiceImpl;
+    private final EventService eventService;
 
-    public UserServiceImpl(UserRepository repository, EventServiceImpl eventServiceImpl) {
+    public UserServiceImpl(UserRepository repository, EventServiceImpl eventService) {
         this.userRepository = repository;
-        this.eventServiceImpl = eventServiceImpl;
+        this.eventService = eventService;
     }
     @Override
     public List<User> getAll(){
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService{
     private void updateUserEvents(User updatedUser) {
         List<Event> events = updatedUser.getCreatedEvents();
         for (Event event : events) {
-            eventServiceImpl.updateForOrgChange(event, updatedUser);
+            eventService.updateForOrgChange(event, updatedUser);
         }
     }
     @Override

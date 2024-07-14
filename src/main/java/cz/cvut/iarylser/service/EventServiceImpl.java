@@ -19,14 +19,14 @@ import java.util.List;
 public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
-    private final TicketServiceImpl ticketServiceImpl;
+    private final TicketService ticketService;
 
     private final TicketMapperDTO ticketMapperDTO;
 
-    public EventServiceImpl(EventRepository eventRepository, UserRepository userRepository, TicketServiceImpl ticketServiceImpl, TicketMapperDTO ticketMapperDTO) {
+    public EventServiceImpl(EventRepository eventRepository, UserRepository userRepository, TicketServiceImpl ticketService, TicketMapperDTO ticketMapperDTO) {
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
-        this.ticketServiceImpl = ticketServiceImpl;
+        this.ticketService = ticketService;
         this.ticketMapperDTO = ticketMapperDTO;
     }
     @Override
@@ -65,7 +65,7 @@ public class EventServiceImpl implements EventService {
             }
             List<Ticket> tickets = new ArrayList<>();
             for(int i = 0; i < request.getQuantity(); i++){
-                Ticket ticket = ticketServiceImpl.create(event, customer);
+                Ticket ticket = ticketService.create(event, customer);
                 tickets.add(ticket);
                 event.setSoldTickets(event.getSoldTickets() + 1);
 
@@ -147,7 +147,7 @@ public class EventServiceImpl implements EventService {
         Ticket updatedTicket = new Ticket();
         updatedTicket.setDetails(event.getDescription());
         for( Ticket ticket : event.getTickets()){
-            ticketServiceImpl.update(ticket.getId(),updatedTicket);
+            ticketService.update(ticket.getId(),updatedTicket);
         }
     }
     @Override

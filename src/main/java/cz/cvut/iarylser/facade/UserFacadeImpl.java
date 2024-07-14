@@ -3,6 +3,7 @@ package cz.cvut.iarylser.facade;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
+import cz.cvut.iarylser.service.UserService;
 import cz.cvut.iarylser.service.UserServiceImpl;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import javax.naming.AuthenticationException;
 import java.util.List;
 @Component
 public class UserFacadeImpl implements UserFacade {
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final UserMapperDTO userMapper;
 
     public UserFacadeImpl(UserServiceImpl userService, UserMapperDTO userMapperDTO) {

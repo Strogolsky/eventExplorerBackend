@@ -7,6 +7,7 @@ import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDTO.EventMapperDTO;
+import cz.cvut.iarylser.service.EventService;
 import cz.cvut.iarylser.service.EventServiceImpl;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Component
 public class EventFacadeImpl implements EventFacade {
     private final EventMapperDTO eventMapper;
-    private final EventServiceImpl eventService;
+    private final EventService eventService;
 
     public EventFacadeImpl(EventMapperDTO eventMapper, EventServiceImpl eventService) {
         this.eventMapper = eventMapper;
