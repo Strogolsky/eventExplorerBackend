@@ -19,14 +19,17 @@ public class TicketServiceImpl implements TicketService{
     }
     @Override
     public Ticket getById(Long ticketId){
+        log.info("Fetching ticket with id: {}", ticketId);
         return ticketRepository.findById(ticketId).orElse(null);
     }
     @Override
     public List<Ticket> getByUser(Long userId){
+        log.info("Fetching tickets for user with id: {}", userId);
         return ticketRepository.findByCustomerId(userId);
     }
     @Override
     public Ticket create(Event event, User customer){
+        log.info("Creating ticket for event: {} and customer: {}", event, customer);
         Ticket ticket = new Ticket();
 
         ticket.setEventId(event.getId());
@@ -47,6 +50,7 @@ public class TicketServiceImpl implements TicketService{
     }
     @Override
     public Ticket update(Long ticketId, Ticket updatedTicket) {
+        log.info("Updating ticket with id: {}", ticketId);
         Ticket existingTicket = ticketRepository.findById(ticketId).orElse(null);
         if (existingTicket == null) {
             log.warn("Ticket with id {} not found for update", ticketId);
@@ -64,7 +68,9 @@ public class TicketServiceImpl implements TicketService{
     }
     @Override
     public boolean delete(Long ticketId){
+        log.info("Deleting ticket with id: {}", ticketId);
         if(!ticketRepository.existsById(ticketId)){
+            log.warn("Ticket with id {} not found for deletion", ticketId);
             return false;
         }
         ticketRepository.deleteById(ticketId);
