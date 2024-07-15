@@ -30,59 +30,71 @@ public class EventServiceImpl implements EventService {
         this.ticketMapperDTO = ticketMapperDTO;
     }
     @Override
-    public List<Event> getAll(){
+    public List<Event> getAll() {
+        log.info("Fetching all events");
         return eventRepository.findAll();
     }
     @Override
-    public Event getById(Long eventId){
+    public Event getById(Long eventId) {
+        log.info("Fetching event with id: {}", eventId);
         return eventRepository.findById(eventId).orElse(null);
     }
     @Override
-    public Event create(Event newEvent){
+    public Event create(Event newEvent) {
+        log.info("Creating new event: {}", newEvent);
         User organizer = userRepository.findByNickname(newEvent.getOrganizer());
         if (organizer == null) {
+            log.warn("Organizer with nickname {} not found", newEvent.getOrganizer());
             return null;
         }
         newEvent.setOrganizerId(organizer.getId());
         newEvent.setUser(organizer);
         organizer.getCreatedEvents().add(newEvent);
         userRepository.save(organizer);
-        return eventRepository.save(newEvent);
+        Event createdEvent = eventRepository.save(newEvent);
+        log.info("Created event: {}", createdEvent);
+        return createdEvent;
     }
 
     @Override
-    public List<TicketDTO> purchaseTicket(Long eventId, PurchaseRequest request){
+    public List<TicketDTO> purchaseTicket(Long eventId, PurchaseRequest request) {
+        log.info("Purchasing {} tickets for event with id: {} for customer: {}", request.getQuantity(), eventId, request.getCustomer());
         Event event = eventRepository.findById(eventId).orElse(null);
         User customer = userRepository.findByNickname(request.getCustomer());
         if (customer == null || event == null) {
             log.warn("User or event with nickname {} not found", request.getCustomer());
             return null;
         }
-        if(request.getQuantity() <= event.getAvailableSeat()){
-            if (event.isAgeRestriction() && customer.getAge() < 18) {
-                log.warn("User {} does not meet the age requirement for event {}", customer.getNickname(), eventId);
-                return null;
-            }
-            List<Ticket> tickets = new ArrayList<>();
-            for(int i = 0; i < request.getQuantity(); i++){
-                Ticket ticket = ticketService.create(event, customer);
-                tickets.add(ticket);
-                event.setSoldTickets(event.getSoldTickets() + 1);
-
-            }
-            userRepository.save(customer);
-            eventRepository.save(event);
-
-            return ticketMapperDTO.toDTOList(tickets);
+        if(request.getQuantity() > event.getAvailableSeat()){
+            log.warn("Not enough available seats for event with id: {}", eventId);
+            return null;
         }
-        return null;
+        if (event.isAgeRestriction() && customer.getAge() < 18) {
+            log.warn("User {} does not meet the age requirement for event {}", customer.getNickname(), eventId);
+            return null;
+        }
+        List<Ticket> tickets = new ArrayList<>();
+        for(int i = 0; i < request.getQuantity(); i++){
+            Ticket ticket = ticketService.create(event, customer);
+            tickets.add(ticket);
+            event.setSoldTickets(event.getSoldTickets() + 1);
+
+        }
+        userRepository.save(customer);
+        eventRepository.save(event);
+
+        log.info("The tickets were purchased");
+        return ticketMapperDTO.toDTOList(tickets);
+
     }
     @Override
     public List<Event> getByUserId(Long userId) {
+        log.info("Fetching events for user with id: {}", userId);
         return eventRepository.findByOrganizerId(userId);
     }
     @Override
-    public Event update(Long eventId, Event updatedEvent){
+    public Event update(Long eventId, Event updatedEvent) {
+        log.info("Updating event with id: {}", eventId);
         Event existingEvent = getById(eventId);
         if (existingEvent == null) {
             log.warn("Event with id {} not found for update", eventId);
@@ -115,16 +127,18 @@ public class EventServiceImpl implements EventService {
         existingEvent.setAgeRestriction(updatedEvent.isAgeRestriction());
 
         updateRelatedTickets(existingEvent);
+        log.info("The event is updated");
         return eventRepository.save(existingEvent);
     }
     @Override
-    public void updateForOrgChange(Event event, User organizer){
+    public void updateForOrgChange(Event event, User organizer) {
+        log.info("Updating organizer for event with id: {} to {}", event.getId(), organizer.getNickname());
         event.setOrganizer(organizer.getNickname());
-
         eventRepository.save(event);
     }
     @Override
     public boolean delete(Long eventId) {
+        log.info("Deleting event with id: {}", eventId);
         Event event = eventRepository.findById(eventId).orElse(null);
         if (event == null) {
             log.warn("Event with id {} not found for deletion", eventId);
@@ -141,9 +155,11 @@ public class EventServiceImpl implements EventService {
             return false;
         }
         eventRepository.deleteById(eventId);
+        log.info("Deleted event with id: {}", eventId);
         return true;
     }
-    private void updateRelatedTickets(Event event){
+    private void updateRelatedTickets(Event event) {
+        log.info("Updating related tickets for event with id: {}", event.getId());
         Ticket updatedTicket = new Ticket();
         updatedTicket.setDetails(event.getDescription());
         for( Ticket ticket : event.getTickets()){
@@ -151,7 +167,8 @@ public class EventServiceImpl implements EventService {
         }
     }
     @Override
-    public boolean like(Long eventId, Long userId){
+    public boolean like(Long eventId, Long userId) {
+        log.info("User with id: {} liking event with id: {}", userId, eventId);
         User user = userRepository.findById(userId).orElse(null);
         Event event = eventRepository.findById(eventId).orElse(null);
         if (user == null || event == null) {
@@ -162,10 +179,12 @@ public class EventServiceImpl implements EventService {
         event.getLikeBy().add(user);
         userRepository.save(user);
         eventRepository.save(event);
+        log.info("User with id: {} liked event with id: {}", userId, eventId);
         return true;
     }
     @Override
-    public boolean unlike(Long eventId, Long userId){
+    public boolean unlike(Long eventId, Long userId) {
+        log.info("User with id: {} unliking event with id: {}", userId, eventId);
         User user = userRepository.findById(userId).orElse(null);
         Event event = eventRepository.findById(eventId).orElse(null);
         if (user == null || event == null) {
@@ -176,14 +195,14 @@ public class EventServiceImpl implements EventService {
         event.getLikeBy().remove(user);
         userRepository.save(user);
         eventRepository.save(event);
+        log.info("User with id: {} unliked event with id: {}", userId, eventId);
         return true;
     }
     @Override
 
     public List<Event> getByLikedGreaterThan(int likes) {
+        log.info("Fetching events with likes greater than {}", likes);
         Collection<Event> eventsCollection = eventRepository.findByLikedGreaterThan(likes);
-
-
         return new ArrayList<>(eventsCollection);
     }
 }
