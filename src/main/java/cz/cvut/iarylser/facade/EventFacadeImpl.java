@@ -9,6 +9,7 @@ import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDTO.EventMapperDTO;
 import cz.cvut.iarylser.service.EventService;
 import cz.cvut.iarylser.service.EventServiceImpl;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class EventFacadeImpl implements EventFacade {
     }
 
     @Override
-    public EventDTO update(Long id, EventDTO dto) {
+    public EventDTO update(Long id, EventDTO dto) throws EntityNotFoundException, IllegalStateException {
         Event entity = eventMapper.toEntity(dto);
         Event result = eventService.update(id, entity);
         return eventMapper.toDTO(result);
@@ -60,7 +61,7 @@ public class EventFacadeImpl implements EventFacade {
     }
 
     @Override
-    public List<TicketDTO> purchaseTicket(Long eventId, PurchaseRequest request) {
+    public List<TicketDTO> purchaseTicket(Long eventId, PurchaseRequest request) throws EntityNotFoundException, IllegalStateException {
         return eventService.purchaseTicket(eventId,request);
     }
 

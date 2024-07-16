@@ -6,6 +6,7 @@ import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
 import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
@@ -57,35 +58,35 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<TicketDTO> purchaseTicket(Long eventId, PurchaseRequest request) {
+    public List<TicketDTO> purchaseTicket(Long eventId, PurchaseRequest request) throws EntityNotFoundException, IllegalStateException {
         log.info("Purchasing {} tickets for event with id: {} for customer: {}", request.getQuantity(), eventId, request.getCustomer());
-        Event event = eventRepository.findById(eventId).orElse(null);
+
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EntityNotFoundException("Event with id " + eventId + " not found"));
         User customer = userRepository.findByNickname(request.getCustomer());
-        if (customer == null || event == null) {
-            log.warn("User or event with nickname {} not found", request.getCustomer());
-            return null;
+        if (customer == null) {
+            throw new EntityNotFoundException("User with nickname " + request.getCustomer() + " not found");
         }
-        if(request.getQuantity() > event.getAvailableSeat()){
-            log.warn("Not enough available seats for event with id: {}", eventId);
-            return null;
+
+        if (request.getQuantity() > event.getAvailableSeat()) {
+            throw new IllegalStateException("Not enough available seats for event with id: " + eventId);
         }
+
         if (event.isAgeRestriction() && customer.getAge() < 18) {
-            log.warn("User {} does not meet the age requirement for event {}", customer.getNickname(), eventId);
-            return null;
+            throw new IllegalStateException("User " + customer.getNickname() + " does not meet the age requirement for event " + eventId);
         }
+
         List<Ticket> tickets = new ArrayList<>();
-        for(int i = 0; i < request.getQuantity(); i++){
+        for (int i = 0; i < request.getQuantity(); i++) {
             Ticket ticket = ticketService.create(event, customer);
             tickets.add(ticket);
             event.setSoldTickets(event.getSoldTickets() + 1);
-
         }
+
         userRepository.save(customer);
         eventRepository.save(event);
 
         log.info("The tickets were purchased");
         return ticketMapperDTO.toDTOList(tickets);
-
     }
     @Override
     public List<Event> getByUserId(Long userId) {
@@ -93,16 +94,17 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findByOrganizerId(userId);
     }
     @Override
-    public Event update(Long eventId, Event updatedEvent) {
+    public Event update(Long eventId, Event updatedEvent) throws EntityNotFoundException, IllegalStateException {
         log.info("Updating event with id: {}", eventId);
         Event existingEvent = getById(eventId);
         if (existingEvent == null) {
             log.warn("Event with id {} not found for update", eventId);
-            return null;
+            throw new EntityNotFoundException("Event with id " + eventId + " not found");
         }
-        if(!existingEvent.updateCapacity(updatedEvent.getCapacity())) {
-            log.warn("Attempted to set capacity to {}, but there are {} sold tickets", updatedEvent.getCapacity(), updatedEvent.getSoldTickets());
-            return null;
+        if (!existingEvent.updateCapacity(updatedEvent.getCapacity())) {
+            log.warn("Attempted to set capacity to {}, but there are {} sold tickets",
+                    updatedEvent.getCapacity(), updatedEvent.getSoldTickets());
+            throw new IllegalStateException("Cannot update capacity because there are sold tickets");
         }
         if (updatedEvent.getTitle() != null && !updatedEvent.getTitle().isEmpty()) {
             existingEvent.setTitle(updatedEvent.getTitle());

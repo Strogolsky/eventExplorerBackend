@@ -2,6 +2,7 @@ package cz.cvut.iarylser.service;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId).orElse(null);
     }
     @Override
-    public User create(User newUser) {
+    public User create(User newUser) throws IllegalArgumentException{
         log.info("Creating new user with nickname: {}", newUser.getNickname());
         if(userRepository.existsByNickname(newUser.getNickname())) {
             log.warn("User with nickname {} already exists", newUser.getNickname());
@@ -41,12 +42,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(Long userId, User updatedUser) {
+    public User update(Long userId, User updatedUser) throws EntityNotFoundException, IllegalArgumentException{
         log.info("Updating user with id: {}", userId);
         User existingUser = getById(userId);
         if (existingUser == null) {
             log.warn("User with id {} not found for update", userId);
-            return null;
+            throw new EntityNotFoundException("User with id " + userId + " not found");
         }
 
         if(userRepository.existsByNickname(updatedUser.getNickname())) {

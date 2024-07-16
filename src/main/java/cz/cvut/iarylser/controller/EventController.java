@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -89,18 +90,22 @@ public class EventController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = EventDTO.class)))
     @ApiResponse(responseCode = "404", description = "Event not found")
-    public ResponseEntity<EventDTO> update(
+    public ResponseEntity<?> update(
             @Parameter(description = "ID of the event to update", required = true)
             @PathVariable Long eventId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated event data", required = true)
             @RequestBody EventDTO updatedEvent){
-        EventDTO result = eventFacade.update(eventId, updatedEvent);
         log.info("PUT request received to update event with ID: {}", eventId);
-        if (result == null) {
-            log.info("Event with ID {} not found for update.", eventId);
+        try {
+            EventDTO result = eventFacade.update(eventId, updatedEvent);
+            return ResponseEntity.ok(result);
+        } catch (EntityNotFoundException e) {
+            log.warn("Failed to update event with ID {}: {}", eventId, e.getMessage());
             return ResponseEntity.notFound().build();
+        } catch (IllegalStateException e) {
+            log.warn("Failed to update event with ID {}: {}", eventId, e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok(result);
     }
     @GetMapping("/user/{userId}")
     @Operation(summary = "Get events by user ID",
@@ -130,12 +135,16 @@ public class EventController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Purchase request details", required = true)
             @RequestBody PurchaseRequest request) {
         log.info("POST request received to purchase tickets for event with ID: {}", eventId);
-        List<TicketDTO> result = eventFacade.purchaseTicket(eventId, request);
-        if (result == null) {
-            log.warn("Failed to purchase tickets for event with ID: {}", eventId);
-            return ResponseEntity.badRequest().body("Purchase failed due to invalid data or other issues.");
+        try {
+            List<TicketDTO> result = eventFacade.purchaseTicket(eventId, request);
+            return ResponseEntity.ok(result);
+        } catch (EntityNotFoundException e) {
+            log.warn("Event or user not found: {}", e.getMessage());
+            return ResponseEntity.notFound().build();
+        } catch (IllegalStateException e) {
+            log.warn("Error purchasing tickets: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/{eventId}")

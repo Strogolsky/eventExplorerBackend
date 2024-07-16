@@ -8,7 +8,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.action.internal.EntityActionVetoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -121,11 +123,10 @@ public class UserController {
         log.info("PUT request received to update user with ID: {}", userId);
         try {
             UserDTO result = userFacade.update(userId, updatedUser);
-            if (result == null) {
-                log.info("Unable to update. User with id {} not found.", userId);
-                return ResponseEntity.notFound().build();
-            }
             return ResponseEntity.ok(result);
+        } catch (EntityNotFoundException e) {
+            log.warn("User with id {} not found: {}", userId, e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (IllegalArgumentException e) {
             log.warn("Error updating user: {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -142,7 +143,7 @@ public class UserController {
             @PathVariable Long userId) {
         log.info("DELETE request received to delete user with ID: {}", userId);
         if (!userFacade.delete(userId)) {
-            log.info("Unable to delete. User with id {} not found.", userId);
+            log.warn("Unable to delete. User with id {} not found.", userId);
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.noContent().build();

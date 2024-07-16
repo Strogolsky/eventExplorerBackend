@@ -5,6 +5,7 @@ import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
 import cz.cvut.iarylser.service.UserService;
 import cz.cvut.iarylser.service.UserServiceImpl;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.naming.AuthenticationException;
@@ -41,7 +42,7 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public UserDTO update(Long id, UserDTO dto) {
+    public UserDTO update(Long id, UserDTO dto) throws EntityNotFoundException, IllegalArgumentException {
         User entity = userMapper.toEntity(dto);
         User result = userService.update(id, entity);
         return userMapper.toDTO(result);
@@ -54,6 +55,6 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public UserDTO authenticateUser(String nickname, String password) throws AuthenticationException {
-        return authenticateUser(nickname,password);
+        return authenticateUser(nickname,password); //todo fix
     }
 }
