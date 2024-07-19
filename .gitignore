@@ -1,0 +1,67 @@
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Gradle
+.gradle/
+build/
+
+# Logs
+logs/
+*.log
+
+# Spring Boot specific
+spring.log
+
+# Others
+*.class
+*.jar
+*.war
+*.ear
+
+# Compiled class files
+*.class
+
+# Compiled Java files
+*.jar
+*.war
+*.ear
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Eclipse
+.metadata/
+*.bak
+*.tmp
+*.swp
+*~.nib
+.localhistory
+
+# STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+# Code Repositories
+lib/
+
+# Maven
+target/
