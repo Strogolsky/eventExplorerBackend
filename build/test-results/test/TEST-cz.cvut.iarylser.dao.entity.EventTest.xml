@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cz.cvut.iarylser.dao.entity.EventTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-07-14T18:19:22" hostname="MACHINE" time="0.007">
-  <properties/>
-  <testcase name="getAvailableSeat()" classname="cz.cvut.iarylser.dao.entity.EventTest" time="0.004"/>
-  <testcase name="updateCapacity()" classname="cz.cvut.iarylser.dao.entity.EventTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
