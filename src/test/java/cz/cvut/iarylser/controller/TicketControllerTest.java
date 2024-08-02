@@ -1,9 +1,11 @@
 package cz.cvut.iarylser.controller;
 
-import cz.cvut.iarylser.controller.TicketController;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Ticket;
-import cz.cvut.iarylser.service.TicketService;
+import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
+import cz.cvut.iarylser.facade.TicketFacade;
+import cz.cvut.iarylser.facade.TicketFacadeImpl;
+import cz.cvut.iarylser.service.TicketServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -12,13 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -31,7 +31,7 @@ class TicketControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private TicketService ticketService;
+    private TicketFacadeImpl ticketFacade;
 
     @BeforeEach
     void setUp() {
@@ -44,13 +44,9 @@ class TicketControllerTest {
         TicketDTO mockTicket = new TicketDTO();
         mockTicket.setId(ticketId);
 
-        Ticket ticket = new Ticket();
-        ticket.setId(ticketId);
+        Mockito.when(ticketFacade.getById(ticketId)).thenReturn(mockTicket);
 
-        Mockito.when(ticketService.getTicketById(ticketId)).thenReturn(ticket);
-        Mockito.when(ticketService.convertToDto(Mockito.any(Ticket.class))).thenReturn(mockTicket);
-
-        mockMvc.perform(get("/ticket/" + ticketId))
+        mockMvc.perform(get("/tickets/" + ticketId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(ticketId));
 
@@ -58,9 +54,9 @@ class TicketControllerTest {
     @Test
     void getTicketByIdFailure() throws Exception {
         Long ticketId = 1L;
-        when(ticketService.getTicketById(ticketId)).thenReturn(null);
+        when(ticketFacade.getById(ticketId)).thenReturn(null);
 
-        mockMvc.perform(get("/ticket/{ticketId}", ticketId))
+        mockMvc.perform(get("/tickets/{ticketId}", ticketId))
                 .andExpect(status().isNotFound());
     }
 
@@ -68,27 +64,26 @@ class TicketControllerTest {
     void getTicketByUserSucceeded() throws Exception{
         Long userId = 1L;
         TicketDTO mockTicket = new TicketDTO();
-        mockTicket.setIdCustomer(userId);
+        mockTicket.setCustomerId(userId);
 
         Ticket ticket = new Ticket();
-        ticket.setIdCustomer(userId);
+        ticket.setCustomerId(userId);
 
-        Mockito.when(ticketService.getTicketByUser(userId)).thenReturn(List.of(ticket));
-        Mockito.when(ticketService.convertTicketsToDTOs(Mockito.anyList())).thenReturn(List.of(mockTicket));
+        Mockito.when(ticketFacade.getByUserId(userId)).thenReturn(List.of(mockTicket));
 
-        mockMvc.perform(get("/ticket/user/" + userId))
+        mockMvc.perform(get("/tickets/user/" + userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].idCustomer").value(userId));
+                .andExpect(jsonPath("$[0].customerId").value(userId));
 
     }
 
     @Test
     void getTicketByUserFailure() throws Exception {
         Long userId = 1L;
-        when(ticketService.getTicketByUser(userId)).thenReturn(new ArrayList<>());
+        when(ticketFacade.getByUserId(userId)).thenReturn(new ArrayList<>());
 
-        mockMvc.perform(get("/ticket/user/{userId}", userId))
+        mockMvc.perform(get("/tickets/user/{userId}", userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }

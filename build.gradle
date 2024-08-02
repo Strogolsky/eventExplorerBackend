@@ -22,8 +22,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("com.h2database:h2")
     implementation("org.hibernate:hibernate-core:6.2.13.Final")
-    implementation 'org.jboss.logging:jboss-logging:3.4.2.Final'
+    implementation('org.jboss.logging:jboss-logging:3.4.2.Final')
     testImplementation('org.mockito:mockito-core:4.0.0')
+
+
 
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.2.0'
 }

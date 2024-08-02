@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 public class TicketDTO {
     private Long id;
     private Long eventId;
-    private Long idCustomer;
-    private Long idOrganizer;
+    private Long customerId;
+    private Long organizerId;
     private String details;
     private TicketStatus ticketStatus;
 }

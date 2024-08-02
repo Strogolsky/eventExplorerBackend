@@ -21,7 +21,7 @@ public class Event {
     @Column(name = "id_event")
     private Long id;
     @Column(name = "id_organizer")
-    private Long idOrganizer;
+    private Long organizerId;
     @Column(name = "title")
     private String title;
     @Column(name = "organizer")
