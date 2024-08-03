@@ -4,6 +4,7 @@ import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.dao.repository.TicketRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -72,13 +73,14 @@ public class TicketServiceImpl implements TicketService{
         ticket.setDetails(details);
     }
     @Override
+    @CacheEvict(value = "ticket", key = "#ticketId")
     public boolean delete(Long ticketId){
         log.info("Deleting ticket with id: {}", ticketId);
         if(!ticketRepository.existsById(ticketId)){
             log.warn("Ticket with id {} not found for deletion", ticketId);
             return false;
         }
-        ticketRepository.deleteById(ticketId);
+        ticketRepository.deleteById(ticketId); // todo change free places
         return true;
     }
 }
