@@ -9,6 +9,7 @@ import cz.cvut.iarylser.dao.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -98,6 +99,7 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findByOrganizerId(userId);
     }
     @Override
+    @CachePut(value = "event", key = "#eventId")
     public Event update(Long eventId, Event updatedEvent) throws EntityNotFoundException, IllegalStateException {
         log.info("Updating event with id: {}", eventId);
         Event existingEvent = getById(eventId);
@@ -173,6 +175,7 @@ public class EventServiceImpl implements EventService {
         }
     }
     @Override
+    @CachePut(value = "event", key = "#eventId")
     public boolean like(Long eventId, Long userId) {
         log.info("User with id: {} liking event with id: {}", userId, eventId);
         User user = userRepository.findById(userId).orElse(null);
@@ -189,6 +192,7 @@ public class EventServiceImpl implements EventService {
         return true;
     }
     @Override
+    @CachePut(value = "event", key = "#eventId")
     public boolean unlike(Long eventId, Long userId) {
         log.info("User with id: {} unliking event with id: {}", userId, eventId);
         User user = userRepository.findById(userId).orElse(null);

@@ -4,6 +4,7 @@ import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.dao.repository.TicketRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,7 @@ public class TicketServiceImpl implements TicketService{
         return ticketRepository.save(ticket);
     }
     @Override
+    @CachePut(value = "ticket", key = "#ticketId")
     public Ticket update(Long ticketId, Ticket updatedTicket) {
         log.info("Updating ticket with id: {}", ticketId);
         Ticket existingTicket = ticketRepository.findById(ticketId).orElse(null);
