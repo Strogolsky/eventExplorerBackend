@@ -4,6 +4,7 @@ import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
@@ -20,12 +21,14 @@ public class UserServiceImpl implements UserService {
         this.eventService = eventService;
     }
     @Override
+    @Cacheable(value = "users")
     public List<User> getAll() {
         log.info("Fetching all users");
         return userRepository.findAll();
 
     }
     @Override
+    @Cacheable(value = "users", key = "#userId")
     public User getById(Long userId) {
         log.info("Fetching user with id: {}", userId);
         return userRepository.findById(userId).orElse(null);

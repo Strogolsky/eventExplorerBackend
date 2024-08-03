@@ -9,6 +9,7 @@ import cz.cvut.iarylser.dao.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,11 +32,13 @@ public class EventServiceImpl implements EventService {
         this.ticketMapperDTO = ticketMapperDTO;
     }
     @Override
+    @Cacheable(value = "event")
     public List<Event> getAll() {
         log.info("Fetching all events");
         return eventRepository.findAll();
     }
     @Override
+    @Cacheable(value = "event", key = "#eventId")
     public Event getById(Long eventId) {
         log.info("Fetching event with id: {}", eventId);
         return eventRepository.findById(eventId).orElse(null);
@@ -89,6 +92,7 @@ public class EventServiceImpl implements EventService {
         return ticketMapperDTO.toDTOList(tickets);
     }
     @Override
+    @Cacheable(value = "event", key = "#userId")
     public List<Event> getByUserId(Long userId) {
         log.info("Fetching events for user with id: {}", userId);
         return eventRepository.findByOrganizerId(userId);
