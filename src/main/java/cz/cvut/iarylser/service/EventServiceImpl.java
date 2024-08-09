@@ -7,6 +7,7 @@ import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
 import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -20,19 +21,14 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
-    private final TicketService ticketService;
-
+    private final TicketServiceImpl ticketService;
     private final TicketMapperDTO ticketMapperDTO;
 
-    public EventServiceImpl(EventRepository eventRepository, UserRepository userRepository, TicketServiceImpl ticketService, TicketMapperDTO ticketMapperDTO) {
-        this.eventRepository = eventRepository;
-        this.userRepository = userRepository;
-        this.ticketService = ticketService;
-        this.ticketMapperDTO = ticketMapperDTO;
-    }
+
     @Override
     @Cacheable(value = "event")
     public List<Event> getAll() {

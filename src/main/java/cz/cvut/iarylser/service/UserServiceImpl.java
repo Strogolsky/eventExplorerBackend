@@ -3,6 +3,7 @@ import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -14,14 +15,11 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final EventService eventService;
+    private final EventServiceImpl eventService;
 
-    public UserServiceImpl(UserRepository repository, EventServiceImpl eventService) {
-        this.userRepository = repository;
-        this.eventService = eventService;
-    }
     @Override
     @Cacheable(value = "users")
     public List<User> getAll() {

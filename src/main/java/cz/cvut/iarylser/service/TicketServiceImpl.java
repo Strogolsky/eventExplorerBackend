@@ -3,6 +3,7 @@ package cz.cvut.iarylser.service;
 import cz.cvut.iarylser.dao.entity.*;
 import cz.cvut.iarylser.dao.repository.TicketRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -13,13 +14,11 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class TicketServiceImpl implements TicketService{
     private final TicketRepository ticketRepository;
     private final UserRepository userRepository;
-    public TicketServiceImpl(TicketRepository ticketRepository, UserRepository userRepository){
-        this.ticketRepository = ticketRepository;
-        this.userRepository = userRepository;
-    }
+
     @Override
     @Cacheable(value = "ticket", key = "#ticketId")
     public Ticket getById(Long ticketId){

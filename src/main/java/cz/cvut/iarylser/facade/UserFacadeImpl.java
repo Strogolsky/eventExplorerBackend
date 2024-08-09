@@ -6,19 +6,16 @@ import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
 import cz.cvut.iarylser.service.UserService;
 import cz.cvut.iarylser.service.UserServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.naming.AuthenticationException;
 import java.util.List;
 @Component
+@RequiredArgsConstructor
 public class UserFacadeImpl implements UserFacade {
     private final UserService userService;
     private final UserMapperDTO userMapper;
-
-    public UserFacadeImpl(UserServiceImpl userService, UserMapperDTO userMapperDTO) {
-        this.userService = userService;
-        this.userMapper = userMapperDTO;
-    }
 
 
 
