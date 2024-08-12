@@ -3,7 +3,11 @@ import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
@@ -11,21 +15,20 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final EventService eventService;
+    private final EventServiceImpl eventService;
 
-    public UserServiceImpl(UserRepository repository, EventServiceImpl eventService) {
-        this.userRepository = repository;
-        this.eventService = eventService;
-    }
     @Override
+    @Cacheable(value = "users")
     public List<User> getAll() {
         log.info("Fetching all users");
         return userRepository.findAll();
 
     }
     @Override
+    @Cacheable(value = "users", key = "#userId")
     public User getById(Long userId) {
         log.info("Fetching user with id: {}", userId);
         return userRepository.findById(userId).orElse(null);
@@ -42,6 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CachePut(value = "users", key = "#userId")
     public User update(Long userId, User updatedUser) throws EntityNotFoundException, IllegalArgumentException{
         log.info("Updating user with id: {}", userId);
         User existingUser = getById(userId);
@@ -80,6 +84,7 @@ public class UserServiceImpl implements UserService {
         }
     }
     @Override
+    @CacheEvict(value = "users", key = "#userId")
     public boolean delete(Long userId) {
         log.info("Deleting user with id: {}", userId);
         if (!userRepository.existsById(userId)) {

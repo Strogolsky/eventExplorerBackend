@@ -10,18 +10,16 @@ import cz.cvut.iarylser.dao.mappersDTO.EventMapperDTO;
 import cz.cvut.iarylser.service.EventService;
 import cz.cvut.iarylser.service.EventServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 @Component
+@RequiredArgsConstructor
 public class EventFacadeImpl implements EventFacade {
     private final EventMapperDTO eventMapper;
     private final EventService eventService;
-
-    public EventFacadeImpl(EventMapperDTO eventMapper, EventServiceImpl eventService) {
-        this.eventMapper = eventMapper;
-        this.eventService = eventService;
-    }
 
     @Override
     public EventDTO create(EventDTO dto) {

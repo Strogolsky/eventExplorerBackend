@@ -5,18 +5,15 @@ import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
 import cz.cvut.iarylser.service.TicketService;
 import cz.cvut.iarylser.service.TicketServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 @Component
+@RequiredArgsConstructor
 public class TicketFacadeImpl implements TicketFacade {
     private final TicketMapperDTO ticketMapper;
     private final TicketService ticketService;
-
-    public TicketFacadeImpl(TicketMapperDTO ticketMapper, TicketServiceImpl ticketService) {
-        this.ticketMapper = ticketMapper;
-        this.ticketService = ticketService;
-    }
 
     @Override
     public TicketDTO getById(Long id) {

@@ -7,8 +7,12 @@ import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
 import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,25 +21,22 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
-    private final TicketService ticketService;
-
+    private final TicketServiceImpl ticketService;
     private final TicketMapperDTO ticketMapperDTO;
 
-    public EventServiceImpl(EventRepository eventRepository, UserRepository userRepository, TicketServiceImpl ticketService, TicketMapperDTO ticketMapperDTO) {
-        this.eventRepository = eventRepository;
-        this.userRepository = userRepository;
-        this.ticketService = ticketService;
-        this.ticketMapperDTO = ticketMapperDTO;
-    }
+
     @Override
+    @Cacheable(value = "event")
     public List<Event> getAll() {
         log.info("Fetching all events");
         return eventRepository.findAll();
     }
     @Override
+    @Cacheable(value = "event", key = "#eventId")
     public Event getById(Long eventId) {
         log.info("Fetching event with id: {}", eventId);
         return eventRepository.findById(eventId).orElse(null);
@@ -89,11 +90,13 @@ public class EventServiceImpl implements EventService {
         return ticketMapperDTO.toDTOList(tickets);
     }
     @Override
+    @Cacheable(value = "event", key = "#userId")
     public List<Event> getByUserId(Long userId) {
         log.info("Fetching events for user with id: {}", userId);
         return eventRepository.findByOrganizerId(userId);
     }
     @Override
+    @CachePut(value = "event", key = "#eventId")
     public Event update(Long eventId, Event updatedEvent) throws EntityNotFoundException, IllegalStateException {
         log.info("Updating event with id: {}", eventId);
         Event existingEvent = getById(eventId);
@@ -139,6 +142,7 @@ public class EventServiceImpl implements EventService {
         eventRepository.save(event);
     }
     @Override
+    @CacheEvict(value = "event", key = "#eventId")
     public boolean delete(Long eventId) {
         log.info("Deleting event with id: {}", eventId);
         Event event = eventRepository.findById(eventId).orElse(null);
@@ -169,6 +173,7 @@ public class EventServiceImpl implements EventService {
         }
     }
     @Override
+    @CachePut(value = "event", key = "#eventId")
     public boolean like(Long eventId, Long userId) {
         log.info("User with id: {} liking event with id: {}", userId, eventId);
         User user = userRepository.findById(userId).orElse(null);
@@ -185,6 +190,7 @@ public class EventServiceImpl implements EventService {
         return true;
     }
     @Override
+    @CachePut(value = "event", key = "#eventId")
     public boolean unlike(Long eventId, Long userId) {
         log.info("User with id: {} unliking event with id: {}", userId, eventId);
         User user = userRepository.findById(userId).orElse(null);
