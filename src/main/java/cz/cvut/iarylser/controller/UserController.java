@@ -1,5 +1,5 @@
 package cz.cvut.iarylser.controller;
-import cz.cvut.iarylser.dao.DTO.LoginRequest;
+import cz.cvut.iarylser.dao.DTO.SignInRequest;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.facade.UserFacade;
 import cz.cvut.iarylser.facade.UserFacadeImpl;
@@ -94,10 +94,10 @@ public class UserController {
     @ApiResponse(responseCode = "401", description = "Unauthorized - Invalid credentials")
     public ResponseEntity<?> login(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Login request with nickname and password", required = true)
-            @RequestBody LoginRequest loginRequest) {
-        log.info("POST request received for user login with nickname: {}", loginRequest.getNickname());
-        String username = loginRequest.getNickname();
-        String password = loginRequest.getPassword();
+            @RequestBody SignInRequest signInRequest) {
+        log.info("POST request received for user login with nickname: {}", signInRequest.getUsername());
+        String username = signInRequest.getUsername();
+        String password = signInRequest.getPassword();
 
         try {
             UserDTO result = userFacade.authenticateUser(username, password);

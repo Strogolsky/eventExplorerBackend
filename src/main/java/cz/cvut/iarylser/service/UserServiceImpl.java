@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
     public User create(User newUser) throws IllegalArgumentException{
         log.info("Creating new user with nickname: {}", newUser.getUsername());
         if(userRepository.existsByUsername(newUser.getUsername())) {
-            log.warn("User with nickname {} already exists", newUser.getUsername());
-            throw new IllegalArgumentException("User with this nickname already exists");
+            log.warn("User with username {} already exists", newUser.getUsername());
+            throw new IllegalArgumentException("User with this username already exists");
         }
         log.info("User is created");
         return userRepository.save(newUser);
