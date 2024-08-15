@@ -1,5 +1,6 @@
 package cz.cvut.iarylser.service;
 import cz.cvut.iarylser.dao.entity.Event;
+import cz.cvut.iarylser.dao.entity.Role;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -8,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
@@ -111,5 +115,30 @@ public class UserServiceImpl implements UserService {
         }
         log.info("User authenticated successfully");
         return user;
+    }
+
+    public User getByUsername(String username) throws EntityNotFoundException{
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            log.warn("User with username {} not found for update", username);
+            throw new EntityNotFoundException("User with username " + username + " not found");
+        }
+        return user;
+    }
+
+    public UserDetailsService userDetailsService() {
+        return this::getByUsername;
+    }
+
+    public User getCurrentUser() {
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return getByUsername(username);
+    }
+
+    @Deprecated
+    public void getAdmin() {
+        User user = getCurrentUser();
+        user.setRole(Role.ROLE_ADMIN);
+        userRepository.save(user);
     }
 }
