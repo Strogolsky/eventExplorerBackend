@@ -18,7 +18,7 @@ public class UserMapperDTO implements MapperDTO<UserDTO, User> {
         }
         UserDTO dto = new UserDTO();
         dto.setId(entity.getId());
-        dto.setNickname(entity.getNickname());
+        dto.setUsername(entity.getUsername());
         dto.setAge(entity.getAge());
         dto.setEmail(entity.getEmail());
         dto.setFirstName(entity.getFirstName());
@@ -47,7 +47,7 @@ public class UserMapperDTO implements MapperDTO<UserDTO, User> {
         }
         User entity = new User();
         entity.setId(dto.getId());
-        entity.setNickname(dto.getNickname());
+        entity.setUsername(dto.getUsername());
         entity.setAge(dto.getAge());
         entity.setEmail(dto.getEmail());
         entity.setFirstName(dto.getFirstName());

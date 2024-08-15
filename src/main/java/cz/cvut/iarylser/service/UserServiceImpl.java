@@ -35,9 +35,9 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public User create(User newUser) throws IllegalArgumentException{
-        log.info("Creating new user with nickname: {}", newUser.getNickname());
-        if(userRepository.existsByNickname(newUser.getNickname())) {
-            log.warn("User with nickname {} already exists", newUser.getNickname());
+        log.info("Creating new user with nickname: {}", newUser.getUsername());
+        if(userRepository.existsByUsername(newUser.getUsername())) {
+            log.warn("User with nickname {} already exists", newUser.getUsername());
             throw new IllegalArgumentException("User with this nickname already exists");
         }
         log.info("User is created");
@@ -54,13 +54,13 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException("User with id " + userId + " not found");
         }
 
-        if(userRepository.existsByNickname(updatedUser.getNickname())) {
-            log.warn("User with nickname {} already exists", updatedUser.getNickname());
+        if(userRepository.existsByUsername(updatedUser.getUsername())) {
+            log.warn("User with nickname {} already exists", updatedUser.getUsername());
             throw new IllegalArgumentException("User with this nickname already exists");
         }
 
-        if (updatedUser.getNickname() != null && !updatedUser.getNickname().isEmpty()) {
-            existingUser.setNickname(updatedUser.getNickname());
+        if (updatedUser.getUsername() != null && !updatedUser.getUsername().isEmpty()) {
+            existingUser.setUsername(updatedUser.getUsername());
         }
         if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
             existingUser.setPassword(updatedUser.getPassword());
@@ -96,17 +96,17 @@ public class UserServiceImpl implements UserService {
         return true;
     }
     @Override
-    public User authenticateUser(String nickname, String password) throws AuthenticationException {
-        log.info("Authenticating user with nickname: {}", nickname);
-        User user = userRepository.findByNickname(nickname);
+    public User authenticateUser(String username, String password) throws AuthenticationException {
+        log.info("Authenticating user with nickname: {}", username);
+        User user = userRepository.findByUsername(username);
 
         if (user == null) {
-            log.warn("Authentication failed: user with nickname {} not found", nickname);
+            log.warn("Authentication failed: user with nickname {} not found", username);
             throw new AuthenticationException("User not found");
         }
 
         if (!user.getPassword().equals(password)) {
-            log.warn("Authentication failed: incorrect password for user with nickname {}", nickname);
+            log.warn("Authentication failed: incorrect password for user with nickname {}", username);
             throw new AuthenticationException("Incorrect password");
         }
         log.info("User authenticated successfully");
