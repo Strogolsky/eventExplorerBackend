@@ -29,22 +29,20 @@ public class AuthenticationService {
         user.setRole(Role.ROLE_USER);
 
         userService.create(user);
-        log.info("Generate token for user: " + user.getUsername());
         var jwt = jwtService.generateToken(user);
-        log.info("Token generated for user: " + user.getUsername());
         return new JwtAuthenticationResponse(jwt);
     }
 
     public JwtAuthenticationResponse signIn(SignInRequest request) {
+        log.info("Authenticating {}", request.getUsername());
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getUsername(),
                 request.getPassword()
         ));
-
+        log.info("Authentication success");
         var user = userService
                 .userDetailsService()
                 .loadUserByUsername(request.getUsername());
-
         var jwt = jwtService.generateToken(user);
         return new JwtAuthenticationResponse(jwt);
     }

@@ -29,13 +29,15 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
+        log.info("Generate token for user: {}", userDetails.getUsername());
         Map<String, Object> claims = new HashMap<>();
         if (userDetails instanceof User customUserDetails) {
             claims.put("id", customUserDetails.getId());
             claims.put("role", customUserDetails.getRole());
         }
-        String result = generateToken(claims, userDetails);
-        return result;
+        String token = generateToken(claims, userDetails);
+        log.info("Token generated for user: {}", userDetails.getUsername());
+        return token;
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
