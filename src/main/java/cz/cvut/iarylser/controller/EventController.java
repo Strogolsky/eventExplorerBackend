@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,14 +27,12 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value = "/events")
+@RequiredArgsConstructor
 @Slf4j
 public class EventController {
     private final EventFacade eventFacade;
 
-    @Autowired
-    public EventController(EventFacadeImpl eventFacade) {
-        this.eventFacade = eventFacade;
-    }
+
     @GetMapping
     @Operation(summary = "Get all events",
             description = "Retrieves a list of all events available in the system.")

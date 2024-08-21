@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +20,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/tickets")
 @CrossOrigin("*")
+@RequiredArgsConstructor
 @Slf4j
 public class TicketController {
     private final TicketFacade ticketFacade;
-    public TicketController(TicketFacadeImpl ticketFacade){
-        this.ticketFacade = ticketFacade;
-    }
+
     @GetMapping("/{ticketId}")
     @Operation(summary = "Get Ticket by ID",
             description = "Retrieves a ticket by its unique identifier. If the ticket is not found, returns a 404 status.")
