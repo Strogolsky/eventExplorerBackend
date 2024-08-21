@@ -11,10 +11,8 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.naming.AuthenticationException;
 import java.util.List;
 
 @Service
@@ -98,23 +96,6 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
         log.info("Deleted user with id: {}", userId);
         return true;
-    }
-    @Override
-    public User authenticateUser(String username, String password) throws AuthenticationException {
-        log.info("Authenticating user with nickname: {}", username);
-        User user = userRepository.findByUsername(username);
-
-        if (user == null) {
-            log.warn("Authentication failed: user with nickname {} not found", username);
-            throw new AuthenticationException("User not found");
-        }
-
-        if (!user.getPassword().equals(password)) {
-            log.warn("Authentication failed: incorrect password for user with nickname {}", username);
-            throw new AuthenticationException("Incorrect password");
-        }
-        log.info("User authenticated successfully");
-        return user;
     }
 
     public User getByUsername(String username) throws EntityNotFoundException{
