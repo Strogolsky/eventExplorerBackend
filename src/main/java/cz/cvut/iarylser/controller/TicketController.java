@@ -1,11 +1,8 @@
 package cz.cvut.iarylser.controller;
 
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
-import cz.cvut.iarylser.dao.entity.Ticket;
-import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
 import cz.cvut.iarylser.facade.TicketFacade;
 import cz.cvut.iarylser.facade.TicketFacadeImpl;
-import cz.cvut.iarylser.service.TicketServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
