@@ -1,5 +1,6 @@
 package cz.cvut.iarylser.controller;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
+import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.facade.UserFacade;
 import cz.cvut.iarylser.facade.UserFacadeImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,8 +11,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,7 +64,7 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping("/{userId}")
+    @PutMapping
     @Operation(summary = "Update user",
             description = "Updates the user's information for the given user ID. If the user doesn't exist, returns not found.")
     @ApiResponse(responseCode = "200", description = "User updated successfully",
@@ -67,16 +73,16 @@ public class UserController {
     @ApiResponse(responseCode = "400", description = "Invalid user data provided for update")
     @ApiResponse(responseCode = "404", description = "User not found for the given ID")
     public ResponseEntity<?> update(
-            @Parameter(description = "Unique identifier of the user to be retrieved")
-            @PathVariable Long userId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated user object", required = true)
             @RequestBody UserDTO updatedUser) {
-        log.info("PUT request received to update user with ID: {}", userId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User CurrentUser = (User) authentication.getPrincipal();
+        log.info("PUT request received to update user with ID: {}", CurrentUser.getId());
         try {
-            UserDTO result = userFacade.update(userId, updatedUser);
+            UserDTO result = userFacade.update(CurrentUser.getId(), updatedUser);
             return ResponseEntity.ok(result);
         } catch (EntityNotFoundException e) {
-            log.warn("User with id {} not found: {}", userId, e.getMessage());
+            log.warn("User with id {} not found: {}", CurrentUser.getId(), e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (IllegalArgumentException e) {
             log.warn("Error updating user: {}", e.getMessage());
@@ -92,6 +98,7 @@ public class UserController {
     public ResponseEntity<Void> delete(
             @Parameter(description = "Unique identifier of the user to be retrieved")
             @PathVariable Long userId) {
+
         log.info("DELETE request received to delete user with ID: {}", userId);
         if (!userFacade.delete(userId)) {
             log.warn("Unable to delete. User with id {} not found.", userId);
