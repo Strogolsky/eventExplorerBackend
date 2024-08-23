@@ -3,6 +3,7 @@ import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.facade.UserFacade;
 import cz.cvut.iarylser.facade.UserFacadeImpl;
+import cz.cvut.iarylser.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,12 +12,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +26,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
-    private final UserFacade userFacade;
+    private final UserFacadeImpl userFacade;
+    private final JwtService jwtService;
 
 
     @GetMapping
@@ -75,12 +74,15 @@ public class UserController {
     public ResponseEntity<?> update(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated user object", required = true)
             @RequestBody UserDTO updatedUser) {
+        log.info("PUT request received to update user");
+        log.info("Authentification user: {}", updatedUser);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User CurrentUser = (User) authentication.getPrincipal();
-        log.info("PUT request received to update user with ID: {}", CurrentUser.getId());
+        log.info("Current user with ID: {}", CurrentUser.getId());
         try {
-            UserDTO result = userFacade.update(CurrentUser.getId(), updatedUser);
-            return ResponseEntity.ok(result);
+            userFacade.update(CurrentUser.getId(), updatedUser);
+            String newToken = jwtService.generateToken(CurrentUser);
+            return ResponseEntity.ok(newToken);
         } catch (EntityNotFoundException e) {
             log.warn("User with id {} not found: {}", CurrentUser.getId(), e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
