@@ -1,7 +1,6 @@
 package cz.cvut.iarylser.controller;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
-import cz.cvut.iarylser.facade.UserFacade;
 import cz.cvut.iarylser.facade.UserFacadeImpl;
 import cz.cvut.iarylser.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -75,10 +74,7 @@ public class UserController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated user object", required = true)
             @RequestBody UserDTO updatedUser) {
         log.info("PUT request received to update user");
-        log.info("Authentification user: {}", updatedUser);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User CurrentUser = (User) authentication.getPrincipal();
-        log.info("Current user with ID: {}", CurrentUser.getId());
+        User CurrentUser = authenticationUser();
         try {
             userFacade.update(CurrentUser.getId(), updatedUser);
             String newToken = jwtService.generateToken(CurrentUser);
@@ -92,20 +88,26 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping
     @Operation(summary = "Delete user",
             description = "Deletes a user with the specified user ID. If the user is not found, returns an error.")
     @ApiResponse(responseCode = "204", description = "User deleted successfully")
     @ApiResponse(responseCode = "404", description = "User not found for the given ID")
-    public ResponseEntity<Void> delete(
-            @Parameter(description = "Unique identifier of the user to be retrieved")
-            @PathVariable Long userId) {
-
-        log.info("DELETE request received to delete user with ID: {}", userId);
-        if (!userFacade.delete(userId)) {
-            log.warn("Unable to delete. User with id {} not found.", userId);
+    public ResponseEntity<Void> delete() {
+        log.info("DELETE request received to delete user");
+        User currentUser = authenticationUser();
+        if (!userFacade.delete(currentUser.getId())) {
+            log.warn("Unable to delete. User with id {} not found.", currentUser.getId());
             return ResponseEntity.notFound().build();
         }
+        SecurityContextHolder.clearContext();
         return ResponseEntity.noContent().build();
+    }
+    private User authenticationUser(){
+        log.info("Authentification user");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User CurrentUser = (User) authentication.getPrincipal();
+        log.info("Current user with ID: {}", CurrentUser.getId());
+        return CurrentUser;
     }
 }
