@@ -7,7 +7,7 @@ public interface CrudFacade<T, ID>{
 
     T update(ID id, T dto) throws IllegalAccessException;
 
-    boolean delete(ID id);
+    boolean delete(ID id) throws IllegalAccessException;
 
     List<T> getAll();
 

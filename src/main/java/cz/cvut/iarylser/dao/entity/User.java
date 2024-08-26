@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users") // todo fix
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +21,7 @@ public class User implements Serializable, UserDetails {
     @Column(name = "id_user")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "nickname", unique = true)
+    @Column(name = "nickname", unique = true) // todo fix
     private String username;
     @Column(name = "password")
     private String password;

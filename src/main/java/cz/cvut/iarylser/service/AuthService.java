@@ -48,7 +48,7 @@ public class AuthService {
         var jwt = jwtService.generateToken(user);
         return new JwtAuthenticationResponse(jwt);
     }
-    public User authenticationUser(){
+    public User getUser(){
         log.info("Authentification user");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User CurrentUser = (User) authentication.getPrincipal();

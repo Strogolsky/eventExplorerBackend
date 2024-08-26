@@ -75,7 +75,7 @@ public class UserController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated user object", required = true)
             @RequestBody UserDTO updatedUser) {
         log.info("PUT request received to update user");
-        User CurrentUser = authService.authenticationUser();
+        User CurrentUser = authService.getUser();
         try {
             userFacade.update(CurrentUser.getId(), updatedUser);
             String newToken = jwtService.generateToken(CurrentUser);
@@ -96,7 +96,7 @@ public class UserController {
     @ApiResponse(responseCode = "404", description = "User not found for the given ID")
     public ResponseEntity<Void> delete() {
         log.info("DELETE request received to delete user");
-        User currentUser = authService.authenticationUser();
+        User currentUser = authService.getUser();
         if (!userFacade.delete(currentUser.getId())) {
             log.warn("Unable to delete. User with id {} not found.", currentUser.getId());
             return ResponseEntity.notFound().build();
