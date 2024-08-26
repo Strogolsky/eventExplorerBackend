@@ -7,29 +7,44 @@ import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDTO.EventMapperDTO;
+import cz.cvut.iarylser.service.AuthService;
 import cz.cvut.iarylser.service.EventService;
 import cz.cvut.iarylser.service.EventServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
+
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class EventFacadeImpl implements EventFacade {
     private final EventMapperDTO eventMapper;
     private final EventService eventService;
+    private final AuthService authService;
 
     @Override
     public EventDTO create(EventDTO dto) {
         Event entity = eventMapper.toEntity(dto);
+        User currentUser = authService.authenticationUser();
+        entity.setOrganizer(currentUser.getUsername());
         Event result = eventService.create(entity);
         return eventMapper.toDTO(result);
     }
 
     @Override
-    public EventDTO update(Long id, EventDTO dto) throws EntityNotFoundException, IllegalStateException {
+    public EventDTO update(Long id, EventDTO dto) throws EntityNotFoundException, IllegalStateException, IllegalAccessException {
+        User currentUser = authService.authenticationUser();
+        if(!Objects.equals(dto.getOrganizer(), currentUser.getUsername())) {
+            log.warn("User {} is not the same as the organizer.", currentUser.getUsername());
+            throw new IllegalAccessException("User" + currentUser.getUsername() + " is not the same as the organizer.");
+        }
         Event entity = eventMapper.toEntity(dto);
         Event result = eventService.update(id, entity);
         return eventMapper.toDTO(result);
@@ -60,17 +75,23 @@ public class EventFacadeImpl implements EventFacade {
 
     @Override
     public List<TicketDTO> purchaseTicket(Long eventId, PurchaseRequest request) throws EntityNotFoundException, IllegalStateException {
+        User currentUser = authService.authenticationUser();
+        request.setCustomer(currentUser.getUsername());
+
         return eventService.purchaseTicket(eventId,request);
     }
 
     @Override
     public boolean like(Long eventId, Long userId) {
-        return eventService.like(eventId,userId);
+        User currentUser = authService.authenticationUser();
+
+        return eventService.like(eventId, currentUser.getId());
     }
 
     @Override
-    public boolean unlike(Long eventId, Long userId) {
-        return eventService.unlike(eventId,userId);
+    public boolean unlike(Long eventId, Long userId) { // todo fix userId
+        User currentUser = authService.authenticationUser();
+        return eventService.unlike(eventId,currentUser.getId());
     }
 
     @Override

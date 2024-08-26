@@ -5,9 +5,7 @@ import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.DTO.LikeRequest;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
-import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.facade.EventFacade;
-import cz.cvut.iarylser.helpers.AuthHelper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -31,7 +29,6 @@ import java.util.List;
 @Slf4j
 public class EventController {
     private final EventFacade eventFacade;
-    private final AuthHelper authHelper;
 
 
     @GetMapping
@@ -73,8 +70,6 @@ public class EventController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Event data to create a new event", required = true)
             @RequestBody EventDTO newEvent) {
             log.info("POST request received to create a new event.");
-            User currentUser = authHelper.authenticationUser();
-            newEvent.setOrganizer(currentUser.getUsername());
             EventDTO result = eventFacade.create(newEvent);
             if (result == null){
                 log.info("Failed to create event.");
@@ -104,6 +99,9 @@ public class EventController {
         } catch (IllegalStateException e) {
             log.warn("Failed to update event with ID {}: {}", eventId, e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IllegalAccessException e) {
+            log.warn("Failed to update event with ID {}: {}", eventId, e.getMessage());
+            return  ResponseEntity.badRequest().body(e.getMessage());
         }
     }
     @GetMapping("/user/{userId}")
@@ -135,8 +133,6 @@ public class EventController {
             @RequestBody PurchaseRequest request) {
         log.info("POST request received to purchase tickets for event with ID: {}", eventId);
         try {
-            User currentUser = authHelper.authenticationUser();
-            request.setCustomer(currentUser.getUsername());
             List<TicketDTO> result = eventFacade.purchaseTicket(eventId, request);
             return ResponseEntity.ok(result);
         } catch (EntityNotFoundException e) {
@@ -171,8 +167,6 @@ public class EventController {
     @ApiResponse(responseCode = "404", description = "Event or user not found")
     public ResponseEntity<?> like(@RequestBody LikeRequest request) {
         log.info("PUT request received to like event with ID {} by user with ID {}.", request.getEventId(), request.getUserId());
-        User currentUser = authHelper.authenticationUser();
-        request.setUserId(currentUser.getId());
         if (!eventFacade.like(request.getEventId(), request.getUserId())) {
             log.info("Failed to like event with ID {} by user with ID {}.", request.getEventId(), request.getUserId());
             return ResponseEntity.notFound().build();
@@ -188,8 +182,6 @@ public class EventController {
     public ResponseEntity<?> unlike(
             @RequestBody LikeRequest request) {
         log.info("PUT request received to unlike event with ID {} by user with ID {}.", request.getEventId(), request.getUserId());
-        User currentUser = authHelper.authenticationUser();
-        request.setUserId(currentUser.getId());
         if (!eventFacade.unlike(request.getEventId(), request.getUserId())) {
             log.info("Failed to unlike event with ID {} by user with ID {}.", request.getEventId(), request.getUserId());
             return ResponseEntity.notFound().build();

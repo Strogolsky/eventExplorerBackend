@@ -2,7 +2,7 @@ package cz.cvut.iarylser.controller;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.facade.UserFacadeImpl;
-import cz.cvut.iarylser.helpers.AuthHelper;
+import cz.cvut.iarylser.service.AuthService;
 import cz.cvut.iarylser.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,7 +27,7 @@ import java.util.List;
 public class UserController {
     private final UserFacadeImpl userFacade;
     private final JwtService jwtService;
-    private final AuthHelper authentificationHelper;
+    private final AuthService authService;
 
 
     @GetMapping
@@ -75,7 +75,7 @@ public class UserController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated user object", required = true)
             @RequestBody UserDTO updatedUser) {
         log.info("PUT request received to update user");
-        User CurrentUser = authentificationHelper.authenticationUser();
+        User CurrentUser = authService.authenticationUser();
         try {
             userFacade.update(CurrentUser.getId(), updatedUser);
             String newToken = jwtService.generateToken(CurrentUser);
@@ -96,7 +96,7 @@ public class UserController {
     @ApiResponse(responseCode = "404", description = "User not found for the given ID")
     public ResponseEntity<Void> delete() {
         log.info("DELETE request received to delete user");
-        User currentUser = authentificationHelper.authenticationUser();
+        User currentUser = authService.authenticationUser();
         if (!userFacade.delete(currentUser.getId())) {
             log.warn("Unable to delete. User with id {} not found.", currentUser.getId());
             return ResponseEntity.notFound().build();
