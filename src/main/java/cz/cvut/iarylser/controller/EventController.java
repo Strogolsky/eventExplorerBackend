@@ -171,6 +171,8 @@ public class EventController {
     @ApiResponse(responseCode = "404", description = "Event or user not found")
     public ResponseEntity<?> like(@RequestBody LikeRequest request) {
         log.info("PUT request received to like event with ID {} by user with ID {}.", request.getEventId(), request.getUserId());
+        User currentUser = authHelper.authenticationUser();
+        request.setUserId(currentUser.getId());
         if (!eventFacade.like(request.getEventId(), request.getUserId())) {
             log.info("Failed to like event with ID {} by user with ID {}.", request.getEventId(), request.getUserId());
             return ResponseEntity.notFound().build();
@@ -186,6 +188,8 @@ public class EventController {
     public ResponseEntity<?> unlike(
             @RequestBody LikeRequest request) {
         log.info("PUT request received to unlike event with ID {} by user with ID {}.", request.getEventId(), request.getUserId());
+        User currentUser = authHelper.authenticationUser();
+        request.setUserId(currentUser.getId());
         if (!eventFacade.unlike(request.getEventId(), request.getUserId())) {
             log.info("Failed to unlike event with ID {} by user with ID {}.", request.getEventId(), request.getUserId());
             return ResponseEntity.notFound().build();
