@@ -2,7 +2,7 @@ package cz.cvut.iarylser.controller;
 import cz.cvut.iarylser.dao.DTO.JwtAuthenticationResponse;
 import cz.cvut.iarylser.dao.DTO.SignInRequest;
 import cz.cvut.iarylser.dao.DTO.SignUpRequest;
-import cz.cvut.iarylser.service.AuthenticationService;
+import cz.cvut.iarylser.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
-    private final AuthenticationService authenticationService;
+    private final AuthService authService;
 
     @PostMapping("/sign-up")
     @Operation(summary = "Sign up")
@@ -26,7 +26,7 @@ public class AuthController {
     @ApiResponse(responseCode = "403", description = "This user already exists")
     public JwtAuthenticationResponse signUp(@RequestBody @Valid SignUpRequest request) {
         log.info("POST request for sign up");
-        return authenticationService.signUp(request);
+        return authService.signUp(request);
     }
 
     @PostMapping("/sign-in")
@@ -35,6 +35,6 @@ public class AuthController {
     @ApiResponse(responseCode = "403", description = "Incorrect username or password")
     public JwtAuthenticationResponse signIn(@RequestBody @Valid SignInRequest request) {
         log.info("POST request for sign in");
-        return authenticationService.signIn(request);
+        return authService.signIn(request);
     }
 }

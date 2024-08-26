@@ -5,8 +5,9 @@ import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.DTO.LikeRequest;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
+import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.facade.EventFacade;
-import cz.cvut.iarylser.facade.EventFacadeImpl;
+import cz.cvut.iarylser.helpers.AuthHelper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -16,7 +17,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +31,7 @@ import java.util.List;
 @Slf4j
 public class EventController {
     private final EventFacade eventFacade;
+    private final AuthHelper authHelper;
 
 
     @GetMapping
@@ -72,6 +73,8 @@ public class EventController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Event data to create a new event", required = true)
             @RequestBody EventDTO newEvent) {
             log.info("POST request received to create a new event.");
+            User currentUser = authHelper.authenticationUser();
+            newEvent.setOrganizer(currentUser.getUsername());
             EventDTO result = eventFacade.create(newEvent);
             if (result == null){
                 log.info("Failed to create event.");
@@ -132,6 +135,8 @@ public class EventController {
             @RequestBody PurchaseRequest request) {
         log.info("POST request received to purchase tickets for event with ID: {}", eventId);
         try {
+            User currentUser = authHelper.authenticationUser();
+            request.setCustomer(currentUser.getUsername());
             List<TicketDTO> result = eventFacade.purchaseTicket(eventId, request);
             return ResponseEntity.ok(result);
         } catch (EntityNotFoundException e) {

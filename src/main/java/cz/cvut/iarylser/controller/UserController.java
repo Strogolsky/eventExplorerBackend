@@ -2,6 +2,7 @@ package cz.cvut.iarylser.controller;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.facade.UserFacadeImpl;
+import cz.cvut.iarylser.helpers.AuthHelper;
 import cz.cvut.iarylser.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +27,7 @@ import java.util.List;
 public class UserController {
     private final UserFacadeImpl userFacade;
     private final JwtService jwtService;
+    private final AuthHelper authentificationHelper;
 
 
     @GetMapping
@@ -74,7 +75,7 @@ public class UserController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated user object", required = true)
             @RequestBody UserDTO updatedUser) {
         log.info("PUT request received to update user");
-        User CurrentUser = authenticationUser();
+        User CurrentUser = authentificationHelper.authenticationUser();
         try {
             userFacade.update(CurrentUser.getId(), updatedUser);
             String newToken = jwtService.generateToken(CurrentUser);
@@ -95,19 +96,12 @@ public class UserController {
     @ApiResponse(responseCode = "404", description = "User not found for the given ID")
     public ResponseEntity<Void> delete() {
         log.info("DELETE request received to delete user");
-        User currentUser = authenticationUser();
+        User currentUser = authentificationHelper.authenticationUser();
         if (!userFacade.delete(currentUser.getId())) {
             log.warn("Unable to delete. User with id {} not found.", currentUser.getId());
             return ResponseEntity.notFound().build();
         }
         SecurityContextHolder.clearContext();
         return ResponseEntity.noContent().build();
-    }
-    private User authenticationUser(){
-        log.info("Authentification user");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User CurrentUser = (User) authentication.getPrincipal();
-        log.info("Current user with ID: {}", CurrentUser.getId());
-        return CurrentUser;
     }
 }

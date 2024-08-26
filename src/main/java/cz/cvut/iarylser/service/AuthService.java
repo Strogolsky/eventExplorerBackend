@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthService {
     private final UserServiceImpl userService;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
