@@ -6,7 +6,6 @@ import cz.cvut.iarylser.dao.DTO.LikeRequest;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
 import cz.cvut.iarylser.facade.EventFacade;
-import cz.cvut.iarylser.facade.EventFacadeImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -14,8 +13,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,14 +25,12 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value = "/events")
+@RequiredArgsConstructor
 @Slf4j
 public class EventController {
     private final EventFacade eventFacade;
 
-    @Autowired
-    public EventController(EventFacadeImpl eventFacade) {
-        this.eventFacade = eventFacade;
-    }
+
     @GetMapping
     @Operation(summary = "Get all events",
             description = "Retrieves a list of all events available in the system.")
@@ -102,6 +99,9 @@ public class EventController {
         } catch (IllegalStateException e) {
             log.warn("Failed to update event with ID {}: {}", eventId, e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IllegalAccessException e) {
+            log.warn("Failed to update event with ID {}: {}", eventId, e.getMessage());
+            return  ResponseEntity.badRequest().body(e.getMessage());
         }
     }
     @GetMapping("/user/{userId}")
@@ -153,11 +153,17 @@ public class EventController {
             @Parameter(description = "ID of the event to be deleted", required = true)
             @PathVariable Long eventId) {
         log.info("DELETE request received to delete event with ID: {}", eventId);
-        if (!eventFacade.delete(eventId)) {
-            log.info("Event with ID {} not found for delete.", eventId);
-            return ResponseEntity.notFound().build();
+        try {
+            if(!eventFacade.delete(eventId)) {
+                log.info("Event with ID {} not found for delete.", eventId);
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.noContent().build();
+        } catch (IllegalAccessException e){
+            log.warn("Failed to delete event with ID {}: {}", eventId, e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.noContent().build();
+
     }
 
     @PutMapping("/like")

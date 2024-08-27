@@ -44,7 +44,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public Event create(Event newEvent) {
         log.info("Creating new event: {}", newEvent);
-        User organizer = userRepository.findByNickname(newEvent.getOrganizer());
+        User organizer = userRepository.findByUsername(newEvent.getOrganizer());
         if (organizer == null) {
             log.warn("Organizer with nickname {} not found", newEvent.getOrganizer());
             return null;
@@ -63,7 +63,7 @@ public class EventServiceImpl implements EventService {
         log.info("Purchasing {} tickets for event with id: {} for customer: {}", request.getQuantity(), eventId, request.getCustomer());
 
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EntityNotFoundException("Event with id " + eventId + " not found"));
-        User customer = userRepository.findByNickname(request.getCustomer());
+        User customer = userRepository.findByUsername(request.getCustomer());
         if (customer == null) {
             throw new EntityNotFoundException("User with nickname " + request.getCustomer() + " not found");
         }
@@ -73,7 +73,7 @@ public class EventServiceImpl implements EventService {
         }
 
         if (event.isAgeRestriction() && customer.getAge() < 18) {
-            throw new IllegalStateException("User " + customer.getNickname() + " does not meet the age requirement for event " + eventId);
+            throw new IllegalStateException("User " + customer.getUsername() + " does not meet the age requirement for event " + eventId);
         }
 
         List<Ticket> tickets = new ArrayList<>();
@@ -137,8 +137,8 @@ public class EventServiceImpl implements EventService {
     }
     @Override
     public void updateForOrgChange(Event event, User organizer) {
-        log.info("Updating organizer for event with id: {} to {}", event.getId(), organizer.getNickname());
-        event.setOrganizer(organizer.getNickname());
+        log.info("Updating organizer for event with id: {} to {}", event.getId(), organizer.getUsername());
+        event.setOrganizer(organizer.getUsername());
         eventRepository.save(event);
     }
     @Override

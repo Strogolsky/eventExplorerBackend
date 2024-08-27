@@ -1,5 +1,6 @@
 package cz.cvut.iarylser.service;
 import cz.cvut.iarylser.dao.entity.Event;
+import cz.cvut.iarylser.dao.entity.Role;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -8,9 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import javax.naming.AuthenticationException;
 import java.util.List;
 
 @Service
@@ -35,10 +37,10 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public User create(User newUser) throws IllegalArgumentException{
-        log.info("Creating new user with nickname: {}", newUser.getNickname());
-        if(userRepository.existsByNickname(newUser.getNickname())) {
-            log.warn("User with nickname {} already exists", newUser.getNickname());
-            throw new IllegalArgumentException("User with this nickname already exists");
+        log.info("Creating new user with nickname: {}", newUser.getUsername());
+        if(userRepository.existsByUsername(newUser.getUsername())) {
+            log.warn("User with username {} already exists", newUser.getUsername());
+            throw new IllegalArgumentException("User with this username already exists");
         }
         log.info("User is created");
         return userRepository.save(newUser);
@@ -54,13 +56,13 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException("User with id " + userId + " not found");
         }
 
-        if(userRepository.existsByNickname(updatedUser.getNickname())) {
-            log.warn("User with nickname {} already exists", updatedUser.getNickname());
+        if(userRepository.existsByUsername(updatedUser.getUsername())) {
+            log.warn("User with nickname {} already exists", updatedUser.getUsername());
             throw new IllegalArgumentException("User with this nickname already exists");
         }
 
-        if (updatedUser.getNickname() != null && !updatedUser.getNickname().isEmpty()) {
-            existingUser.setNickname(updatedUser.getNickname());
+        if (updatedUser.getUsername() != null && !updatedUser.getUsername().isEmpty()) {
+            existingUser.setUsername(updatedUser.getUsername());
         }
         if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
             existingUser.setPassword(updatedUser.getPassword());
@@ -95,21 +97,29 @@ public class UserServiceImpl implements UserService {
         log.info("Deleted user with id: {}", userId);
         return true;
     }
-    @Override
-    public User authenticateUser(String nickname, String password) throws AuthenticationException {
-        log.info("Authenticating user with nickname: {}", nickname);
-        User user = userRepository.findByNickname(nickname);
 
+    public User getByUsername(String username) throws EntityNotFoundException{
+        User user = userRepository.findByUsername(username);
         if (user == null) {
-            log.warn("Authentication failed: user with nickname {} not found", nickname);
-            throw new AuthenticationException("User not found");
+            log.warn("User with username {} not found for update", username);
+            throw new EntityNotFoundException("User with username " + username + " not found");
         }
-
-        if (!user.getPassword().equals(password)) {
-            log.warn("Authentication failed: incorrect password for user with nickname {}", nickname);
-            throw new AuthenticationException("Incorrect password");
-        }
-        log.info("User authenticated successfully");
         return user;
+    }
+
+    public UserDetailsService userDetailsService() {
+        return this::getByUsername;
+    }
+
+    public User getCurrentUser() {
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return getByUsername(username);
+    }
+
+    @Deprecated
+    public void getAdmin() {
+        User user = getCurrentUser();
+        user.setRole(Role.ROLE_ADMIN);
+        userRepository.save(user);
     }
 }
