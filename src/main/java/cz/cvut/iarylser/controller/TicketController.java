@@ -1,7 +1,6 @@
 package cz.cvut.iarylser.controller;
 
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
-import cz.cvut.iarylser.facade.TicketFacade;
 import cz.cvut.iarylser.facade.TicketFacadeImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -23,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class TicketController {
-    private final TicketFacade ticketFacade;
+    private final TicketFacadeImpl ticketFacade;
 
     @GetMapping("/{ticketId}")
     @Operation(summary = "Get Ticket by ID",
