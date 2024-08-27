@@ -3,7 +3,6 @@ package cz.cvut.iarylser.dao.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.redis.core.RedisHash;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +11,7 @@ import java.io.Serializable;
 import java.util.*;
 
 @Entity
-@Table(name = "users") // todo fix
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +20,7 @@ public class User implements Serializable, UserDetails {
     @Column(name = "id_user")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "nickname", unique = true) // todo fix
+    @Column(name = "username", unique = true)
     private String username;
     @Column(name = "password")
     private String password;
