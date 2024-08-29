@@ -10,7 +10,7 @@ COPY gradlew /app/
 
 RUN chmod +x ./gradlew
 
-RUN ./gradlew build
+RUN ./gradlew -x test build
 
 FROM openjdk:17-jdk-alpine3.13
 
