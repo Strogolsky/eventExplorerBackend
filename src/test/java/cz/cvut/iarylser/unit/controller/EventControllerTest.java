@@ -1,16 +1,14 @@
-package cz.cvut.iarylser.controller;
+package cz.cvut.iarylser.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cz.cvut.iarylser.controller.EventController;
 import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.DTO.LikeRequest;
 import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
-import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.TicketStatus;
 import cz.cvut.iarylser.dao.entity.Topics;
-import cz.cvut.iarylser.dao.mappersDTO.EventMapperDTO;
 import cz.cvut.iarylser.facade.EventFacadeImpl;
-import cz.cvut.iarylser.service.EventServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +27,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(EventController.class)
 class EventControllerTest {

@@ -1,4 +1,4 @@
-package cz.cvut.iarylser.service;
+package cz.cvut.iarylser.unit.service;
 
 import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
@@ -10,6 +10,8 @@ import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
 import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
+import cz.cvut.iarylser.service.EventServiceImpl;
+import cz.cvut.iarylser.service.TicketServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

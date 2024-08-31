@@ -1,8 +1,10 @@
-package cz.cvut.iarylser.service;
+package cz.cvut.iarylser.unit.service;
 
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
 import cz.cvut.iarylser.dao.repository.UserRepository;
+import cz.cvut.iarylser.service.EventServiceImpl;
+import cz.cvut.iarylser.service.UserServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

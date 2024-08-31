@@ -1,6 +1,8 @@
-package cz.cvut.iarylser.dao.repository;
+package cz.cvut.iarylser.unit.dao.repository;
 
 import cz.cvut.iarylser.dao.entity.Event;
+import cz.cvut.iarylser.dao.repository.EventRepository;
+import cz.cvut.iarylser.dao.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

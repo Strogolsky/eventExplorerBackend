@@ -1,7 +1,8 @@
-package cz.cvut.iarylser.dao.repository;
+package cz.cvut.iarylser.unit.dao.repository;
 
 import cz.cvut.iarylser.dao.entity.Role;
 import cz.cvut.iarylser.dao.entity.User;
+import cz.cvut.iarylser.dao.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

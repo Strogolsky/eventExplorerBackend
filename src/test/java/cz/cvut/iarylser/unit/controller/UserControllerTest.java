@@ -1,6 +1,7 @@
-package cz.cvut.iarylser.controller;
+package cz.cvut.iarylser.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cz.cvut.iarylser.controller.UserController;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.facade.UserFacadeImpl;
 import org.junit.jupiter.api.BeforeEach;

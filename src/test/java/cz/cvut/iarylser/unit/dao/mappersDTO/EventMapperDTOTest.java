@@ -1,4 +1,4 @@
-package cz.cvut.iarylser.dao.mappersDTO;
+package cz.cvut.iarylser.unit.dao.mappersDTO;
 
 import org.junit.jupiter.api.Test;
 
