@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
 
 import javax.naming.AuthenticationException;
 import java.util.Arrays;
@@ -24,6 +25,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@ContextConfiguration(classes = UserServiceImpl.class)
 class UserServiceImplTest {
 
     @MockBean
@@ -34,7 +36,7 @@ class UserServiceImplTest {
     private EventServiceImpl eventServiceImpl;
 
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    private UserServiceImpl userService;
 
     private User user1, user2;
 
@@ -55,11 +57,14 @@ class UserServiceImplTest {
 
         when(userRepository.findAll()).thenReturn(users);
 
-        List<User> result = userServiceImpl.getAll();
+        List<User> result = userService.getAll();
+
         assertFalse(result.isEmpty());
         assertEquals(2, result.size());
         assertEquals("user1", result.get(0).getUsername());
         assertEquals("user2", result.get(1).getUsername());
+
+        Mockito.verify(userRepository).findAll();
     }
 
     @Test
@@ -69,7 +74,7 @@ class UserServiceImplTest {
 
         //when
         when(userRepository.findById(id)).thenReturn(Optional.ofNullable(user1));
-        User found = userServiceImpl.getById(id);
+        User found = userService.getById(id);
 
         //then
         assertNotNull(found);
@@ -80,7 +85,7 @@ class UserServiceImplTest {
     void createUserSucceeded() {
         // when
         when(userRepository.save(any(User.class))).thenReturn(user1);
-        User result = userServiceImpl.create(user1);
+        User result = userService.create(user1);
         //then
         assertEquals(user1, result);
         Mockito.verify(userRepository).save(user1);
@@ -93,7 +98,7 @@ class UserServiceImplTest {
         when(userRepository.existsByUsername(anyString())).thenReturn(true);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            userServiceImpl.create(newUser);
+            userService.create(newUser);
         });
     }
     @Test
@@ -101,7 +106,7 @@ class UserServiceImplTest {
         Long userId = 1L;
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        User result = userServiceImpl.update(userId, new User());
+        User result = userService.update(userId, new User());
 
         assertNull(result);
     }
@@ -120,7 +125,7 @@ class UserServiceImplTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
         when(userRepository.save(any(User.class))).thenReturn(updatedUser);
 
-        User result = userServiceImpl.update(userId, updatedUser);
+        User result = userService.update(userId, updatedUser);
 
         assertNotNull(result);
         assertEquals("NewNickname", result.getUsername());
@@ -135,7 +140,7 @@ class UserServiceImplTest {
         Mockito.when(userRepository.existsById(userId)).thenReturn(true);
 
         // when
-        boolean result = userServiceImpl.delete(userId);
+        boolean result = userService.delete(userId);
 
         //then
         assertTrue(result);
@@ -147,7 +152,7 @@ class UserServiceImplTest {
         Long userId = 1L;
         when(userRepository.existsById(userId)).thenReturn(false);
 
-        boolean result = userServiceImpl.delete(userId);
+        boolean result = userService.delete(userId);
 
         assertFalse(result);
     }
@@ -167,7 +172,7 @@ class UserServiceImplTest {
 
         IllegalArgumentException thrown = assertThrows(
                 IllegalArgumentException.class,
-                () -> userServiceImpl.update(userId, updatedUser),
+                () -> userService.update(userId, updatedUser),
                 "Expected updateUser to throw, but it didn't"
         );
 
