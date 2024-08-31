@@ -2,8 +2,6 @@ package cz.cvut.iarylser.dao.repository;
 
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.User;
-import cz.cvut.iarylser.dao.repository.EventRepository;
-import cz.cvut.iarylser.dao.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -12,7 +10,6 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 class EventRepositoryTest {
 
@@ -27,11 +24,11 @@ class EventRepositoryTest {
     @Test
     public void FindByLikedGreaterThanExist() {
         User user1 = new User();
-        user1.setNickname("User1");
+        user1.setUsername("User1");
         userRepository.save(user1);
 
         User user2 = new User();
-        user2.setNickname("User2");
+        user2.setUsername("User2");
         userRepository.save(user2);
 
         Event event1 = new Event();
@@ -52,11 +49,11 @@ class EventRepositoryTest {
     @Test
     public void FindByLikedGreaterThanNotExist() {
         User user1 = new User();
-        user1.setNickname("User1");
+        user1.setUsername("User1");
         userRepository.save(user1);
 
         User user2 = new User();
-        user2.setNickname("User2");
+        user2.setUsername("User2");
         userRepository.save(user2);
 
         Event event1 = new Event();

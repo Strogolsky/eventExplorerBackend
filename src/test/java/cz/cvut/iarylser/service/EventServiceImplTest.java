@@ -155,9 +155,9 @@ class EventServiceImplTest {
 
         User organizer = new User();
         organizer.setId(10L);
-        organizer.setNickname("OrganizerName");
+        organizer.setUsername("OrganizerName");
 
-        when(userRepository.findByNickname("OrganizerName")).thenReturn(organizer);
+        when(userRepository.findByUsername("OrganizerName")).thenReturn(organizer);
         when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
 
         Event createdEvent = eventServiceImpl.create(newEvent);
@@ -165,7 +165,7 @@ class EventServiceImplTest {
         assertEventsEqual(newEvent, createdEvent);
         assertTrue(organizer.getCreatedEvents().contains(createdEvent));
 
-        Mockito.verify(userRepository).findByNickname("OrganizerName");
+        Mockito.verify(userRepository).findByUsername("OrganizerName");
         Mockito.verify(userRepository).save(organizer);
         Mockito.verify(eventRepository).save(newEvent);
     }
@@ -174,7 +174,7 @@ class EventServiceImplTest {
     void createEventFailure() {
         Event newEvent = new Event();
         newEvent.setOrganizer("nonexistent_organizer");
-        when(userRepository.findByNickname(anyString())).thenReturn(null);
+        when(userRepository.findByUsername(anyString())).thenReturn(null);
 
         Event result = eventServiceImpl.create(newEvent);
         assertNull(result);
@@ -202,7 +202,7 @@ class EventServiceImplTest {
         event.getTickets().add(ticket3);
 
         User customer = new User();
-        customer.setNickname(customerNickname);
+        customer.setUsername(customerNickname);
         customer.setAge(age);
 
         PurchaseRequest request = new PurchaseRequest();
@@ -215,7 +215,7 @@ class EventServiceImplTest {
         List<TicketDTO> ticketDTOs = List.of(new TicketDTO(), new TicketDTO());
 
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
-        when(userRepository.findByNickname(customerNickname)).thenReturn(customer);
+        when(userRepository.findByUsername(customerNickname)).thenReturn(customer);
         when(ticketServiceImpl.create(Mockito.any(), Mockito.any())).thenReturn(ticket1, ticket2);
         when(ticketMapperDTO.toDTOList(tickets)).thenReturn(ticketDTOs);
 
@@ -225,7 +225,7 @@ class EventServiceImplTest {
         assertNotNull(result);
         assertEquals(2, result.size());
         Mockito.verify(eventRepository).findById(eventId);
-        Mockito.verify(userRepository).findByNickname(customerNickname);
+        Mockito.verify(userRepository).findByUsername(customerNickname);
         Mockito.verify(ticketServiceImpl, Mockito.times(quantity)).create(Mockito.any(Event.class), Mockito.any(User.class));
         Mockito.verify(eventRepository).save(event);
         Mockito.verify(userRepository).save(customer);
@@ -316,13 +316,13 @@ class EventServiceImplTest {
         event.setOrganizer("Original Organizer");
 
         User newOrganizer = new User();
-        newOrganizer.setNickname("New Organizer");
+        newOrganizer.setUsername("New Organizer");
 
         when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
 
         eventServiceImpl.updateForOrgChange(event, newOrganizer);
 
-        assertEquals(newOrganizer.getNickname(), event.getOrganizer());
+        assertEquals(newOrganizer.getUsername(), event.getOrganizer());
         Mockito.verify(eventRepository).save(event);
     }
 

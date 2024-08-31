@@ -56,8 +56,8 @@ class UserServiceImplTest {
         List<User> result = userServiceImpl.getAll();
         assertFalse(result.isEmpty());
         assertEquals(2, result.size());
-        assertEquals("user1", result.get(0).getNickname());
-        assertEquals("user2", result.get(1).getNickname());
+        assertEquals("user1", result.get(0).getUsername());
+        assertEquals("user2", result.get(1).getUsername());
     }
 
     @Test
@@ -87,8 +87,8 @@ class UserServiceImplTest {
     @Test
     void createUserFailure() {
         User newUser = new User();
-        newUser.setNickname("existing_nickname");
-        when(userRepository.existsByNickname(anyString())).thenReturn(true);
+        newUser.setUsername("existing_nickname");
+        when(userRepository.existsByUsername(anyString())).thenReturn(true);
 
         assertThrows(IllegalArgumentException.class, () -> {
             userServiceImpl.create(newUser);
@@ -109,11 +109,11 @@ class UserServiceImplTest {
         Long userId = 1L;
         User existingUser = new User();
         existingUser.setId(userId);
-        existingUser.setNickname("OldNickname");
+        existingUser.setUsername("OldNickname");
 
         User updatedUser = new User();
         updatedUser.setId(userId);
-        updatedUser.setNickname("NewNickname");
+        updatedUser.setUsername("NewNickname");
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
         when(userRepository.save(any(User.class))).thenReturn(updatedUser);
@@ -121,7 +121,7 @@ class UserServiceImplTest {
         User result = userServiceImpl.update(userId, updatedUser);
 
         assertNotNull(result);
-        assertEquals("NewNickname", result.getNickname());
+        assertEquals("NewNickname", result.getUsername());
         Mockito.verify(userRepository).findById(userId);
         Mockito.verify(userRepository).save(existingUser);
     }
@@ -149,35 +149,19 @@ class UserServiceImplTest {
 
         assertFalse(result);
     }
-    @Test
-    public void authenticateUserSucceeds() throws AuthenticationException {
-        String nickname = "testUser";
-        String password = "testPassword";
-        User mockUser = new User();
-        mockUser.setNickname(nickname);
-        mockUser.setPassword(password);
-
-        when(userRepository.findByNickname(nickname)).thenReturn(mockUser);
-
-        User result = userServiceImpl.authenticateUser(nickname, password);
-
-        assertNotNull(result);
-        assertEquals(nickname, result.getNickname());
-        assertEquals(password, result.getPassword());
-    }
 
     @Test
     void updateUserFailureNicknameExist(){
         Long userId = 1L;
         User existingUser = new User();
         existingUser.setId(userId);
-        existingUser.setNickname("originalNickname");
+        existingUser.setUsername("originalNickname");
 
         User updatedUser = new User();
-        updatedUser.setNickname("existingNickname");
+        updatedUser.setUsername("existingNickname");
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
-        when(userRepository.existsByNickname("existingNickname")).thenReturn(true);
+        when(userRepository.existsByUsername("existingNickname")).thenReturn(true);
 
         IllegalArgumentException thrown = assertThrows(
                 IllegalArgumentException.class,
@@ -186,24 +170,15 @@ class UserServiceImplTest {
         );
 
     }
-    @Test
-    void authenticateUserFailure() {
-        String nickname = "nonexistent_user";
-        when(userRepository.findByNickname(nickname)).thenReturn(null);
-
-        assertThrows(AuthenticationException.class, () -> {
-            userServiceImpl.authenticateUser(nickname, "password");
-        });
-    }
 
     private void initUsers(){
         user1 = new User();
         user2 = new User();
 
         user1.setId(1L);
-        user1.setNickname("user1");
+        user1.setUsername("user1");
 
         user2.setId(2l);
-        user2.setNickname("user2");
+        user2.setUsername("user2");
     }
 }
