@@ -453,32 +453,5 @@ class EventServiceImplTest {
 
         assertFalse(result);
     }
-    @Test
-    void getByLikedGreaterThanSuccessful() {
-        int likes = 10;
-        Event event1 = new Event();
-        Event event2 = new Event();
-        List<Event> events = Arrays.asList(event1, event2);
-
-        when(eventRepository.findByLikedGreaterThan(likes)).thenReturn(events);
-
-        List<Event> result = eventServiceImpl.getByLikedGreaterThan(likes);
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertTrue(result.containsAll(events));
-    }
-    @Test
-    void getByLikedGreaterThanFailure() {
-        int likes = 10;
-        List<Event> events = new ArrayList<>();
-
-        when(eventRepository.findByLikedGreaterThan(likes)).thenReturn(events);
-
-        List<Event> result = eventServiceImpl.getByLikedGreaterThan(likes);
-
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-    }
 
 }

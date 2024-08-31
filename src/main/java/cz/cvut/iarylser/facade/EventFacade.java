@@ -13,5 +13,4 @@ public interface EventFacade extends CrudFacade<EventDTO, Long> {
     public List<EventDTO> getByUserId(Long id);
     public boolean like(Long eventId, Long userId);
     public boolean unlike(Long eventId, Long userId);
-    public List<EventDTO> getByLikedGreaterThan(int likes);
 }

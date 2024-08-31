@@ -1,12 +1,10 @@
 package cz.cvut.iarylser.dao.repository;
 
 import cz.cvut.iarylser.dao.entity.Event;
-import cz.cvut.iarylser.dao.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.Collection;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,55 +19,6 @@ class EventRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Test
-    public void FindByLikedGreaterThanExist() {
-        User user1 = new User();
-        user1.setUsername("User1");
-        userRepository.save(user1);
-
-        User user2 = new User();
-        user2.setUsername("User2");
-        userRepository.save(user2);
-
-        Event event1 = new Event();
-        event1.setTitle("Event1");
-        eventRepository.save(event1);
-
-        event1.getLikeBy().add(user1);
-        event1.getLikeBy().add(user2);
-
-        eventRepository.save(event1);
-
-        int likesThreshold = 1;
-        Collection<Event> results = eventRepository.findByLikedGreaterThan(likesThreshold);
-
-        assertThat(results).contains(event1);
-        assertThat(results).hasSize(1);
-    }
-    @Test
-    public void FindByLikedGreaterThanNotExist() {
-        User user1 = new User();
-        user1.setUsername("User1");
-        userRepository.save(user1);
-
-        User user2 = new User();
-        user2.setUsername("User2");
-        userRepository.save(user2);
-
-        Event event1 = new Event();
-        event1.setTitle("Event1");
-        eventRepository.save(event1);
-
-        event1.getLikeBy().add(user1);
-        event1.getLikeBy().add(user2);
-
-        eventRepository.save(event1);
-
-        int likesThreshold = 2;
-        Collection<Event> results = eventRepository.findByLikedGreaterThan(likesThreshold);
-
-        assertThat(results).hasSize(0);
-    }
     @Test
     public void testFindByIdOrganizer() {
         Long organizerId1 = 1L;

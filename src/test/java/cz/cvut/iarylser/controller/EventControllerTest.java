@@ -340,42 +340,4 @@ class EventControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
     }
-
-    @Test
-    void getByLikedGreaterThanSuccessful() throws Exception {
-        int likes = 10;
-        EventDTO eventDTO1 = new EventDTO();
-        eventDTO1.setId(1L);
-        eventDTO1.setTitle("Event Title 1");
-        eventDTO1.setLikes(15);
-        eventDTO1.setTicketPrice(100);
-
-        EventDTO eventDTO2 = new EventDTO();
-        eventDTO2.setId(2L);
-        eventDTO2.setTitle("Event Title 2");
-        eventDTO2.setLikes(20);
-        eventDTO2.setTicketPrice(150);
-
-        List<EventDTO> dtoList = new ArrayList<>();
-        dtoList.add(eventDTO1);
-        dtoList.add(eventDTO2);
-
-        when(eventFacade.getByLikedGreaterThan(likes)).thenReturn(dtoList);
-
-        mockMvc.perform(get("/events/likes/{likes}", likes))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(dtoList.size())));
-    }
-    @Test
-    void getByLikedGreaterThanNoEventsFound() throws Exception {
-        int likes = 10;
-        when(eventFacade.getByLikedGreaterThan(likes)).thenReturn(new ArrayList<>());
-
-        mockMvc.perform(get("/events/likes/{likes}", likes))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(0)));
-    }
-
 }

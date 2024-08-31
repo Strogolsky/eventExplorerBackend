@@ -94,10 +94,4 @@ public class EventFacadeImpl implements EventFacade {
         User currentUser = authService.getUser();
         return eventService.unlike(eventId,currentUser.getId());
     }
-
-    @Override
-    public List<EventDTO> getByLikedGreaterThan(int likes) {
-        List<Event> result = eventService.getByLikedGreaterThan(likes);
-        return eventMapper.toDTOList(result);
-    }
 }
