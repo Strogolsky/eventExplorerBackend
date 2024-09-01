@@ -238,14 +238,12 @@ class EventServiceImplTest {
     }
 
     @Test
-    void purchaseTicketFailure() {
+    void purchaseTicketEventNotFoundTest() {
         Long eventId = 1L;
         PurchaseRequest request = new PurchaseRequest();
         when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
 
-        List<TicketDTO> result = eventServiceImpl.purchaseTicket(eventId, request);
-
-        assertNull(result);
+        assertThrows(EntityNotFoundException.class, () -> eventServiceImpl.purchaseTicket(eventId, request));
     }
 
     @Test
@@ -259,7 +257,7 @@ class EventServiceImplTest {
     }
 
     @Test
-    void updateEventFailureCapacity() {
+    void updateEventFailureCapacityTest() {
         Long eventId = 1L;
         Event existingEvent = new Event();
         existingEvent.setCapacity(10);
@@ -268,9 +266,7 @@ class EventServiceImplTest {
         updatedEvent.setCapacity(5);
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(existingEvent));
 
-        Event result = eventServiceImpl.update(eventId, updatedEvent);
-
-        assertNull(result);
+        assertThrows(IllegalStateException.class, () -> eventServiceImpl.update(eventId, updatedEvent));
     }
 
 
