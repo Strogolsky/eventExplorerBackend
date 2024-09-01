@@ -12,6 +12,7 @@ import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import cz.cvut.iarylser.service.EventServiceImpl;
 import cz.cvut.iarylser.service.TicketServiceImpl;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -248,14 +249,13 @@ class EventServiceImplTest {
     }
 
     @Test
-    void updateEventFailureNotFound() {
+    void UpdateEventNotFoundTest() {
         Long eventId = 1L;
         Event updatedEvent = new Event();
         when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
 
-        Event result = eventServiceImpl.update(eventId, updatedEvent);
+        assertThrows(EntityNotFoundException.class, () -> eventServiceImpl.update(eventId, updatedEvent));
 
-        assertNull(result);
     }
 
     @Test
