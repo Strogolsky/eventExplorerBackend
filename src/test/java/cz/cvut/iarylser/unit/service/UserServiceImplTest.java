@@ -5,6 +5,7 @@ import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import cz.cvut.iarylser.service.EventServiceImpl;
 import cz.cvut.iarylser.service.UserServiceImpl;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,8 @@ class UserServiceImplTest {
     private UserServiceImpl userService;
 
     private User user1, user2;
+    @Autowired
+    private UserServiceImpl userServiceImpl;
 
 
     @BeforeEach
@@ -102,13 +105,11 @@ class UserServiceImplTest {
         });
     }
     @Test
-    void updateUserFailure() {
+    void UpdateUserNotFoundTest() {
         Long userId = 1L;
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        User result = userService.update(userId, new User());
-
-        assertNull(result);
+        assertThrows(EntityNotFoundException.class, () -> userService.update(userId, new User()));
     }
 
     @Test
