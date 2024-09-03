@@ -1,4 +1,4 @@
-package cz.cvut.iarylser.unit.mappersDTO;
+package cz.cvut.iarylser.unit.dao.mappersDTO;
 
 import cz.cvut.iarylser.dao.DTO.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
@@ -24,6 +24,7 @@ class UserMapperDTOTest {
         userList = new ArrayList<>();
         dtoList = new ArrayList<>();
 
+        entity.setId(1L);
         entity.setUsername("username");
         entity.setEmail("email");
         entity.setFirstName("firstName");
@@ -31,6 +32,7 @@ class UserMapperDTOTest {
         entity.setDescription("description");
 
         dto = new UserDTO();
+        dto.setId(1L);
         dto.setUsername("username");
         dto.setEmail("email");
         dto.setFirstName("firstName");
