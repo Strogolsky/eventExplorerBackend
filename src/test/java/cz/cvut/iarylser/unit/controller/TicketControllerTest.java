@@ -39,10 +39,10 @@ class TicketControllerTest {
     @Test
     void getTicketByIdSucceeded() throws Exception {
         Long ticketId = 1L;
-        TicketDTO mockTicket = new TicketDTO();
-        mockTicket.setId(ticketId);
+        TicketDTO mockTicketDTO = new TicketDTO();
+        mockTicketDTO.setId(ticketId);
 
-        Mockito.when(ticketFacade.getById(ticketId)).thenReturn(mockTicket);
+        Mockito.when(ticketFacade.getById(ticketId)).thenReturn(mockTicketDTO);
 
         mockMvc.perform(get("/tickets/" + ticketId))
                 .andExpect(status().isOk())
