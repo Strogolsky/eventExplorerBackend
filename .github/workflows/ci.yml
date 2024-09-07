@@ -1,0 +1,48 @@
+name: CI Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      build:
+        description: 'Build the project'
+        required: true
+        default: 'true'
+        type: boolean
+      test:
+        description: 'Run tests'
+        required: true
+        default: 'true'
+        type: boolean
+
+jobs:
+  build:
+    if: ${{ github.event.inputs.build == 'true' }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+
+    - name: Build with Gradle
+      run: ./gradlew build
+
+  test:
+    if: ${{ github.event.inputs.test == 'true' }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17' 
+
+    - name: Run tests
+      run: ./gradlew test
