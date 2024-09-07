@@ -16,7 +16,7 @@ on:
 
 jobs:
   build:
-    if: ${{ github.event.inputs.start == 'true' }}
+    if: ${{ github.event.inputs.build == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -37,6 +37,7 @@ jobs:
 
   test:
     needs: build
+    if: ${{ github.event.inputs.test == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
