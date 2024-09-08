@@ -1,4 +1,4 @@
-package cz.cvut.iarylser.service;
+package cz.cvut.iarylser.unit.service;
 
 import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
@@ -10,6 +10,9 @@ import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
 import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
+import cz.cvut.iarylser.service.EventServiceImpl;
+import cz.cvut.iarylser.service.TicketServiceImpl;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -17,6 +20,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -25,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 @SpringBootTest
+@ContextConfiguration(classes = EventServiceImpl.class)
 class EventServiceImplTest {
 
     @MockBean
@@ -155,9 +160,9 @@ class EventServiceImplTest {
 
         User organizer = new User();
         organizer.setId(10L);
-        organizer.setNickname("OrganizerName");
+        organizer.setUsername("OrganizerName");
 
-        when(userRepository.findByNickname("OrganizerName")).thenReturn(organizer);
+        when(userRepository.findByUsername("OrganizerName")).thenReturn(organizer);
         when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
 
         Event createdEvent = eventServiceImpl.create(newEvent);
@@ -165,7 +170,7 @@ class EventServiceImplTest {
         assertEventsEqual(newEvent, createdEvent);
         assertTrue(organizer.getCreatedEvents().contains(createdEvent));
 
-        Mockito.verify(userRepository).findByNickname("OrganizerName");
+        Mockito.verify(userRepository).findByUsername("OrganizerName");
         Mockito.verify(userRepository).save(organizer);
         Mockito.verify(eventRepository).save(newEvent);
     }
@@ -174,7 +179,7 @@ class EventServiceImplTest {
     void createEventFailure() {
         Event newEvent = new Event();
         newEvent.setOrganizer("nonexistent_organizer");
-        when(userRepository.findByNickname(anyString())).thenReturn(null);
+        when(userRepository.findByUsername(anyString())).thenReturn(null);
 
         Event result = eventServiceImpl.create(newEvent);
         assertNull(result);
@@ -202,7 +207,7 @@ class EventServiceImplTest {
         event.getTickets().add(ticket3);
 
         User customer = new User();
-        customer.setNickname(customerNickname);
+        customer.setUsername(customerNickname);
         customer.setAge(age);
 
         PurchaseRequest request = new PurchaseRequest();
@@ -215,7 +220,7 @@ class EventServiceImplTest {
         List<TicketDTO> ticketDTOs = List.of(new TicketDTO(), new TicketDTO());
 
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
-        when(userRepository.findByNickname(customerNickname)).thenReturn(customer);
+        when(userRepository.findByUsername(customerNickname)).thenReturn(customer);
         when(ticketServiceImpl.create(Mockito.any(), Mockito.any())).thenReturn(ticket1, ticket2);
         when(ticketMapperDTO.toDTOList(tickets)).thenReturn(ticketDTOs);
 
@@ -225,7 +230,7 @@ class EventServiceImplTest {
         assertNotNull(result);
         assertEquals(2, result.size());
         Mockito.verify(eventRepository).findById(eventId);
-        Mockito.verify(userRepository).findByNickname(customerNickname);
+        Mockito.verify(userRepository).findByUsername(customerNickname);
         Mockito.verify(ticketServiceImpl, Mockito.times(quantity)).create(Mockito.any(Event.class), Mockito.any(User.class));
         Mockito.verify(eventRepository).save(event);
         Mockito.verify(userRepository).save(customer);
@@ -233,29 +238,26 @@ class EventServiceImplTest {
     }
 
     @Test
-    void purchaseTicketFailure() {
+    void purchaseTicketEventNotFoundTest() {
         Long eventId = 1L;
         PurchaseRequest request = new PurchaseRequest();
         when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
 
-        List<TicketDTO> result = eventServiceImpl.purchaseTicket(eventId, request);
-
-        assertNull(result);
+        assertThrows(EntityNotFoundException.class, () -> eventServiceImpl.purchaseTicket(eventId, request));
     }
 
     @Test
-    void updateEventFailureNotFound() {
+    void UpdateEventNotFoundTest() {
         Long eventId = 1L;
         Event updatedEvent = new Event();
         when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
 
-        Event result = eventServiceImpl.update(eventId, updatedEvent);
+        assertThrows(EntityNotFoundException.class, () -> eventServiceImpl.update(eventId, updatedEvent));
 
-        assertNull(result);
     }
 
     @Test
-    void updateEventFailureCapacity() {
+    void updateEventFailureCapacityTest() {
         Long eventId = 1L;
         Event existingEvent = new Event();
         existingEvent.setCapacity(10);
@@ -264,9 +266,7 @@ class EventServiceImplTest {
         updatedEvent.setCapacity(5);
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(existingEvent));
 
-        Event result = eventServiceImpl.update(eventId, updatedEvent);
-
-        assertNull(result);
+        assertThrows(IllegalStateException.class, () -> eventServiceImpl.update(eventId, updatedEvent));
     }
 
 
@@ -316,13 +316,13 @@ class EventServiceImplTest {
         event.setOrganizer("Original Organizer");
 
         User newOrganizer = new User();
-        newOrganizer.setNickname("New Organizer");
+        newOrganizer.setUsername("New Organizer");
 
         when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
 
         eventServiceImpl.updateForOrgChange(event, newOrganizer);
 
-        assertEquals(newOrganizer.getNickname(), event.getOrganizer());
+        assertEquals(newOrganizer.getUsername(), event.getOrganizer());
         Mockito.verify(eventRepository).save(event);
     }
 
@@ -452,33 +452,6 @@ class EventServiceImplTest {
         boolean result = eventServiceImpl.unlike(eventId, userId);
 
         assertFalse(result);
-    }
-    @Test
-    void getByLikedGreaterThanSuccessful() {
-        int likes = 10;
-        Event event1 = new Event();
-        Event event2 = new Event();
-        List<Event> events = Arrays.asList(event1, event2);
-
-        when(eventRepository.findByLikedGreaterThan(likes)).thenReturn(events);
-
-        List<Event> result = eventServiceImpl.getByLikedGreaterThan(likes);
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertTrue(result.containsAll(events));
-    }
-    @Test
-    void getByLikedGreaterThanFailure() {
-        int likes = 10;
-        List<Event> events = new ArrayList<>();
-
-        when(eventRepository.findByLikedGreaterThan(likes)).thenReturn(events);
-
-        List<Event> result = eventServiceImpl.getByLikedGreaterThan(likes);
-
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
     }
 
 }

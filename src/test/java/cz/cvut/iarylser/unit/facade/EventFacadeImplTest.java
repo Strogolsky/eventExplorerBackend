@@ -1,4 +1,4 @@
-package cz.cvut.iarylser.facade;
+package cz.cvut.iarylser.unit.facade;
 
 import org.junit.jupiter.api.Test;
 

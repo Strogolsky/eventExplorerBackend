@@ -1,4 +1,4 @@
-package cz.cvut.iarylser.dao.entity;
+package cz.cvut.iarylser.unit.dao.entity;
 
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.User;

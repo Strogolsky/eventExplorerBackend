@@ -1,5 +1,6 @@
-package cz.cvut.iarylser.dao.repository;
+package cz.cvut.iarylser.unit.dao.repository;
 
+import cz.cvut.iarylser.dao.entity.Role;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,30 +19,31 @@ class UserRepositoryTest {
     void setUp(){
         user = new User();
         user.setId(1L);
-        user.setNickname("NoizeMC");
+        user.setUsername("NoizeMC");
         user.setAge(38);
         user.setPassword("1234567");
         user.setEmail("Ivan@example.com");
+        user.setRole(Role.ROLE_ADMIN);
     }
 
     @Test
-    void findByNicknameSucceeded() {
+    void findByUsernameSucceeded() {
         //give
         userRepository.save(user);
         String nickname = "NoizeMC";
         //when
-        User found = userRepository.findByNickname(nickname);
+        User found = userRepository.findByUsername(nickname);
         //then
         assertNotNull(found);
-        assertEquals(found.getNickname(), user.getNickname());
+        assertEquals(found.getUsername(), user.getUsername());
     }
     @Test
-    void findByNicknameFailure() {
+    void findByUsernameFailure() {
         //give
         userRepository.save(user);
         String nickname = "unknowedUser";
         //when
-        User found = userRepository.findByNickname(nickname);
+        User found = userRepository.findByUsername(nickname);
         //then
         assertNull(found);
     }

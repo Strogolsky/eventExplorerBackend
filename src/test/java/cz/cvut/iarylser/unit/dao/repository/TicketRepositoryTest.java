@@ -1,4 +1,4 @@
-package cz.cvut.iarylser.dao.repository;
+package cz.cvut.iarylser.unit.dao.repository;
 
 import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.repository.TicketRepository;

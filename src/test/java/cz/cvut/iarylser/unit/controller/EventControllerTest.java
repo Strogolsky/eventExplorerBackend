@@ -1,16 +1,14 @@
-package cz.cvut.iarylser.controller;
+package cz.cvut.iarylser.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cz.cvut.iarylser.controller.EventController;
 import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.DTO.LikeRequest;
 import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
-import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.TicketStatus;
 import cz.cvut.iarylser.dao.entity.Topics;
-import cz.cvut.iarylser.dao.mappersDTO.EventMapperDTO;
 import cz.cvut.iarylser.facade.EventFacadeImpl;
-import cz.cvut.iarylser.service.EventServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +27,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(EventController.class)
 class EventControllerTest {
@@ -340,42 +336,4 @@ class EventControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
     }
-
-    @Test
-    void getByLikedGreaterThanSuccessful() throws Exception {
-        int likes = 10;
-        EventDTO eventDTO1 = new EventDTO();
-        eventDTO1.setId(1L);
-        eventDTO1.setTitle("Event Title 1");
-        eventDTO1.setLikes(15);
-        eventDTO1.setTicketPrice(100);
-
-        EventDTO eventDTO2 = new EventDTO();
-        eventDTO2.setId(2L);
-        eventDTO2.setTitle("Event Title 2");
-        eventDTO2.setLikes(20);
-        eventDTO2.setTicketPrice(150);
-
-        List<EventDTO> dtoList = new ArrayList<>();
-        dtoList.add(eventDTO1);
-        dtoList.add(eventDTO2);
-
-        when(eventFacade.getByLikedGreaterThan(likes)).thenReturn(dtoList);
-
-        mockMvc.perform(get("/events/likes/{likes}", likes))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(dtoList.size())));
-    }
-    @Test
-    void getByLikedGreaterThanNoEventsFound() throws Exception {
-        int likes = 10;
-        when(eventFacade.getByLikedGreaterThan(likes)).thenReturn(new ArrayList<>());
-
-        mockMvc.perform(get("/events/likes/{likes}", likes))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(0)));
-    }
-
 }

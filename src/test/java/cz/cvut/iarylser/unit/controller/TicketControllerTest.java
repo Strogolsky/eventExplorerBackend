@@ -1,11 +1,9 @@
-package cz.cvut.iarylser.controller;
+package cz.cvut.iarylser.unit.controller;
 
+import cz.cvut.iarylser.controller.TicketController;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Ticket;
-import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
-import cz.cvut.iarylser.facade.TicketFacade;
 import cz.cvut.iarylser.facade.TicketFacadeImpl;
-import cz.cvut.iarylser.service.TicketServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -41,10 +39,10 @@ class TicketControllerTest {
     @Test
     void getTicketByIdSucceeded() throws Exception {
         Long ticketId = 1L;
-        TicketDTO mockTicket = new TicketDTO();
-        mockTicket.setId(ticketId);
+        TicketDTO mockTicketDTO = new TicketDTO();
+        mockTicketDTO.setId(ticketId);
 
-        Mockito.when(ticketFacade.getById(ticketId)).thenReturn(mockTicket);
+        Mockito.when(ticketFacade.getById(ticketId)).thenReturn(mockTicketDTO);
 
         mockMvc.perform(get("/tickets/" + ticketId))
                 .andExpect(status().isOk())

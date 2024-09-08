@@ -1,12 +1,9 @@
-package cz.cvut.iarylser.controller;
+package cz.cvut.iarylser.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cz.cvut.iarylser.dao.DTO.LoginRequest;
+import cz.cvut.iarylser.controller.UserController;
 import cz.cvut.iarylser.dao.DTO.UserDTO;
-import cz.cvut.iarylser.dao.entity.User;
-import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
 import cz.cvut.iarylser.facade.UserFacadeImpl;
-import cz.cvut.iarylser.service.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -28,7 +25,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import javax.naming.AuthenticationException;
 @WebMvcTest(UserController.class)
 class UserControllerTest {
 
@@ -50,8 +46,8 @@ class UserControllerTest {
 
         UserDTO userDTO1 = new UserDTO();
         UserDTO userDTO2 = new UserDTO();
-        userDTO1.setNickname("user1");
-        userDTO2.setNickname("user2");
+        userDTO1.setUsername("user1");
+        userDTO2.setUsername("user2");
         List<UserDTO> userDTOs = Arrays.asList(userDTO1, userDTO2);
 
         when(userFacade.getAll()).thenReturn(userDTOs);
@@ -59,8 +55,8 @@ class UserControllerTest {
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].nickname").value(userDTO1.getNickname()))
-                .andExpect(jsonPath("$[1].nickname").value(userDTO2.getNickname()));
+                .andExpect(jsonPath("$[0].nickname").value(userDTO1.getUsername()))
+                .andExpect(jsonPath("$[1].nickname").value(userDTO2.getUsername()));
     }
 
     @Test
@@ -70,15 +66,16 @@ class UserControllerTest {
 
         UserDTO userDTO = new UserDTO();
         userDTO.setId(userId);
-        userDTO.setNickname(userNickname);
+        userDTO.setUsername(userNickname);
 
         when(userFacade.getById(userId)).thenReturn(userDTO);
 
         mockMvc.perform(get("/users/" + userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(userDTO.getId()))
-                .andExpect(jsonPath("$.nickname").value(userDTO.getNickname()));
+                .andExpect(jsonPath("$.nickname").value(userDTO.getUsername()));
     }
+
     @Test
     void getUserByIdFailure() throws Exception {
         Long userId = 1L;
@@ -92,7 +89,7 @@ class UserControllerTest {
     void createUserSuccesful() throws Exception {
 
         UserDTO userDTO = new UserDTO();
-        userDTO.setNickname("testUser");
+        userDTO.setUsername("testUser");
         userDTO.setAge(25);
         userDTO.setEmail("test@example.com");
         userDTO.setFirstName("John");
@@ -107,7 +104,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nickname").value(userDTO.getNickname()))
+                .andExpect(jsonPath("$.nickname").value(userDTO.getUsername()))
                 .andExpect(jsonPath("$.age").value(userDTO.getAge()))
                 .andExpect(jsonPath("$.email").value(userDTO.getEmail()))
                 .andExpect(jsonPath("$.firstName").value(userDTO.getFirstName()))
@@ -134,7 +131,7 @@ class UserControllerTest {
 
         UserDTO updatedUserDTO = new UserDTO();
         updatedUserDTO.setId(userId);
-        updatedUserDTO.setNickname("updatedTest");
+        updatedUserDTO.setUsername("updatedTest");
         updatedUserDTO.setEmail("updated@example.com");
         updatedUserDTO.setFirstName("UpdatedFirstName");
         updatedUserDTO.setLastName("UpdatedLastName");
@@ -146,11 +143,11 @@ class UserControllerTest {
         String updatedUserJson = new ObjectMapper().writeValueAsString(updatedUserDTO);
 
         mockMvc.perform(put("/users/" + userId)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(updatedUserJson)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedUserJson)
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nickname").value(updatedUserDTO.getNickname()))
+                .andExpect(jsonPath("$.nickname").value(updatedUserDTO.getUsername()))
                 .andExpect(jsonPath("$.email").value(updatedUserDTO.getEmail()))
                 .andExpect(jsonPath("$.firstName").value(updatedUserDTO.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(updatedUserDTO.getLastName()))
@@ -200,40 +197,5 @@ class UserControllerTest {
         mockMvc.perform(delete("/users/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
-    }
-
-
-    @Test
-    public void loginUserSucceeds() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        LoginRequest loginRequest = new LoginRequest("testUser", "testPassword");
-        UserDTO userDTO = new UserDTO(1L, "testUser", 25, "test@example.com", "FirstName", "LastName", "Description");
-
-        when(userFacade.authenticateUser(anyString(), anyString())).thenReturn(userDTO);
-
-
-        mockMvc.perform(post("/users/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequest)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(userDTO.getId()))
-                .andExpect(jsonPath("$.nickname").value(userDTO.getNickname()))
-                .andExpect(jsonPath("$.age").value(userDTO.getAge()))
-                .andExpect(jsonPath("$.email").value(userDTO.getEmail()))
-                .andExpect(jsonPath("$.firstName").value(userDTO.getFirstName()))
-                .andExpect(jsonPath("$.lastName").value(userDTO.getLastName()))
-                .andExpect(jsonPath("$.description").value(userDTO.getDescription()));
-    }
-
-    @Test
-    void loginUserFailure() throws Exception {
-        LoginRequest loginRequest = new LoginRequest("username", "password");
-        when(userFacade.authenticateUser(anyString(), anyString())).thenThrow(new AuthenticationException());
-
-
-        mockMvc.perform(post("/users/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequest)))
-                .andExpect(status().isUnauthorized());
     }
 }

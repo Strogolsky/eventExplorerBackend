@@ -13,5 +13,4 @@ public interface EventService extends CrudService<Event,Long>{
     public void updateForOrgChange(Event event, User organizer);
     public boolean like(Long eventId, Long userId);
     public boolean unlike(Long eventId, Long userId);
-    public List<Event> getByLikedGreaterThan(int likes);
 }

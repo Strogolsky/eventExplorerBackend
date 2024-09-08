@@ -206,11 +206,4 @@ public class EventServiceImpl implements EventService {
         log.info("User with id: {} unliked event with id: {}", userId, eventId);
         return true;
     }
-    @Override
-
-    public List<Event> getByLikedGreaterThan(int likes) {
-        log.info("Fetching events with likes greater than {}", likes);
-        Collection<Event> eventsCollection = eventRepository.findByLikedGreaterThan(likes);
-        return new ArrayList<>(eventsCollection);
-    }
 }

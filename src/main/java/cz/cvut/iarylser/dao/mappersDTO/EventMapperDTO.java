@@ -58,15 +58,15 @@ public class EventMapperDTO implements MapperDTO<EventDTO, Event> {
         Event entity = new Event();
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
-        entity.setDateAndTime(entity.getDateAndTime());
-        entity.setTicketPrice(entity.getTicketPrice());
-        entity.setLocation(entity.getLocation());
-        entity.setCapacity(entity.getCapacity());
-        entity.setSoldTickets(entity.getSoldTickets());
-        entity.setDescription(entity.getDescription());
-        entity.setTopic(entity.getTopic());
-        entity.setAgeRestriction(entity.isAgeRestriction());
-        entity.setOrganizer(entity.getOrganizer());
+        entity.setDateAndTime(dto.getDateAndTime());
+        entity.setTicketPrice(dto.getTicketPrice());
+        entity.setLocation(dto.getLocation());
+        entity.setCapacity(dto.getCapacity());
+        entity.setSoldTickets(dto.getSoldTickets());
+        entity.setDescription(dto.getDescription());
+        entity.setTopic(dto.getTopic());
+        entity.setAgeRestriction(dto.isAgeRestriction());
+        entity.setOrganizer(dto.getOrganizer());
 
         log.info("Converted EventDTO to entity: {}", entity);
         return entity;
