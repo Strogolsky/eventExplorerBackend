@@ -3,6 +3,11 @@ name: CI Pipeline
 on:
   workflow_dispatch:
     inputs:
+      scan:
+        description: 'Scan'
+        required: true
+        default: 'true'
+        type: boolean
       build:
         description: 'Build the project'
         required: true
@@ -16,6 +21,7 @@ on:
 
 jobs:
   build:
+    needs: scan
     if: ${{ github.event.inputs.build == 'true' }}
     runs-on: ubuntu-latest
 
@@ -55,3 +61,16 @@ jobs:
 
     - name: Run tests
       run: ./gradlew test
+  scan:
+    name: SonarQube Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   
+        TokengeneratedSONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL}}
