@@ -21,7 +21,6 @@ on:
 
 jobs:
   build:
-    needs: scan
     if: ${{ github.event.inputs.build == 'true' }}
     runs-on: ubuntu-latest
 
@@ -62,6 +61,8 @@ jobs:
     - name: Run tests
       run: ./gradlew test
   scan:
+    needs: test
+    if: ${{ github.event.inputs.test == 'true' }}
     name: SonarCloud Scan
     runs-on: ubuntu-latest
     steps:
