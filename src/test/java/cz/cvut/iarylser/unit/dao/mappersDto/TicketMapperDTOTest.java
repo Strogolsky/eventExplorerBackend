@@ -1,6 +1,6 @@
 package cz.cvut.iarylser.unit.dao.mappersDto;
 
-import cz.cvut.iarylser.dao.dto.TicketDTO;
+import cz.cvut.iarylser.dao.dto.TicketResponse;
 import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.entity.TicketStatus;
 import cz.cvut.iarylser.dao.mappersDto.TicketMapperDTO;
@@ -16,8 +16,8 @@ class TicketMapperDTOTest {
     private TicketMapperDTO ticketMapperDTO;
 
     private Ticket ticket;
-    private TicketDTO dto;
-    private List<TicketDTO> dtoList;
+    private TicketResponse dto;
+    private List<TicketResponse> dtoList;
     private List<Ticket> ticketList;
 
 
@@ -32,7 +32,7 @@ class TicketMapperDTOTest {
         ticket.setDetails("details");
         ticket.setTicketStatus(TicketStatus.ACTIVE);
 
-        dto = new TicketDTO();
+        dto = new TicketResponse();
         dto.setId(1L);
         dto.setEventId(2L);
         dto.setCustomerId(3L);
@@ -52,14 +52,14 @@ class TicketMapperDTOTest {
     }
     @Test
     void toDTO() {
-        TicketDTO newDto = ticketMapperDTO.toDTO(ticket);
+        TicketResponse newDto = ticketMapperDTO.toDTO(ticket);
         assertEquals(dto, newDto);
 
     }
 
     @Test
     void toDTOList() {
-        List<TicketDTO> newDtoList = ticketMapperDTO.toDTOList(ticketList);
+        List<TicketResponse> newDtoList = ticketMapperDTO.toDTOList(ticketList);
         assertEquals(dtoList, newDtoList);
     }
 

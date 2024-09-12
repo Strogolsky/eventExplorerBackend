@@ -1,6 +1,6 @@
 package cz.cvut.iarylser.facade;
 
-import cz.cvut.iarylser.dao.dto.TicketDTO;
+import cz.cvut.iarylser.dao.dto.TicketResponse;
 import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.mappersDto.TicketMapperDTO;
 import cz.cvut.iarylser.service.TicketService;
@@ -15,13 +15,13 @@ public class TicketFacadeImpl implements TicketFacade {
     private final TicketService ticketService;
 
     @Override
-    public TicketDTO getById(Long id) {
+    public TicketResponse getById(Long id) {
         Ticket result = ticketService.getById(id);
         return ticketMapper.toDTO(result);
     }
 
     @Override
-    public List<TicketDTO> getByUserId(Long id) {
+    public List<TicketResponse> getByUserId(Long id) {
         List<Ticket> result = ticketService.getByUser(id);
         return ticketMapper.toDTOList(result);
     }

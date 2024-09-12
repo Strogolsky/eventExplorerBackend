@@ -3,7 +3,7 @@ package cz.cvut.iarylser.controller;
 
 import cz.cvut.iarylser.dao.dto.EventDTO;
 import cz.cvut.iarylser.dao.dto.LikeRequest;
-import cz.cvut.iarylser.dao.dto.TicketDTO;
+import cz.cvut.iarylser.dao.dto.TicketResponse;
 import cz.cvut.iarylser.dao.dto.PurchaseRequest;
 import cz.cvut.iarylser.facade.EventFacade;
 import io.swagger.v3.oas.annotations.Operation;
@@ -124,7 +124,7 @@ public class EventController {
             description = "Processes a ticket purchase for the specified event.")
     @ApiResponse(responseCode = "200", description = "Ticket purchased successfully",
             content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = TicketDTO.class)))
+                    schema = @Schema(implementation = TicketResponse.class)))
     @ApiResponse(responseCode = "400", description = "Purchase failed due to invalid data or other issues")
     public ResponseEntity<?> purchase(
             @Parameter(description = "ID of the event to purchase tickets for", required = true)
@@ -133,7 +133,7 @@ public class EventController {
             @RequestBody PurchaseRequest request) {
         log.info("POST request received to purchase tickets for event with ID: {}", eventId);
         try {
-            List<TicketDTO> result = eventFacade.purchaseTicket(eventId, request);
+            List<TicketResponse> result = eventFacade.purchaseTicket(eventId, request);
             return ResponseEntity.ok(result);
         } catch (EntityNotFoundException e) {
             log.warn("Event or user not found: {}", e.getMessage());
