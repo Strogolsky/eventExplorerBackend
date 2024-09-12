@@ -1,6 +1,6 @@
 package cz.cvut.iarylser.controller;
 
-import cz.cvut.iarylser.dao.DTO.TicketDTO;
+import cz.cvut.iarylser.dao.dto.TicketDTO;
 import cz.cvut.iarylser.facade.TicketFacadeImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

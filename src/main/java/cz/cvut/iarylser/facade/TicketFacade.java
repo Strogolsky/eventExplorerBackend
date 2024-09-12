@@ -1,9 +1,6 @@
 package cz.cvut.iarylser.facade;
 
-import cz.cvut.iarylser.dao.DTO.TicketDTO;
-import cz.cvut.iarylser.dao.entity.Event;
-import cz.cvut.iarylser.dao.entity.Ticket;
-import cz.cvut.iarylser.dao.entity.User;
+import cz.cvut.iarylser.dao.dto.TicketDTO;
 
 import java.util.List;
 

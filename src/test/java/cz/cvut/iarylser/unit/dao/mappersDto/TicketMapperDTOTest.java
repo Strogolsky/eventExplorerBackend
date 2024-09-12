@@ -1,9 +1,9 @@
-package cz.cvut.iarylser.unit.dao.mappersDTO;
+package cz.cvut.iarylser.unit.dao.mappersDto;
 
-import cz.cvut.iarylser.dao.DTO.TicketDTO;
+import cz.cvut.iarylser.dao.dto.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.entity.TicketStatus;
-import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
+import cz.cvut.iarylser.dao.mappersDto.TicketMapperDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

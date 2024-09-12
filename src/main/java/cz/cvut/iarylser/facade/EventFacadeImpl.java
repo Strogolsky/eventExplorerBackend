@@ -1,11 +1,11 @@
 package cz.cvut.iarylser.facade;
 
-import cz.cvut.iarylser.dao.DTO.EventDTO;
-import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
-import cz.cvut.iarylser.dao.DTO.TicketDTO;
+import cz.cvut.iarylser.dao.dto.EventDTO;
+import cz.cvut.iarylser.dao.dto.PurchaseRequest;
+import cz.cvut.iarylser.dao.dto.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.User;
-import cz.cvut.iarylser.dao.mappersDTO.EventMapperDTO;
+import cz.cvut.iarylser.dao.mappersDto.EventMapperDTO;
 import cz.cvut.iarylser.service.AuthService;
 import cz.cvut.iarylser.service.EventService;
 import jakarta.persistence.EntityNotFoundException;

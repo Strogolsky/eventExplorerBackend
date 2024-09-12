@@ -1,10 +1,9 @@
 package cz.cvut.iarylser.facade;
 
-import cz.cvut.iarylser.dao.DTO.TicketDTO;
+import cz.cvut.iarylser.dao.dto.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Ticket;
-import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
+import cz.cvut.iarylser.dao.mappersDto.TicketMapperDTO;
 import cz.cvut.iarylser.service.TicketService;
-import cz.cvut.iarylser.service.TicketServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

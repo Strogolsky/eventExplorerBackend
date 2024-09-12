@@ -1,10 +1,9 @@
 package cz.cvut.iarylser.facade;
 
-import cz.cvut.iarylser.dao.DTO.UserDTO;
+import cz.cvut.iarylser.dao.dto.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
-import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
+import cz.cvut.iarylser.dao.mappersDto.UserMapperDTO;
 import cz.cvut.iarylser.service.UserService;
-import cz.cvut.iarylser.service.UserServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,6 @@
-package cz.cvut.iarylser.dao.mappersDTO;
+package cz.cvut.iarylser.dao.mappersDto;
 
-import cz.cvut.iarylser.dao.DTO.UserDTO;
+import cz.cvut.iarylser.dao.dto.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

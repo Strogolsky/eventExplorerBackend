@@ -1,7 +1,7 @@
 package cz.cvut.iarylser.unit.service;
 
 import cz.cvut.iarylser.dao.entity.User;
-import cz.cvut.iarylser.dao.mappersDTO.UserMapperDTO;
+import cz.cvut.iarylser.dao.mappersDto.UserMapperDTO;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import cz.cvut.iarylser.service.EventServiceImpl;
 import cz.cvut.iarylser.service.UserServiceImpl;
@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 
-import javax.naming.AuthenticationException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -171,7 +170,7 @@ class UserServiceImplTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
         when(userRepository.existsByUsername("existingNickname")).thenReturn(true);
 
-        IllegalArgumentException thrown = assertThrows(
+        assertThrows(
                 IllegalArgumentException.class,
                 () -> userService.update(userId, updatedUser),
                 "Expected updateUser to throw, but it didn't"

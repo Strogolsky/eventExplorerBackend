@@ -1,10 +1,10 @@
 package cz.cvut.iarylser.controller;
 
 
-import cz.cvut.iarylser.dao.DTO.EventDTO;
-import cz.cvut.iarylser.dao.DTO.LikeRequest;
-import cz.cvut.iarylser.dao.DTO.TicketDTO;
-import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
+import cz.cvut.iarylser.dao.dto.EventDTO;
+import cz.cvut.iarylser.dao.dto.LikeRequest;
+import cz.cvut.iarylser.dao.dto.TicketDTO;
+import cz.cvut.iarylser.dao.dto.PurchaseRequest;
 import cz.cvut.iarylser.facade.EventFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

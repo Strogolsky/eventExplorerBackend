@@ -1,13 +1,13 @@
 package cz.cvut.iarylser.unit.service;
 
-import cz.cvut.iarylser.dao.DTO.EventDTO;
-import cz.cvut.iarylser.dao.DTO.TicketDTO;
-import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
+import cz.cvut.iarylser.dao.dto.EventDTO;
+import cz.cvut.iarylser.dao.dto.TicketDTO;
+import cz.cvut.iarylser.dao.dto.PurchaseRequest;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.entity.Topics;
 import cz.cvut.iarylser.dao.entity.User;
-import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
+import cz.cvut.iarylser.dao.mappersDto.TicketMapperDTO;
 import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import cz.cvut.iarylser.service.EventServiceImpl;
