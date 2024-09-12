@@ -3,8 +3,6 @@ package cz.cvut.iarylser.facade;
 import cz.cvut.iarylser.dao.DTO.EventDTO;
 import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
 import cz.cvut.iarylser.dao.DTO.TicketDTO;
-import cz.cvut.iarylser.dao.entity.Event;
-import cz.cvut.iarylser.dao.entity.User;
 
 import java.util.List;
 
