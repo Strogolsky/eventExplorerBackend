@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class AuthController {
     @Operation(summary = "Sign up")
     @ApiResponse(responseCode = "200", description = "Successful sign up")
     @ApiResponse(responseCode = "403", description = "This user already exists")
-    public JwtAuthenticationResponse signUp(@RequestBody @Valid SignUpRequest request) {
+    public JwtAuthenticationResponse signUp(@RequestBody @Validated SignUpRequest request) {
         log.info("POST request for sign up");
         return authService.signUp(request);
     }
