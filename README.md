@@ -1,54 +1,77 @@
-# Event explorer
-## 1. Brief description of the project
-The goal of the project is to create a service for buying tickets to various events. The user can create their own events and buy tickets to other people's events.
-## 2. System description
-The system consists of the following basic parts:
+# **Tusa**
 
-1. User registration and authorization
-2. Buy tickets
-3. Creating events 
-4. Delete Users and Events
-### 2.1 User registration and authorization
----
-Before using the service you need to create or log in to your account. After successful registration/authorization access to the service is opened.
-#### 2.1.1 Registration
----
-To register you need to give yourself a nickname and password, specify your age and email.
-#### 2.1.2 Authorization
----
-When authorizing, you need to provide your email and password.
-### 2.2 Buying tickets
----
-Buying a ticket is allowed under certain conditions:
+## 1. **Project Overview**
+The goal of the project is to create a service for purchasing tickets to events. Users can create their own events and buy tickets to other people's events. The service is called "Tusa."
 
-- there are free seats left for the event
-- If the age limit is specified, the user must meet it.
+## 2. **Key Features**
+- **Registration and Authorization**
+- **Ticket Purchase**
+- **Event Creation**
+- **User and Event Deletion**
+- **Comments and Ratings**
+- **Private Meetings**
+- **Friends and Contacts**
+- **Recommendations and Filtering**
+- **User Chats**
 
-If all conditions are met, the user can buy a ticket. It will be possible to choose the number of tickets, as well as the seat.
+### 2.1 **Registration and Authorization**
+To use the service, users must register or log in.
 
-After buying a ticket, it will be displayed in a separate tab.
-### 2.3 Creating Events
----
-When creating an event, you need to specify the name, date and time of the event, ticket price and location. You can add optional parameters, such as: number of seats, description, theme of the event. 
+**Registration**:
+- Username: 3-30 characters.
+- Password: minimum 8 characters, including letters, numbers, and special characters.
+- Age: If the user is underage, they will not receive recommendations for 18+ events.
+- Email: Requires verification.
 
-Own events are displayed in a separate tab. You can see who bought tickets, how many seats are left and how much money was collected.
-### 2.4 Delete Users and Events
----
-A user can always delete their account or the events they own.
+Users can receive a **verification badge** after verification.
 
-## 3. Conceptual model of the database
-![data model](images/DataModel.png)
-## 4. Complex request on the server side
-When viewing an event, you can see a list of other events that have more likes than this event.
-## 5. Client-side business operation: Ticket purchase with improved availability control
+**Authorization** is done using email and password.
 
-### 5.1 Description
----
-This optimized process is designed for convenient purchase of tickets for various events. When a customer clicks the "Buy Ticket" button, the system automatically checks the availability of seats. If seats are available, the ticket purchase process continues successfully; otherwise, the customer is informed that tickets are not available.
+### 2.2 **Ticket Purchase**
+- Tickets are available if there are free seats and age restrictions are met.
+- **Ticket Statuses**: 
+  - Active: Until the event takes place.
+  - Inactive: After the event has ended.
+  - Destroyed: If the event or author's account is deleted.
+  
+Funds from ticket purchases are transferred to the author **3 days after the event**. If the author's account is deleted before the event, the funds are returned to the buyers, and tickets are marked as **"Destroyed"**.
 
-### 5.2 Steps
----
-1. The customer selects an event, enters the required information and clicks the "Buy Ticket" button.
-2. After this action, the system instantly checks the current availability of the selected event.
-3. If tickets are available, the ticket purchase is successfully completed.
-4. If all tickets are already sold out, the system informs the customer.
+### 2.3 **Event Creation**
+When creating an event, the following parameters must be specified:
+- Title: 3-100 characters.
+- Description: up to 100 characters.
+- Date, time, ticket price, location.
+- Number of seats, theme, and event images.
+
+**Private meetings** can be created for friends only.
+
+### 2.4 **User and Event Deletion**
+Users can delete their accounts or their created events. If an event or author's account is deleted, all funds are returned to buyers, and tickets are marked as **"Destroyed"**.
+
+### 2.5 **Comments and Ratings**
+Users can leave **comments** and rate events. The rating affects the author's reputation.
+
+### 2.6 **Friends and Contacts**
+Users can **add friends** and communicate with them. They can create a profile description with contact details.
+
+### 2.7 **Recommendations and Filtering**
+The recommendation system is based on:
+- User interests and those of their friends.
+- Ratings of authors and events.
+
+Filtering is available by tags, price, dates, and age restrictions.
+
+### 2.8 **User Chats**
+Users can communicate with each other through built-in chat features, discussing events and asking questions.
+
+## 3. **Search and Filtering**
+Events can be searched by:
+- Title.
+- Description.
+- Tags.
+- Date.
+- Price.
+- Age restrictions.
+
+## 4. **Notifications**
+The notification system will inform users about upcoming events, ticket status changes, and other important information.
