@@ -1,10 +1,9 @@
-package cz.cvut.iarylser.unit.dao.mappersDTO;
+package cz.cvut.iarylser.unit.dao.mappersDto;
 
-import cz.cvut.iarylser.dao.DTO.EventDTO;
-import cz.cvut.iarylser.dao.DTO.UserDTO;
+import cz.cvut.iarylser.dao.dto.EventDTO;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.Topics;
-import cz.cvut.iarylser.dao.mappersDTO.EventMapperDTO;
+import cz.cvut.iarylser.dao.mappersDto.EventMapperDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

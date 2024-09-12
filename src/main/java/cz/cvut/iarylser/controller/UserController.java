@@ -1,5 +1,5 @@
 package cz.cvut.iarylser.controller;
-import cz.cvut.iarylser.dao.DTO.UserDTO;
+import cz.cvut.iarylser.dao.dto.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.facade.UserFacadeImpl;
 import cz.cvut.iarylser.service.AuthService;
@@ -75,13 +75,13 @@ public class UserController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Updated user object", required = true)
             @RequestBody UserDTO updatedUser) {
         log.info("PUT request received to update user");
-        User CurrentUser = authService.getUser();
+        User currentUser = authService.getUser();
         try {
-            userFacade.update(CurrentUser.getId(), updatedUser);
-            String newToken = jwtService.generateToken(CurrentUser);
+            userFacade.update(currentUser.getId(), updatedUser);
+            String newToken = jwtService.generateToken(currentUser);
             return ResponseEntity.ok(newToken);
         } catch (EntityNotFoundException e) {
-            log.warn("User with id {} not found: {}", CurrentUser.getId(), e.getMessage());
+            log.warn("User with id {} not found: {}", currentUser.getId(), e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (IllegalArgumentException e) {
             log.warn("Error updating user: {}", e.getMessage());

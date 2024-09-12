@@ -1,7 +1,7 @@
 package cz.cvut.iarylser.service;
 
-import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
-import cz.cvut.iarylser.dao.DTO.TicketDTO;
+import cz.cvut.iarylser.dao.dto.PurchaseRequest;
+import cz.cvut.iarylser.dao.dto.TicketDTO;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.User;
 

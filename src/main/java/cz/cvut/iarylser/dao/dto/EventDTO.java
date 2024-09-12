@@ -1,4 +1,4 @@
-package cz.cvut.iarylser.dao.DTO;
+package cz.cvut.iarylser.dao.dto;
 
 import cz.cvut.iarylser.dao.entity.Topics;
 import lombok.AllArgsConstructor;

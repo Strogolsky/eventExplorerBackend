@@ -1,9 +1,9 @@
 package cz.cvut.iarylser.service;
 
-import cz.cvut.iarylser.dao.DTO.TicketDTO;
-import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
+import cz.cvut.iarylser.dao.dto.TicketDTO;
+import cz.cvut.iarylser.dao.dto.PurchaseRequest;
 import cz.cvut.iarylser.dao.entity.*;
-import cz.cvut.iarylser.dao.mappersDTO.TicketMapperDTO;
+import cz.cvut.iarylser.dao.mappersDto.TicketMapperDTO;
 import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,7 +16,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Service

@@ -1,8 +1,8 @@
 package cz.cvut.iarylser.service;
 
-import cz.cvut.iarylser.dao.DTO.JwtAuthenticationResponse;
-import cz.cvut.iarylser.dao.DTO.SignInRequest;
-import cz.cvut.iarylser.dao.DTO.SignUpRequest;
+import cz.cvut.iarylser.dao.dto.JwtAuthenticationResponse;
+import cz.cvut.iarylser.dao.dto.SignInRequest;
+import cz.cvut.iarylser.dao.dto.SignUpRequest;
 import cz.cvut.iarylser.dao.entity.Role;
 import cz.cvut.iarylser.dao.entity.User;
 import lombok.RequiredArgsConstructor;

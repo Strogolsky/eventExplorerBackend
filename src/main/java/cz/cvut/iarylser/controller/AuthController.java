@@ -1,7 +1,7 @@
 package cz.cvut.iarylser.controller;
-import cz.cvut.iarylser.dao.DTO.JwtAuthenticationResponse;
-import cz.cvut.iarylser.dao.DTO.SignInRequest;
-import cz.cvut.iarylser.dao.DTO.SignUpRequest;
+import cz.cvut.iarylser.dao.dto.JwtAuthenticationResponse;
+import cz.cvut.iarylser.dao.dto.SignInRequest;
+import cz.cvut.iarylser.dao.dto.SignUpRequest;
 import cz.cvut.iarylser.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

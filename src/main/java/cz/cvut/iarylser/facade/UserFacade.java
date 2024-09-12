@@ -1,6 +1,6 @@
 package cz.cvut.iarylser.facade;
 
-import cz.cvut.iarylser.dao.DTO.UserDTO;
+import cz.cvut.iarylser.dao.dto.UserDTO;
 
 import javax.naming.AuthenticationException;
 

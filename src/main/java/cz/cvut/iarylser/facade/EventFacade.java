@@ -1,8 +1,8 @@
 package cz.cvut.iarylser.facade;
 
-import cz.cvut.iarylser.dao.DTO.EventDTO;
-import cz.cvut.iarylser.dao.DTO.PurchaseRequest;
-import cz.cvut.iarylser.dao.DTO.TicketDTO;
+import cz.cvut.iarylser.dao.dto.EventDTO;
+import cz.cvut.iarylser.dao.dto.PurchaseRequest;
+import cz.cvut.iarylser.dao.dto.TicketDTO;
 
 import java.util.List;
 
