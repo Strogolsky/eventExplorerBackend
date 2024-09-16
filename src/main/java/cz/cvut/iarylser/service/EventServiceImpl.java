@@ -75,6 +75,10 @@ public class EventServiceImpl implements EventService {
             throw new IllegalStateException("User " + customer.getUsername() + " does not meet the age requirement for event " + eventId);
         }
 
+        if(event.getCapacity() <= customer.getBalance()) {
+            throw new IllegalStateException("Not enough capacity for event with id: " + eventId);
+        }
+
         List<Ticket> tickets = new ArrayList<>();
         for (int i = 0; i < request.getQuantity(); i++) {
             Ticket ticket = ticketService.create(event, customer);
