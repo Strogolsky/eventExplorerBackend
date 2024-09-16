@@ -34,6 +34,8 @@ public class User implements Serializable, UserDetails {
     private String lastName;
     @Column(name = "description", columnDefinition = "text")
     private String description;
+    @Column(name = "balance")
+    private int balance;
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Ticket> tickets = new ArrayList<>();

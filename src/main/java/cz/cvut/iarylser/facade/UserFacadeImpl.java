@@ -1,5 +1,6 @@
 package cz.cvut.iarylser.facade;
 
+import cz.cvut.iarylser.dao.dto.IncreaseRequest;
 import cz.cvut.iarylser.dao.dto.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDto.UserMapperDTO;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.naming.AuthenticationException;
+import java.math.BigDecimal;
 import java.util.List;
 @Component
 @RequiredArgsConstructor
@@ -52,5 +54,9 @@ public class UserFacadeImpl implements UserFacade {
     @Override
     public UserDTO authenticateUser(String nickname, String password) throws AuthenticationException {
         return authenticateUser(nickname,password); //todo fix
+    }
+    @Override
+    public boolean increaseBalance(Long id, IncreaseRequest request) {
+        return userService.increaseBalance(id, request);
     }
 }

@@ -1,7 +1,9 @@
 package cz.cvut.iarylser.service;
+import cz.cvut.iarylser.dao.dto.IncreaseRequest;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.Role;
 import cz.cvut.iarylser.dao.entity.User;
+import cz.cvut.iarylser.dao.repository.EventRepository;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final EventServiceImpl eventService;
+    private final EventRepository eventRepository;
 
     @Override
     @Cacheable(value = "users")
@@ -44,6 +47,13 @@ public class UserServiceImpl implements UserService {
         }
         log.info("User is created");
         return userRepository.save(newUser);
+    }
+    @Override
+    public boolean increaseBalance(Long id, IncreaseRequest request) {
+        User user = getById(id);
+        user.setBalance(user.getBalance() + request.getQuantity());
+        userRepository.save(user);
+        return true;
     }
 
     @Override
@@ -122,4 +132,5 @@ public class UserServiceImpl implements UserService {
         user.setRole(Role.ROLE_ADMIN);
         userRepository.save(user);
     }
+
 }
