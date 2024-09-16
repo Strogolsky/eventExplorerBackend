@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -130,7 +131,7 @@ public class EventController {
             @Parameter(description = "ID of the event to purchase tickets for", required = true)
             @PathVariable Long eventId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Purchase request details", required = true)
-            @RequestBody PurchaseRequest request) {
+            @RequestBody @Validated PurchaseRequest request) {
         log.info("POST request received to purchase tickets for event with ID: {}", eventId);
         try {
             List<TicketResponse> result = eventFacade.purchaseTicket(eventId, request);
