@@ -34,7 +34,7 @@ public class AuthController {
     @Operation(summary = "Sign in")
     @ApiResponse(responseCode = "200", description = "Successful sign in")
     @ApiResponse(responseCode = "403", description = "Incorrect username or password")
-    public JwtAuthenticationResponse signIn(@RequestBody @Valid SignInRequest request) {
+    public JwtAuthenticationResponse signIn(@RequestBody @Validated SignInRequest request) {
         log.info("POST request for sign in");
         return authService.signIn(request);
     }
