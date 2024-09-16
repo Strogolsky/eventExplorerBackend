@@ -1,6 +1,6 @@
 package cz.cvut.iarylser.service;
 
-import cz.cvut.iarylser.dao.dto.JwtAuthenticationResponse;
+import cz.cvut.iarylser.dao.dto.JwtAuthResponse;
 import cz.cvut.iarylser.dao.dto.SignInRequest;
 import cz.cvut.iarylser.dao.dto.SignUpRequest;
 import cz.cvut.iarylser.dao.entity.Role;
@@ -23,7 +23,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public JwtAuthenticationResponse signUp(SignUpRequest request) {
+    public JwtAuthResponse signUp(SignUpRequest request) {
 
         User user = new User();
         user.setUsername(request.getUsername());
@@ -34,10 +34,10 @@ public class AuthService {
 
         userService.create(user);
         var jwt = jwtService.generateToken(user);
-        return new JwtAuthenticationResponse(jwt);
+        return new JwtAuthResponse(jwt);
     }
 
-    public JwtAuthenticationResponse signIn(SignInRequest request) {
+    public JwtAuthResponse signIn(SignInRequest request) {
         log.info("Authenticating {}", request.getUsername());
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getUsername(),
@@ -48,7 +48,7 @@ public class AuthService {
                 .userDetailsService()
                 .loadUserByUsername(request.getUsername());
         var jwt = jwtService.generateToken(user);
-        return new JwtAuthenticationResponse(jwt);
+        return new JwtAuthResponse(jwt);
     }
     public User getUser(){
         log.info("Authentification user");
