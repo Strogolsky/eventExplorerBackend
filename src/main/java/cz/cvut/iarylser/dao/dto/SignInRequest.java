@@ -1,6 +1,5 @@
 package cz.cvut.iarylser.dao.dto;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignInRequest {
-    @NotEmpty
     @NotNull
     private String username;
-    @NotEmpty
     @NotNull
     private String password;
 }
