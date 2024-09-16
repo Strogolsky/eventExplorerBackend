@@ -1,10 +1,10 @@
 package cz.cvut.iarylser.facade;
 
-import cz.cvut.iarylser.dao.dto.TicketDTO;
+import cz.cvut.iarylser.dao.dto.TicketResponse;
 
 import java.util.List;
 
 public interface TicketFacade {
-    public TicketDTO getById(Long id);
-    public List<TicketDTO> getByUserId(Long id);
+    public TicketResponse getById(Long id);
+    public List<TicketResponse> getByUserId(Long id);
 }

@@ -2,7 +2,6 @@ package cz.cvut.iarylser.unit.dao.repository;
 
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.repository.EventRepository;
-import cz.cvut.iarylser.dao.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -18,11 +17,9 @@ class EventRepositoryTest {
     }
     @Autowired
     private EventRepository eventRepository;
-    @Autowired
-    private UserRepository userRepository;
 
     @Test
-    public void testFindByIdOrganizer() {
+    void testFindByIdOrganizer() {
         Long organizerId1 = 1L;
         Long organizerId2 = 2L;
 

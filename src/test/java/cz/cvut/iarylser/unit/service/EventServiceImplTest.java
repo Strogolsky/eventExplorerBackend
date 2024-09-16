@@ -1,7 +1,7 @@
 package cz.cvut.iarylser.unit.service;
 
 import cz.cvut.iarylser.dao.dto.EventDTO;
-import cz.cvut.iarylser.dao.dto.TicketDTO;
+import cz.cvut.iarylser.dao.dto.TicketResponse;
 import cz.cvut.iarylser.dao.dto.PurchaseRequest;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.Ticket;
@@ -217,14 +217,14 @@ class EventServiceImplTest {
         Ticket ticket4 = new Ticket();
         Ticket ticket5 = new Ticket();
         List<Ticket> tickets = List.of(ticket1, ticket2);
-        List<TicketDTO> ticketDTOs = List.of(new TicketDTO(), new TicketDTO());
+        List<TicketResponse> ticketResponses = List.of(new TicketResponse(), new TicketResponse());
 
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
         when(userRepository.findByUsername(customerNickname)).thenReturn(customer);
         when(ticketServiceImpl.create(Mockito.any(), Mockito.any())).thenReturn(ticket1, ticket2);
-        when(ticketMapperDTO.toDTOList(tickets)).thenReturn(ticketDTOs);
+        when(ticketMapperDTO.toDTOList(tickets)).thenReturn(ticketResponses);
 
-        List<TicketDTO> result = eventServiceImpl.purchaseTicket(eventId,request);
+        List<TicketResponse> result = eventServiceImpl.purchaseTicket(eventId,request);
 
 
         assertNotNull(result);

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TicketDTO {
+public class TicketResponse {
     private Long id;
     private Long eventId;
     private Long customerId;

@@ -2,7 +2,7 @@ package cz.cvut.iarylser.facade;
 
 import cz.cvut.iarylser.dao.dto.EventDTO;
 import cz.cvut.iarylser.dao.dto.PurchaseRequest;
-import cz.cvut.iarylser.dao.dto.TicketDTO;
+import cz.cvut.iarylser.dao.dto.TicketResponse;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDto.EventMapperDTO;
@@ -75,7 +75,7 @@ public class EventFacadeImpl implements EventFacade {
     }
 
     @Override
-    public List<TicketDTO> purchaseTicket(Long eventId, PurchaseRequest request) throws EntityNotFoundException, IllegalStateException {
+    public List<TicketResponse> purchaseTicket(Long eventId, PurchaseRequest request) throws EntityNotFoundException, IllegalStateException {
         User currentUser = authService.getUser();
         request.setCustomer(currentUser.getUsername());
 

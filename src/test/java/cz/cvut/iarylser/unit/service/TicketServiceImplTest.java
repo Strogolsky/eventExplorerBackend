@@ -1,6 +1,6 @@
 package cz.cvut.iarylser.unit.service;
 
-import cz.cvut.iarylser.dao.dto.TicketDTO;
+import cz.cvut.iarylser.dao.dto.TicketResponse;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.Ticket;
 import cz.cvut.iarylser.dao.entity.TicketStatus;
@@ -225,13 +225,13 @@ class TicketServiceImplTest {
         assertFalse(result);
         verify(ticketRepository, never()).deleteById(ticketId);
     }
-    void assertTicketAndDtoEquality(Ticket ticket, TicketDTO ticketDTO) {
-        assertEquals(ticket.getId(), ticketDTO.getId());
-        assertEquals(ticket.getEventId(), ticketDTO.getEventId());
-        assertEquals(ticket.getCustomerId(), ticketDTO.getCustomerId());
-        assertEquals(ticket.getOrganizerId(), ticketDTO.getOrganizerId());
-        assertEquals(ticket.getDetails(), ticketDTO.getDetails());
-        assertEquals(ticket.getTicketStatus(), ticketDTO.getTicketStatus());
+    void assertTicketAndDtoEquality(Ticket ticket, TicketResponse ticketResponse) {
+        assertEquals(ticket.getId(), ticketResponse.getId());
+        assertEquals(ticket.getEventId(), ticketResponse.getEventId());
+        assertEquals(ticket.getCustomerId(), ticketResponse.getCustomerId());
+        assertEquals(ticket.getOrganizerId(), ticketResponse.getOrganizerId());
+        assertEquals(ticket.getDetails(), ticketResponse.getDetails());
+        assertEquals(ticket.getTicketStatus(), ticketResponse.getTicketStatus());
     }
     void assertTicketsEquality(Ticket expectedTicket, Ticket actualTicket) {
         assertEquals(expectedTicket.getId(), actualTicket.getId());
