@@ -75,7 +75,7 @@ public class EventServiceImpl implements EventService {
             throw new IllegalStateException("User " + customer.getUsername() + " does not meet the age requirement for event " + eventId);
         }
 
-        if(event.getCapacity() <= customer.getBalance()) {
+        if(event.getTicketPrice() > customer.getBalance()) {
             throw new IllegalStateException("Not enough capacity for event with id: " + eventId);
         }
 
