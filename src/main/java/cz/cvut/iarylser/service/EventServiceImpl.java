@@ -14,6 +14,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public List<TicketResponse> purchaseTicket(Long eventId, PurchaseRequest request) throws EntityNotFoundException, IllegalStateException {
         log.info("Purchasing {} tickets for event with id: {} for customer: {}", request.getQuantity(), eventId, request.getCustomer());
 
@@ -80,8 +82,8 @@ public class EventServiceImpl implements EventService {
         }
 
         customer.setBalance(customer.getBalance() - (request.getQuantity() * event.getTicketPrice()));
-        User Author = userRepository.findByUsername(request.getCustomer());
-        Author.setBalance(Author.getBalance() + request.getQuantity() * event.getTicketPrice());
+        User author = userRepository.findByUsername(event.getOrganizer());
+        author.setBalance(author.getBalance() + request.getQuantity() * event.getTicketPrice());
 
         List<Ticket> tickets = new ArrayList<>();
         for (int i = 0; i < request.getQuantity(); i++) {
@@ -91,6 +93,7 @@ public class EventServiceImpl implements EventService {
         }
 
         userRepository.save(customer);
+        userRepository.save(author);
         eventRepository.save(event);
 
         log.info("The tickets were purchased");
