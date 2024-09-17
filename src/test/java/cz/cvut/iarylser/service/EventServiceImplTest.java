@@ -226,6 +226,83 @@ class EventServiceImplTest {
 
         assertThrows(EntityNotFoundException.class, () -> eventService.purchaseTicket(eventId, request));
     }
+    @Test
+    public void PurchaseTicketUserNotFoundTest() throws EntityNotFoundException {
+        Event event = new Event();
+        event.setId(1L);
+
+        Mockito.when(eventRepository.findById(1L)).thenReturn(Optional.of(event));
+        Mockito.when(userRepository.findByUsername("testUser")).thenReturn(null);
+
+        PurchaseRequest request = new PurchaseRequest();
+        request.setCustomer("testUser");
+        request.setQuantity(2);
+
+        assertThrows(EntityNotFoundException.class, () -> eventService.purchaseTicket(1L, request));
+    }
+    @Test
+    public void PurchaseTicketNotEnoughSeatsTest() throws EntityNotFoundException {
+        Event event = new Event();
+        event.setId(1L);
+        event.setCapacity(1);
+        event.setSoldTickets(0);
+
+        User customer = new User();
+        customer.setUsername("testUser");
+
+        Mockito.when(eventRepository.findById(1L)).thenReturn(Optional.of(event));
+        Mockito.when(userRepository.findByUsername("testUser")).thenReturn(customer);
+
+        PurchaseRequest request = new PurchaseRequest();
+        request.setCustomer("testUser");
+        request.setQuantity(2);
+
+
+        assertThrows(IllegalStateException.class, () -> eventService.purchaseTicket(1L, request));
+    }
+    @Test
+    public void PurchaseTicketAgeRestrictionTest() throws EntityNotFoundException {
+        Event event = new Event();
+        event.setId(1L);
+        event.setCapacity(5);
+        event.setSoldTickets(0);
+        event.setAgeRestriction(true);
+
+        User customer = new User();
+        customer.setUsername("testUser");
+        customer.setAge(16);
+
+        Mockito.when(eventRepository.findById(1L)).thenReturn(Optional.of(event));
+        Mockito.when(userRepository.findByUsername("testUser")).thenReturn(customer);
+
+        PurchaseRequest request = new PurchaseRequest();
+        request.setCustomer("testUser");
+        request.setQuantity(1);
+
+        assertThrows(IllegalStateException.class, () -> eventService.purchaseTicket(1L, request));
+    }
+    @Test
+    public void PurchaseTicketInsufficientBalanceTest() throws EntityNotFoundException {
+        Event event = new Event();
+        event.setId(1L);
+        event.setCapacity(5);
+        event.setSoldTickets(0);
+        event.setTicketPrice(100);
+
+        User customer = new User();
+        customer.setUsername("testUser");
+        customer.setBalance(50);
+
+        Mockito.when(eventRepository.findById(1L)).thenReturn(Optional.of(event));
+        Mockito.when(userRepository.findByUsername("testUser")).thenReturn(customer);
+
+        PurchaseRequest request = new PurchaseRequest();
+        request.setCustomer("testUser");
+        request.setQuantity(1);
+
+        assertThrows(IllegalStateException.class, () -> eventService.purchaseTicket(1L, request));
+    }
+
 
     @Test
     void UpdateEventNotFoundTest() {
