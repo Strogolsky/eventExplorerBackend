@@ -14,6 +14,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public List<TicketResponse> purchaseTicket(Long eventId, PurchaseRequest request) throws EntityNotFoundException, IllegalStateException {
         log.info("Purchasing {} tickets for event with id: {} for customer: {}", request.getQuantity(), eventId, request.getCustomer());
 
@@ -75,9 +77,13 @@ public class EventServiceImpl implements EventService {
             throw new IllegalStateException("User " + customer.getUsername() + " does not meet the age requirement for event " + eventId);
         }
 
-        if(event.getTicketPrice() > customer.getBalance()) {
-            throw new IllegalStateException("Not enough capacity for event with id: " + eventId);
+        if(request.getQuantity() * event.getTicketPrice() > customer.getBalance()) {
+            throw new IllegalStateException("Not enough money for event with id: " + eventId);
         }
+
+        customer.setBalance(customer.getBalance() - (request.getQuantity() * event.getTicketPrice()));
+        User author = userRepository.findByUsername(event.getOrganizer());
+        author.setBalance(author.getBalance() + request.getQuantity() * event.getTicketPrice());
 
         List<Ticket> tickets = new ArrayList<>();
         for (int i = 0; i < request.getQuantity(); i++) {
@@ -87,6 +93,7 @@ public class EventServiceImpl implements EventService {
         }
 
         userRepository.save(customer);
+        userRepository.save(author);
         eventRepository.save(event);
 
         log.info("The tickets were purchased");

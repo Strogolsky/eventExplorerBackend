@@ -186,7 +186,8 @@ class EventServiceImplTest {
     }
 
     @Test
-    public void PurchaseTicketSuccessTest() throws EntityNotFoundException, IllegalStateException {
+    public void purchaseTicketSuccessTest() throws EntityNotFoundException, IllegalStateException {
+        // Arrange
         Event event = new Event();
         event.setId(1L);
         event.setCapacity(10);
@@ -199,22 +200,41 @@ class EventServiceImplTest {
         customer.setAge(20);
         customer.setBalance(100);
 
+        User author = new User();
+        author.setUsername("testAuthor");
+        author.setBalance(50);
+
+
+        event.setOrganizer("testAuthor");
+
         PurchaseRequest request = new PurchaseRequest();
         request.setCustomer("testUser");
         request.setQuantity(2);
 
+        // Mocking the repository and service methods
         Mockito.when(eventRepository.findById(1L)).thenReturn(Optional.of(event));
         Mockito.when(userRepository.findByUsername("testUser")).thenReturn(customer);
+        Mockito.when(userRepository.findByUsername(event.getOrganizer())).thenReturn(author);
         Mockito.when(ticketService.create(event, customer)).thenReturn(new Ticket());
         Mockito.when(ticketMapperDTO.toDTOList(Mockito.anyList())).thenReturn(new ArrayList<>());
 
+        // Act
         List<TicketResponse> result = eventService.purchaseTicket(1L, request);
 
+        // Assert
         assertNotNull(result);
+
+        // Check balances
+        assertEquals(0, customer.getBalance());
+        assertEquals(150, author.getBalance());
+
+        // Verify interactions
         Mockito.verify(eventRepository).save(event);
         Mockito.verify(userRepository).save(customer);
+        Mockito.verify(userRepository).save(author);
         Mockito.verify(ticketService, Mockito.times(2)).create(event, customer);
     }
+
     @Test
     public void PurchaseTicketEventNotFoundTest() throws EntityNotFoundException {
         Long eventId = 1L;
