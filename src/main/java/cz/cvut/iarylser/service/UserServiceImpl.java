@@ -23,7 +23,6 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final EventServiceImpl eventService;
-    private final EventRepository eventRepository;
 
     @Override
     @Cacheable(value = "users")

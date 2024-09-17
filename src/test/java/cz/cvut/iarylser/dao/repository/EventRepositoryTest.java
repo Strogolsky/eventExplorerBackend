@@ -1,4 +1,4 @@
-package cz.cvut.iarylser.unit.dao.repository;
+package cz.cvut.iarylser.dao.repository;
 
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.repository.EventRepository;

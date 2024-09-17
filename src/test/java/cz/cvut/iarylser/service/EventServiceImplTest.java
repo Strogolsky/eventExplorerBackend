@@ -1,4 +1,4 @@
-package cz.cvut.iarylser.unit.service;
+package cz.cvut.iarylser.service;
 
 import cz.cvut.iarylser.dao.dto.EventDTO;
 import cz.cvut.iarylser.dao.dto.TicketResponse;
