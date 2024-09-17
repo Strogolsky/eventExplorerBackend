@@ -215,12 +215,14 @@ class EventServiceImplTest {
         Mockito.verify(userRepository).save(customer);
         Mockito.verify(ticketService, Mockito.times(2)).create(event, customer);
     }
-
     @Test
-    void purchaseTicketEventNotFoundTest() {
+    public void PurchaseTicketEventNotFoundTest() throws EntityNotFoundException {
         Long eventId = 1L;
+        Mockito.when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
+
         PurchaseRequest request = new PurchaseRequest();
-        when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
+        request.setCustomer("testUser");
+        request.setQuantity(2);
 
         assertThrows(EntityNotFoundException.class, () -> eventService.purchaseTicket(eventId, request));
     }
