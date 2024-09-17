@@ -1,4 +1,4 @@
-package cz.cvut.iarylser.unit.dao.mappersDto;
+package cz.cvut.iarylser.dao.mappersDto;
 
 import cz.cvut.iarylser.dao.dto.TicketResponse;
 import cz.cvut.iarylser.dao.entity.Ticket;

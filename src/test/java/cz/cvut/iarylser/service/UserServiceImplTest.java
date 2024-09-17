@@ -1,4 +1,4 @@
-package cz.cvut.iarylser.unit.service;
+package cz.cvut.iarylser.service;
 
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.dao.mappersDto.UserMapperDTO;
@@ -39,8 +39,6 @@ class UserServiceImplTest {
     private UserServiceImpl userService;
 
     private User user1, user2;
-    @Autowired
-    private UserServiceImpl userServiceImpl;
 
 
     @BeforeEach

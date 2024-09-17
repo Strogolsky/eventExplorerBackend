@@ -1,4 +1,5 @@
 package cz.cvut.iarylser.controller;
+import cz.cvut.iarylser.dao.dto.IncreaseRequest;
 import cz.cvut.iarylser.dao.dto.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
 import cz.cvut.iarylser.facade.UserFacadeImpl;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -103,5 +105,11 @@ public class UserController {
         }
         SecurityContextHolder.clearContext();
         return ResponseEntity.noContent().build();
+    }
+    @PutMapping("/increase")
+    public ResponseEntity<Boolean> increaseBalance(@RequestBody IncreaseRequest request) throws AuthenticationException {
+        log.info("Increase user balance");
+        User currentUser = authService.getUser();
+        return ResponseEntity.ok(userFacade.increaseBalance(currentUser.getId(), request));
     }
 }

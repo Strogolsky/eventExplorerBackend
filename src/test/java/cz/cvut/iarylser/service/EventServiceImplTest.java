@@ -1,4 +1,4 @@
-package cz.cvut.iarylser.unit.service;
+package cz.cvut.iarylser.service;
 
 import cz.cvut.iarylser.dao.dto.EventDTO;
 import cz.cvut.iarylser.dao.dto.TicketResponse;
@@ -37,13 +37,13 @@ class EventServiceImplTest {
     @MockBean
     private UserRepository userRepository;
     @MockBean
-    private TicketServiceImpl ticketServiceImpl;
+    private TicketServiceImpl ticketService;
 
     @MockBean
     private TicketMapperDTO ticketMapperDTO;
 
     @Autowired
-    private EventServiceImpl eventServiceImpl;
+    private EventServiceImpl eventService;
 
     Event event1, event2;
     @BeforeEach
@@ -118,7 +118,7 @@ class EventServiceImplTest {
         List<Event> events = Arrays.asList(event1, event2);
         when(eventRepository.findAll()).thenReturn(events);
 
-        List<Event> result = eventServiceImpl.getAll();
+        List<Event> result = eventService.getAll();
 
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -136,7 +136,7 @@ class EventServiceImplTest {
         Long eventId = 1L;
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(event1));
 
-        Event result = eventServiceImpl.getById(eventId);
+        Event result = eventService.getById(eventId);
 
         assertNotNull(result);
         assertEventsEqual(event1,result);
@@ -165,7 +165,7 @@ class EventServiceImplTest {
         when(userRepository.findByUsername("OrganizerName")).thenReturn(organizer);
         when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Event createdEvent = eventServiceImpl.create(newEvent);
+        Event createdEvent = eventService.create(newEvent);
 
         assertEventsEqual(newEvent, createdEvent);
         assertTrue(organizer.getCreatedEvents().contains(createdEvent));
@@ -181,70 +181,128 @@ class EventServiceImplTest {
         newEvent.setOrganizer("nonexistent_organizer");
         when(userRepository.findByUsername(anyString())).thenReturn(null);
 
-        Event result = eventServiceImpl.create(newEvent);
+        Event result = eventService.create(newEvent);
         assertNull(result);
     }
 
     @Test
-    void purchaseTicketSucceeded() {
-        Long eventId = 1L;
-        String customerNickname = "customerNick";
-        int quantity = 2;
-        int age = 25;
-
-        Ticket ticket1 = new Ticket();
-        Ticket ticket2 = new Ticket();
-        Ticket ticket3 = new Ticket();
-
+    public void PurchaseTicketSuccessTest() throws EntityNotFoundException, IllegalStateException {
         Event event = new Event();
-        event.setId(eventId);
+        event.setId(1L);
         event.setCapacity(10);
-        event.setSoldTickets(3);
+        event.setTicketPrice(50);
+        event.setSoldTickets(0);
         event.setAgeRestriction(false);
-        event.setDateAndTime(LocalDateTime.now());
-        event.getTickets().add(ticket1);
-        event.getTickets().add(ticket2);
-        event.getTickets().add(ticket3);
 
         User customer = new User();
-        customer.setUsername(customerNickname);
-        customer.setAge(age);
+        customer.setUsername("testUser");
+        customer.setAge(20);
+        customer.setBalance(100);
 
         PurchaseRequest request = new PurchaseRequest();
-        request.setCustomer(customerNickname);
-        request.setQuantity(quantity);
+        request.setCustomer("testUser");
+        request.setQuantity(2);
 
-        Ticket ticket4 = new Ticket();
-        Ticket ticket5 = new Ticket();
-        List<Ticket> tickets = List.of(ticket1, ticket2);
-        List<TicketResponse> ticketResponses = List.of(new TicketResponse(), new TicketResponse());
+        Mockito.when(eventRepository.findById(1L)).thenReturn(Optional.of(event));
+        Mockito.when(userRepository.findByUsername("testUser")).thenReturn(customer);
+        Mockito.when(ticketService.create(event, customer)).thenReturn(new Ticket());
+        Mockito.when(ticketMapperDTO.toDTOList(Mockito.anyList())).thenReturn(new ArrayList<>());
 
-        when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
-        when(userRepository.findByUsername(customerNickname)).thenReturn(customer);
-        when(ticketServiceImpl.create(Mockito.any(), Mockito.any())).thenReturn(ticket1, ticket2);
-        when(ticketMapperDTO.toDTOList(tickets)).thenReturn(ticketResponses);
-
-        List<TicketResponse> result = eventServiceImpl.purchaseTicket(eventId,request);
-
+        List<TicketResponse> result = eventService.purchaseTicket(1L, request);
 
         assertNotNull(result);
-        assertEquals(2, result.size());
-        Mockito.verify(eventRepository).findById(eventId);
-        Mockito.verify(userRepository).findByUsername(customerNickname);
-        Mockito.verify(ticketServiceImpl, Mockito.times(quantity)).create(Mockito.any(Event.class), Mockito.any(User.class));
         Mockito.verify(eventRepository).save(event);
         Mockito.verify(userRepository).save(customer);
-        assertEquals(5, event.getSoldTickets());
+        Mockito.verify(ticketService, Mockito.times(2)).create(event, customer);
     }
-
     @Test
-    void purchaseTicketEventNotFoundTest() {
+    public void PurchaseTicketEventNotFoundTest() throws EntityNotFoundException {
         Long eventId = 1L;
-        PurchaseRequest request = new PurchaseRequest();
-        when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
+        Mockito.when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> eventServiceImpl.purchaseTicket(eventId, request));
+        PurchaseRequest request = new PurchaseRequest();
+        request.setCustomer("testUser");
+        request.setQuantity(2);
+
+        assertThrows(EntityNotFoundException.class, () -> eventService.purchaseTicket(eventId, request));
     }
+    @Test
+    public void PurchaseTicketUserNotFoundTest() throws EntityNotFoundException {
+        Event event = new Event();
+        event.setId(1L);
+
+        Mockito.when(eventRepository.findById(1L)).thenReturn(Optional.of(event));
+        Mockito.when(userRepository.findByUsername("testUser")).thenReturn(null);
+
+        PurchaseRequest request = new PurchaseRequest();
+        request.setCustomer("testUser");
+        request.setQuantity(2);
+
+        assertThrows(EntityNotFoundException.class, () -> eventService.purchaseTicket(1L, request));
+    }
+    @Test
+    public void PurchaseTicketNotEnoughSeatsTest() throws EntityNotFoundException {
+        Event event = new Event();
+        event.setId(1L);
+        event.setCapacity(1);
+        event.setSoldTickets(0);
+
+        User customer = new User();
+        customer.setUsername("testUser");
+
+        Mockito.when(eventRepository.findById(1L)).thenReturn(Optional.of(event));
+        Mockito.when(userRepository.findByUsername("testUser")).thenReturn(customer);
+
+        PurchaseRequest request = new PurchaseRequest();
+        request.setCustomer("testUser");
+        request.setQuantity(2);
+
+
+        assertThrows(IllegalStateException.class, () -> eventService.purchaseTicket(1L, request));
+    }
+    @Test
+    public void PurchaseTicketAgeRestrictionTest() throws EntityNotFoundException {
+        Event event = new Event();
+        event.setId(1L);
+        event.setCapacity(5);
+        event.setSoldTickets(0);
+        event.setAgeRestriction(true);
+
+        User customer = new User();
+        customer.setUsername("testUser");
+        customer.setAge(16);
+
+        Mockito.when(eventRepository.findById(1L)).thenReturn(Optional.of(event));
+        Mockito.when(userRepository.findByUsername("testUser")).thenReturn(customer);
+
+        PurchaseRequest request = new PurchaseRequest();
+        request.setCustomer("testUser");
+        request.setQuantity(1);
+
+        assertThrows(IllegalStateException.class, () -> eventService.purchaseTicket(1L, request));
+    }
+    @Test
+    public void PurchaseTicketInsufficientBalanceTest() throws EntityNotFoundException {
+        Event event = new Event();
+        event.setId(1L);
+        event.setCapacity(5);
+        event.setSoldTickets(0);
+        event.setTicketPrice(100);
+
+        User customer = new User();
+        customer.setUsername("testUser");
+        customer.setBalance(50);
+
+        Mockito.when(eventRepository.findById(1L)).thenReturn(Optional.of(event));
+        Mockito.when(userRepository.findByUsername("testUser")).thenReturn(customer);
+
+        PurchaseRequest request = new PurchaseRequest();
+        request.setCustomer("testUser");
+        request.setQuantity(1);
+
+        assertThrows(IllegalStateException.class, () -> eventService.purchaseTicket(1L, request));
+    }
+
 
     @Test
     void UpdateEventNotFoundTest() {
@@ -252,7 +310,7 @@ class EventServiceImplTest {
         Event updatedEvent = new Event();
         when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> eventServiceImpl.update(eventId, updatedEvent));
+        assertThrows(EntityNotFoundException.class, () -> eventService.update(eventId, updatedEvent));
 
     }
 
@@ -266,7 +324,7 @@ class EventServiceImplTest {
         updatedEvent.setCapacity(5);
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(existingEvent));
 
-        assertThrows(IllegalStateException.class, () -> eventServiceImpl.update(eventId, updatedEvent));
+        assertThrows(IllegalStateException.class, () -> eventService.update(eventId, updatedEvent));
     }
 
 
@@ -299,7 +357,7 @@ class EventServiceImplTest {
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(existingEvent));
         when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Event updatedEvent = eventServiceImpl.update(eventId, updatedEventData);
+        Event updatedEvent = eventService.update(eventId, updatedEventData);
 
         assertNotNull(updatedEvent);
         assertEventsEqual(existingEvent,updatedEvent);
@@ -320,7 +378,7 @@ class EventServiceImplTest {
 
         when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        eventServiceImpl.updateForOrgChange(event, newOrganizer);
+        eventService.updateForOrgChange(event, newOrganizer);
 
         assertEquals(newOrganizer.getUsername(), event.getOrganizer());
         Mockito.verify(eventRepository).save(event);
@@ -345,7 +403,7 @@ class EventServiceImplTest {
         when(userRepository.findById(organizerId)).thenReturn(Optional.of(organizer));
         Mockito.doNothing().when(eventRepository).deleteById(eventId);
 
-        boolean result = eventServiceImpl.delete(eventId);
+        boolean result = eventService.delete(eventId);
 
         assertTrue(result);
         assertFalse(organizer.getCreatedEvents().contains(eventToDelete));
@@ -360,7 +418,7 @@ class EventServiceImplTest {
         Long eventId = 1L;
         when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
 
-        boolean result = eventServiceImpl.delete(eventId);
+        boolean result = eventService.delete(eventId);
 
         assertFalse(result);
     }
@@ -373,7 +431,7 @@ class EventServiceImplTest {
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
         when(userRepository.findById(event.getOrganizerId())).thenReturn(Optional.empty());
 
-        boolean result = eventServiceImpl.delete(eventId);
+        boolean result = eventService.delete(eventId);
 
         assertFalse(result);
     }
@@ -394,7 +452,7 @@ class EventServiceImplTest {
         when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
         when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        boolean result = eventServiceImpl.like(event.getId(), user.getId());
+        boolean result = eventService.like(event.getId(), user.getId());
 
         assertTrue(result);
         assertTrue(user.getLikeByMe().stream().anyMatch(e -> e.getId().equals(event.getId())));
@@ -421,7 +479,7 @@ class EventServiceImplTest {
         when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
         when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        boolean result = eventServiceImpl.unlike(event.getId(), user.getId());
+        boolean result = eventService.unlike(event.getId(), user.getId());
 
         assertTrue(result);
         assertTrue(user.getLikeByMe().isEmpty());
@@ -437,7 +495,7 @@ class EventServiceImplTest {
         when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        boolean result = eventServiceImpl.like(eventId, userId);
+        boolean result = eventService.like(eventId, userId);
 
         assertFalse(result);
     }
@@ -449,7 +507,7 @@ class EventServiceImplTest {
         when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        boolean result = eventServiceImpl.unlike(eventId, userId);
+        boolean result = eventService.unlike(eventId, userId);
 
         assertFalse(result);
     }
