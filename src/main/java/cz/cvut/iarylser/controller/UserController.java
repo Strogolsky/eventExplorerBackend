@@ -2,6 +2,7 @@ package cz.cvut.iarylser.controller;
 import cz.cvut.iarylser.dao.dto.IncreaseRequest;
 import cz.cvut.iarylser.dao.dto.UserDTO;
 import cz.cvut.iarylser.dao.entity.User;
+import cz.cvut.iarylser.dao.entity.UserStatus;
 import cz.cvut.iarylser.facade.UserFacadeImpl;
 import cz.cvut.iarylser.service.AuthService;
 import cz.cvut.iarylser.service.JwtService;
@@ -78,6 +79,9 @@ public class UserController {
             @RequestBody UserDTO updatedUser) {
         log.info("PUT request received to update user");
         User currentUser = authService.getUser();
+        if(currentUser.getUserStatus() == UserStatus.BLOCKED) {
+            return ResponseEntity.status(HttpStatus.LOCKED).build();
+        }
         try {
             userFacade.update(currentUser.getId(), updatedUser);
             String newToken = jwtService.generateToken(currentUser);
@@ -99,6 +103,9 @@ public class UserController {
     public ResponseEntity<Void> delete() {
         log.info("DELETE request received to delete user");
         User currentUser = authService.getUser();
+        if(currentUser.getUserStatus() == UserStatus.BLOCKED) {
+            return ResponseEntity.status(HttpStatus.LOCKED).build();
+        }
         if (!userFacade.delete(currentUser.getId())) {
             log.warn("Unable to delete. User with id {} not found.", currentUser.getId());
             return ResponseEntity.notFound().build();
@@ -110,6 +117,9 @@ public class UserController {
     public ResponseEntity<Boolean> increaseBalance(@RequestBody IncreaseRequest request) throws AuthenticationException {
         log.info("Increase user balance");
         User currentUser = authService.getUser();
+        if(currentUser.getUserStatus() == UserStatus.BLOCKED) {
+            return ResponseEntity.status(HttpStatus.LOCKED).build();
+        }
         return ResponseEntity.ok(userFacade.increaseBalance(currentUser.getId(), request));
     }
 }
