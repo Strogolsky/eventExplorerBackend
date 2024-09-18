@@ -68,15 +68,20 @@ public class EventController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = EventDTO.class)))
     public ResponseEntity<?> create(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Event data to create a new event", required = true)
-            @RequestBody EventDTO newEvent) {
-            log.info("POST request received to create a new event.");
+        @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Event data to create a new event", required = true)
+        @RequestBody EventDTO newEvent) {
+        log.info("POST request received to create a new event.");
+        try {
             EventDTO result = eventFacade.create(newEvent);
             if (result == null){
                 log.info("Failed to create event.");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
             return ResponseEntity.ok(result);
+        } catch (IllegalStateException e) {
+            log.info("Failed to create event.");
+            return ResponseEntity.status(HttpStatus.LOCKED).build();
+        }
     }
     @PutMapping("/{eventId}")
     @Operation(summary = "Update event",
@@ -163,8 +168,10 @@ public class EventController {
         } catch (IllegalAccessException e){
             log.warn("Failed to delete event with ID {}: {}", eventId, e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IllegalStateException e){
+            log.warn("Failed to delete event with ID {}: {}", eventId, e.getMessage());
+            return ResponseEntity.status(HttpStatus.LOCKED).build();
         }
-
     }
 
     @PutMapping("/like")
@@ -174,10 +181,16 @@ public class EventController {
     @ApiResponse(responseCode = "404", description = "Event or user not found")
     public ResponseEntity<?> like(@RequestBody LikeRequest request) {
         log.info("PUT request received to like event with ID {} by user with ID {}.", request.getEventId(), request.getUserId());
-        if (!eventFacade.like(request.getEventId(), request.getUserId())) {
-            log.info("Failed to like event with ID {} by user with ID {}.", request.getEventId(), request.getUserId());
-            return ResponseEntity.notFound().build();
+        try {
+            if (!eventFacade.like(request.getEventId(), request.getUserId())) {
+                log.info("Failed to like event with ID {} by user with ID {}.", request.getEventId(), request.getUserId());
+                return ResponseEntity.notFound().build();
+            }
+        } catch(IllegalStateException e) {
+            log.warn("Failed to like event with ID {}: {}", request.getEventId(), e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
+
         return ResponseEntity.ok().build();
     }
 
@@ -189,11 +202,17 @@ public class EventController {
     public ResponseEntity<?> unlike(
             @RequestBody LikeRequest request) {
         log.info("PUT request received to unlike event with ID {} by user with ID {}.", request.getEventId(), request.getUserId());
-        if (!eventFacade.unlike(request.getEventId(), request.getUserId())) {
-            log.info("Failed to unlike event with ID {} by user with ID {}.", request.getEventId(), request.getUserId());
-            return ResponseEntity.notFound().build();
+        try {
+            if (!eventFacade.unlike(request.getEventId(), request.getUserId())) {
+                log.info("Failed to unlike event with ID {} by user with ID {}.", request.getEventId(), request.getUserId());
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok().build();
+        } catch(IllegalStateException e) {
+            log.warn("Failed to unlike event with ID {}: {}", request.getEventId(), e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok().build();
+
     }
 
 }
