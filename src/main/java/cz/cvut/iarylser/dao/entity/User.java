@@ -30,6 +30,8 @@ public class User implements Serializable, UserDetails {
     private String email;
     @Column(name = "first_name")
     private String firstName;
+    @Column(name = "user_status")
+    private UserStatus userStatus;
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "description", columnDefinition = "text")

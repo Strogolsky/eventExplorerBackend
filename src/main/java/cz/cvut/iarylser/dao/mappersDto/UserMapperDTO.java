@@ -24,6 +24,7 @@ public class UserMapperDTO implements MapperDTO<UserDTO, User> {
         dto.setFirstName(entity.getFirstName());
         dto.setLastName(entity.getLastName());
         dto.setDescription(entity.getDescription());
+        dto.setUserStatus(entity.getUserStatus());
         log.info("Converted User entity to DTO: {}", dto);
         return dto;
     }
@@ -53,6 +54,7 @@ public class UserMapperDTO implements MapperDTO<UserDTO, User> {
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
         entity.setDescription(dto.getDescription());
+        entity.setUserStatus(dto.getUserStatus());
         log.info("Converted UserDTO to entity: {}", entity);
         return entity;
     }

@@ -1,5 +1,6 @@
 package cz.cvut.iarylser.dao.dto;
 
+import cz.cvut.iarylser.dao.entity.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,5 +15,6 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String description;
+    private UserStatus userStatus;
 }
 

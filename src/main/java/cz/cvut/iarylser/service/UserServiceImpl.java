@@ -3,7 +3,7 @@ import cz.cvut.iarylser.dao.dto.IncreaseRequest;
 import cz.cvut.iarylser.dao.entity.Event;
 import cz.cvut.iarylser.dao.entity.Role;
 import cz.cvut.iarylser.dao.entity.User;
-import cz.cvut.iarylser.dao.repository.EventRepository;
+import cz.cvut.iarylser.dao.entity.UserStatus;
 import cz.cvut.iarylser.dao.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -38,12 +38,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId).orElse(null);
     }
     @Override
-    public User create(User newUser) throws IllegalArgumentException{
+    public User create(User newUser) throws IllegalArgumentException {
         log.info("Creating new user with nickname: {}", newUser.getUsername());
         if(userRepository.existsByUsername(newUser.getUsername())) {
             log.warn("User with username {} already exists", newUser.getUsername());
             throw new IllegalArgumentException("User with this username already exists");
         }
+        newUser.setUserStatus(UserStatus.ACTIVE);
         log.info("User is created");
         return userRepository.save(newUser);
     }
